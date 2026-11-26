@@ -166,6 +166,41 @@
       outline: none;
     }
 
+    /* Transparent editorial header blended into the hero (header-only update) */
+    .atelier-hero-header {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 40;
+      background: transparent;
+      border: 0 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .atelier-hero-header::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 190px;
+      background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.82) 24%, rgba(0, 0, 0, 0.46) 58%, transparent 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .atelier-hero-header .nav-link::after {
+      background: #F4F3EF;
+      box-shadow: none;
+      height: 1px;
+    }
+    .atelier-hero-header .nav-link:hover,
+    .atelier-hero-header .nav-link:focus-visible,
+    .atelier-hero-header .nav-link.active,
+    .atelier-hero-header .mega-wrapper.is-open .mega-trigger {
+      color: #FFFFFF;
+    }
+    @media (max-width: 767px) {
+      .atelier-hero-header::before { height: 170px; }
+    }
+
     /* Mobile nav text-width center-out underline wrapper */
     .mobile-nav-row {
       display: flex;
@@ -315,7 +350,7 @@
   <!-- ======================================================================= -->
   <!-- 1. STICKY MODERN GLASSMORPHIC HEADER WITH PREMIUM CUISINES MEGA MENU    -->
   <!-- ======================================================================= -->
-  <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
+  <header class="atelier-hero-header">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
 
