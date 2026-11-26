@@ -166,7 +166,7 @@
       outline: none;
     }
 
-    /* Transparent editorial header blended into the hero (header-only update) */
+    /* Transparent editorial header blended into the hero */
     .atelier-hero-header {
       position: absolute;
       inset: 0 0 auto 0;
@@ -215,7 +215,7 @@
       }
     }
 
-    /* Mega Menu Sidebar Active Item (Monochrome White Gradient + Subtle Glow) */
+    /* Mega Menu Sidebar Active Item */
     .mega-cat-item {
       color: var(--text-stone);
       border: 1px solid transparent;
@@ -255,7 +255,7 @@
       color: #FFFFFF;
     }
 
-    /* Tactile Modern Buttons (Crisp White Hover & Active States) */
+    /* Tactile Modern Buttons */
     .btn-glass {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -285,7 +285,7 @@
     }
     .btn-primary:active { transform: scale(0.97) translateY(0); }
 
-    /* Modern Pill Category Tabs (Crisp White Active) */
+    /* Modern Pill Category Tabs */
     .cat-pill {
       color: var(--text-stone);
       background: transparent;
@@ -310,7 +310,7 @@
     .cook-mode-on .cook-dim:hover { opacity: 1; }
     .cook-mode-on .cook-enlarge { font-size: 1.15rem !important; line-height: 2 !important; }
 
-    /* Custom Range Scrubber (White Accent) */
+    /* Custom Range Scrubber */
     input[type="range"].atelier-range {
       -webkit-appearance: none;
       appearance: none;
@@ -348,7 +348,7 @@
 <body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
 
   <!-- ======================================================================= -->
-  <!-- 1. STICKY MODERN GLASSMORPHIC HEADER WITH PREMIUM CUISINES MEGA MENU    -->
+  <!-- 1. HEADER WITH PREMIUM CUISINES MEGA MENU                               -->
   <!-- ======================================================================= -->
   <header class="atelier-hero-header">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -369,7 +369,7 @@
           </div>
         </a>
 
-        <!-- Desktop & Large Tablet Navigation (Center-Out Glassy White Underline) -->
+        <!-- Desktop & Large Tablet Navigation -->
         <nav class="hidden md:flex items-center gap-7 lg:gap-9 text-xs uppercase tracking-[0.16em] text-stone" aria-label="Main Navigation">
           <a href="#collection" data-nav-target="collection" class="nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
 
@@ -395,76 +395,25 @@
               class="mega-panel absolute inset-x-4 sm:inset-x-6 lg:inset-x-8 top-full pt-3 z-50 normal-case tracking-normal"
             >
               <div class="mega-glass rounded-3xl overflow-hidden">
-                <!-- 3-Column Core Architecture -->
                 <div class="grid grid-cols-12">
 
-                  <!-- 1. LEFT SIDEBAR — 10 FOOD CATEGORIES (Lucide Icons) -->
+                  <!-- 1. LEFT SIDEBAR — 10 FOOD CATEGORIES -->
                   <div class="col-span-3 p-4 lg:p-5 border-e border-white/10 bg-white/[0.015]">
                     <div class="px-2.5 pb-3 mb-2 hairline-b flex items-center justify-between">
                       <span class="text-[10px] uppercase tracking-[0.22em] text-stone font-medium" data-i18n="megaSidebarTitle">Categories</span>
                       <span class="text-[10px] font-mono text-stone/70">10</span>
                     </div>
                     <ul id="megaCategoryList" class="space-y-1" role="menu">
-                      <li>
-                        <button type="button" data-mega-cat="all" class="mega-cat-item active w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatAll">All Recipes</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="mains" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatMains">Main Dishes</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="appetizers" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatAppetizers">Appetizers</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="salads" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatSalads">Salads</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="soups" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatSoups">Soups</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="pastry" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatDesserts">Desserts</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="drinks" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatDrinks">Drinks</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="vegetarian" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatVegetarian">Vegetarian</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="healthy" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatHealthy">Healthy Food</span>
-                        </button>
-                      </li>
-                      <li>
-                        <button type="button" data-mega-cat="quick" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
-                          <i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i>
-                          <span data-i18n="megaCatQuick">Quick &amp; Easy</span>
-                        </button>
-                      </li>
+                      <li><button type="button" data-mega-cat="all" class="mega-cat-item active w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAll">All Recipes</span></button></li>
+                      <li><button type="button" data-mega-cat="mains" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatMains">Main Dishes</span></button></li>
+                      <li><button type="button" data-mega-cat="appetizers" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button></li>
+                      <li><button type="button" data-mega-cat="salads" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSalads">Salads</span></button></li>
+                      <li><button type="button" data-mega-cat="soups" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSoups">Soups</span></button></li>
+                      <li><button type="button" data-mega-cat="pastry" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDesserts">Desserts</span></button></li>
+                      <li><button type="button" data-mega-cat="drinks" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDrinks">Drinks</span></button></li>
+                      <li><button type="button" data-mega-cat="vegetarian" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button></li>
+                      <li><button type="button" data-mega-cat="healthy" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button></li>
+                      <li><button type="button" data-mega-cat="quick" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button></li>
                     </ul>
                   </div>
 
@@ -633,8 +582,11 @@
         </div>
       </div>
 
-      <!-- Mobile Dropdown Menu (Center-Out Glassy White Underline) -->
-      <div id="mobileMenu" class="hidden md:hidden pb-5 pt-3 hairline-t space-y-1 text-xs uppercase tracking-[0.16em] max-h-[82dvh] overflow-y-auto">
+      <!-- Mobile Dropdown Menu (Opaque Dark Surface — Fixed Readability Bug) -->
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden relative z-50 mt-2 px-4 pb-5 pt-3 rounded-2xl bg-[#0B0C0E]/95 backdrop-blur-xl border border-white/15 shadow-2xl space-y-1 text-xs uppercase tracking-[0.16em] max-h-[82dvh] overflow-y-auto"
+      >
         <div class="mobile-nav-row">
           <a href="#collection" data-nav-target="collection" class="mobile-link nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
         </div>
@@ -652,61 +604,64 @@
             </button>
           </div>
 
-          <!-- Mobile Expanded Mega Content -->
-          <div id="mobileCuisinesList" class="hidden px-2 pb-3 pt-2 space-y-4 normal-case tracking-normal">
+          <!-- Mobile Expanded Mega Content (Solid Charcoal Surface) -->
+          <div
+            id="mobileCuisinesList"
+            class="hidden mt-2 p-3 rounded-xl bg-[#131519] border border-white/10 space-y-4 normal-case tracking-normal"
+          >
             <div class="grid grid-cols-2 gap-1.5">
-              <button type="button" data-mega-cat="all" class="mega-cat-item active flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5"></i><span data-i18n="megaCatAll">All Recipes</span></button>
-              <button type="button" data-mega-cat="mains" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="flame" class="w-3.5 h-3.5"></i><span data-i18n="megaCatMains">Main Dishes</span></button>
-              <button type="button" data-mega-cat="appetizers" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button>
-              <button type="button" data-mega-cat="salads" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="salad" class="w-3.5 h-3.5"></i><span data-i18n="megaCatSalads">Salads</span></button>
-              <button type="button" data-mega-cat="soups" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="soup" class="w-3.5 h-3.5"></i><span data-i18n="megaCatSoups">Soups</span></button>
-              <button type="button" data-mega-cat="pastry" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="cake-slice" class="w-3.5 h-3.5"></i><span data-i18n="megaCatDesserts">Desserts</span></button>
-              <button type="button" data-mega-cat="drinks" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="wine" class="w-3.5 h-3.5"></i><span data-i18n="megaCatDrinks">Drinks</span></button>
-              <button type="button" data-mega-cat="vegetarian" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="leaf" class="w-3.5 h-3.5"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button>
-              <button type="button" data-mega-cat="healthy" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="heart-pulse" class="w-3.5 h-3.5"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button>
-              <button type="button" data-mega-cat="quick" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="timer" class="w-3.5 h-3.5"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button>
+              <button type="button" data-mega-cat="all" class="mega-cat-item active flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAll">All Recipes</span></button>
+              <button type="button" data-mega-cat="mains" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatMains">Main Dishes</span></button>
+              <button type="button" data-mega-cat="appetizers" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button>
+              <button type="button" data-mega-cat="salads" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSalads">Salads</span></button>
+              <button type="button" data-mega-cat="soups" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSoups">Soups</span></button>
+              <button type="button" data-mega-cat="pastry" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDesserts">Desserts</span></button>
+              <button type="button" data-mega-cat="drinks" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDrinks">Drinks</span></button>
+              <button type="button" data-mega-cat="vegetarian" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button>
+              <button type="button" data-mega-cat="healthy" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button>
+              <button type="button" data-mega-cat="quick" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <a href="#collection" data-mega-search="duck" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="duck" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=75" alt="Meat Dishes" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardMeat">Meat Dishes</span>
               </a>
-              <a href="#collection" data-mega-search="seafood" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="seafood" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=400&q=75" alt="Seafood" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardSeafood">Seafood</span>
               </a>
-              <a href="#collection" data-mega-search="pasta" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="pasta" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=400&q=75" alt="Pasta" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPasta">Pasta</span>
               </a>
-              <a href="#collection" data-mega-search="saffron" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="saffron" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=400&q=75" alt="Rice Dishes" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardRice">Rice Dishes</span>
               </a>
-              <a href="#collection" data-mega-search="sourdough" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="sourdough" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=75" alt="Pizza" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPizza">Pizza</span>
               </a>
-              <a href="#collection" data-mega-search="lamb" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+              <a href="#collection" data-mega-search="lamb" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
                 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=75" alt="Burgers" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardBurgers">Burgers</span>
               </a>
             </div>
 
-            <div class="pt-2 hairline-t flex flex-wrap gap-1.5">
-              <a href="cuisines/iran.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryIran">Iran</a>
-              <a href="cuisines/italy.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryItaly">Italy</a>
-              <a href="cuisines/france.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryFrance">France</a>
-              <a href="cuisines/japan.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryJapan">Japan</a>
-              <a href="cuisines/turkey.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryTurkey">Turkey</a>
-              <a href="cuisines/mexico.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryMexico">Mexico</a>
+            <div class="pt-3 hairline-t flex flex-wrap gap-1.5">
+              <a href="cuisines/iran.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryIran">Iran</a>
+              <a href="cuisines/italy.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryItaly">Italy</a>
+              <a href="cuisines/france.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryFrance">France</a>
+              <a href="cuisines/japan.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryJapan">Japan</a>
+              <a href="cuisines/turkey.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryTurkey">Turkey</a>
+              <a href="cuisines/mexico.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryMexico">Mexico</a>
             </div>
           </div>
         </div>
@@ -754,7 +709,7 @@
     <button
       id="heroVideoToggleBtn"
       aria-label="Toggle Background Video"
-      class="absolute top-4 end-4 sm:top-6 sm:end-8 z-20 btn-glass w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-white"
+      class="absolute top-20 end-4 sm:top-24 sm:end-8 z-20 btn-glass w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-white"
     >
       <svg id="heroVideoPauseIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
@@ -2575,9 +2530,6 @@
         });
       }
 
-      /* ---------------------------------------------------------------------
-       * HEADER NAVIGATION ACTIVE UNDERLINE STATE SYNC (CLICK + SCROLL)
-       * --------------------------------------------------------------------- */
       function initHeaderActiveNav() {
         const navTargets = document.querySelectorAll('[data-nav-target]');
         const setActiveNav = (targetId) => {
@@ -2611,9 +2563,6 @@
         }
       }
 
-      /* ---------------------------------------------------------------------
-       * CUISINES MEGA MENU INTERACTION CONTROLLER (HOVER, CLICK, KEYBOARD)
-       * --------------------------------------------------------------------- */
       function initCuisinesMegaMenu() {
         const wrapper = document.getElementById('cuisinesMegaWrapper');
         const trigger = document.getElementById('cuisinesMegaTrigger');
