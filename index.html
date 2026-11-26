@@ -16,6 +16,9 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <!-- Modern Dark Monochrome Design Tokens -->
   <script>
     tailwind.config = {
@@ -97,16 +100,125 @@
 
     /* Modern Liquid Glass Surface */
     .glass-surface {
-      background: rgba(19, 21, 25, 0.78);
+      background: rgba(19, 21, 25, 0.8);
       backdrop-filter: blur(22px) saturate(140%);
       -webkit-backdrop-filter: blur(22px) saturate(140%);
       border: 1px solid rgba(255, 255, 255, 0.09);
       box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
     }
 
+    .mega-glass {
+      background: rgba(15, 17, 21, 0.94);
+      backdrop-filter: blur(28px) saturate(150%);
+      -webkit-backdrop-filter: blur(28px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 28px 70px -18px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    }
+
     .hairline-border { border: 1px solid rgba(255, 255, 255, 0.09); }
     .hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
     .hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.09); }
+
+    /* ===================================================================== */
+    /* CENTER-OUT GLASSY WHITE ANIMATED UNDERLINE (HEADER NAVIGATION)        */
+    /* ===================================================================== */
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 0;
+      color: var(--text-stone);
+      background: transparent;
+      border: none;
+      transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.26);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms ease;
+      pointer-events: none;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible,
+    .nav-link.active,
+    .mega-wrapper.is-open .mega-trigger {
+      color: #FFFFFF;
+    }
+
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link.active::after,
+    .mega-wrapper.is-open .mega-trigger::after {
+      transform: scaleX(1);
+    }
+
+    .nav-link:focus-visible {
+      outline: none;
+    }
+
+    /* Mobile nav text-width center-out underline wrapper */
+    .mobile-nav-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nav-link,
+      .nav-link::after {
+        transition: none;
+      }
+    }
+
+    /* Mega Menu Sidebar Active Item (Monochrome White Gradient + Subtle Glow) */
+    .mega-cat-item {
+      color: var(--text-stone);
+      border: 1px solid transparent;
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mega-cat-item:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .mega-cat-item.active {
+      background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 100%);
+      color: #0B0C0E;
+      font-weight: 500;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 22px -4px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Mega Menu Panel Open/Close State */
+    .mega-panel {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+                  visibility 0.24s;
+    }
+    .mega-wrapper.is-open .mega-panel {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .mega-wrapper.is-open .mega-chevron {
+      transform: rotate(180deg);
+      color: #FFFFFF;
+    }
 
     /* Tactile Modern Buttons (Crisp White Hover & Active States) */
     .btn-glass {
@@ -121,9 +233,7 @@
       color: #FFFFFF;
       transform: translateY(-1px);
     }
-    .btn-glass:active {
-      transform: scale(0.96) translateY(0);
-    }
+    .btn-glass:active { transform: scale(0.96) translateY(0); }
 
     .btn-primary {
       background: #FFFFFF;
@@ -138,9 +248,7 @@
       box-shadow: 0 12px 28px -6px rgba(255, 255, 255, 0.42);
       transform: translateY(-1px);
     }
-    .btn-primary:active {
-      transform: scale(0.97) translateY(0);
-    }
+    .btn-primary:active { transform: scale(0.97) translateY(0); }
 
     /* Modern Pill Category Tabs (Crisp White Active) */
     .cat-pill {
@@ -160,9 +268,7 @@
       border-color: #FFFFFF;
       font-weight: 500;
     }
-    .cat-pill:active {
-      transform: scale(0.96);
-    }
+    .cat-pill:active { transform: scale(0.96); }
 
     /* Cook Mode */
     .cook-mode-on .cook-dim { opacity: 0.28; transition: opacity 0.3s ease; }
@@ -207,10 +313,10 @@
 <body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
 
   <!-- ======================================================================= -->
-  <!-- 1. STICKY MODERN GLASSMORPHIC HEADER                                    -->
+  <!-- 1. STICKY MODERN GLASSMORPHIC HEADER WITH PREMIUM CUISINES MEGA MENU    -->
   <!-- ======================================================================= -->
   <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
 
         <!-- Brand Signature Emblem + Wordmark -->
@@ -228,90 +334,230 @@
           </div>
         </a>
 
-        <!-- Desktop & Large Tablet Navigation -->
-        <nav class="hidden md:flex items-center gap-2 lg:gap-4 text-xs uppercase tracking-[0.16em] text-stone">
-          <a href="#collection" class="px-3.5 py-2 rounded-full border border-transparent hover:border-white/30 hover:text-white hover:bg-white/[0.05] transition-all" data-i18n="navMasterclasses">Masterclasses</a>
+        <!-- Desktop & Large Tablet Navigation (Center-Out Glassy White Underline) -->
+        <nav class="hidden md:flex items-center gap-7 lg:gap-9 text-xs uppercase tracking-[0.16em] text-stone" aria-label="Main Navigation">
+          <a href="#collection" data-nav-target="collection" class="nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
 
-          <!-- Cuisines Horizontal 3-Column Card Grid Dropdown -->
-          <div class="relative group">
+          <!-- PREMIUM 3-SECTION CUISINES MEGA MENU -->
+          <div id="cuisinesMegaWrapper" class="mega-wrapper static">
             <button
+              id="cuisinesMegaTrigger"
               type="button"
+              aria-expanded="false"
+              aria-controls="cuisinesMegaPanel"
               aria-haspopup="true"
-              class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-transparent group-hover:border-white/30 uppercase tracking-[0.16em] text-stone group-hover:text-white group-hover:bg-white/[0.06] transition-all focus:outline-none"
+              class="mega-trigger nav-link gap-1.5 uppercase tracking-[0.16em]"
             >
               <span data-i18n="navCuisines">Cuisines</span>
-              <svg class="w-3.5 h-3.5 text-stone group-hover:text-white group-hover:rotate-180 transition-all duration-300" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
+              <i data-lucide="chevron-down" class="mega-chevron w-3.5 h-3.5 text-stone transition-transform duration-300"></i>
             </button>
 
-            <!-- Wide Horizontal 3x2 Card Panel -->
-            <div class="invisible opacity-0 translate-y-3 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-250 ease-out absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[660px] lg:w-[740px] z-50">
-              <div class="glass-surface bg-charcoal/95 rounded-2xl p-6 shadow-2xl border border-white/15 normal-case tracking-normal">
-                <div class="flex items-center justify-between pb-4 mb-5 hairline-b">
-                  <div>
-                    <span class="block text-[10px] uppercase tracking-[0.24em] text-white/75 font-medium" data-i18n="cuisinesEyebrow">CULINARY ATLAS</span>
-                    <span class="text-sm text-stone font-light" data-i18n="cuisinesHint">Explore authentic recipes by origin</span>
+            <!-- Floating Glassmorphic Mega Menu Panel -->
+            <div
+              id="cuisinesMegaPanel"
+              role="region"
+              aria-label="Cuisines & Recipes Mega Menu"
+              class="mega-panel absolute inset-x-4 sm:inset-x-6 lg:inset-x-8 top-full pt-3 z-50 normal-case tracking-normal"
+            >
+              <div class="mega-glass rounded-3xl overflow-hidden">
+                <!-- 3-Column Core Architecture -->
+                <div class="grid grid-cols-12">
+
+                  <!-- 1. LEFT SIDEBAR — 10 FOOD CATEGORIES (Lucide Icons) -->
+                  <div class="col-span-3 p-4 lg:p-5 border-e border-white/10 bg-white/[0.015]">
+                    <div class="px-2.5 pb-3 mb-2 hairline-b flex items-center justify-between">
+                      <span class="text-[10px] uppercase tracking-[0.22em] text-stone font-medium" data-i18n="megaSidebarTitle">Categories</span>
+                      <span class="text-[10px] font-mono text-stone/70">10</span>
+                    </div>
+                    <ul id="megaCategoryList" class="space-y-1" role="menu">
+                      <li>
+                        <button type="button" data-mega-cat="all" class="mega-cat-item active w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatAll">All Recipes</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="mains" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatMains">Main Dishes</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="appetizers" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatAppetizers">Appetizers</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="salads" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatSalads">Salads</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="soups" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatSoups">Soups</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="pastry" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatDesserts">Desserts</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="drinks" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatDrinks">Drinks</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="vegetarian" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatVegetarian">Vegetarian</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="healthy" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatHealthy">Healthy Food</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" data-mega-cat="quick" class="mega-cat-item w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i>
+                          <span data-i18n="megaCatQuick">Quick &amp; Easy</span>
+                        </button>
+                      </li>
+                    </ul>
                   </div>
-                  <span class="text-[11px] font-mono text-white/80 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15">06 ORIGINS</span>
-                </div>
 
-                <!-- Horizontal 3-Column Grid (2 Rows of 3 Cards) -->
-                <div class="grid grid-cols-3 gap-3">
-                  <a href="cuisines/iran.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryIran">Iran</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">IR</span>
-                    </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descIran">Saffron, Slow Braises & Aromatic Rice</p>
-                  </a>
+                  <!-- 2. CENTER SECTION — 3-COLUMN IMAGE-BASED FOOD CATEGORY CARDS -->
+                  <div class="col-span-6 p-5 lg:p-6 flex flex-col justify-between gap-5">
+                    <div>
+                      <div class="flex items-center justify-between pb-3 mb-4 hairline-b">
+                        <span class="text-[10px] uppercase tracking-[0.22em] text-white/80 font-medium" data-i18n="megaCenterTitle">Culinary Specialties</span>
+                        <span class="text-[11px] text-stone font-light" data-i18n="megaCenterSub">Curated dishes &amp; techniques</span>
+                      </div>
 
-                  <a href="cuisines/italy.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryItaly">Italy</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">IT</span>
-                    </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descItaly">Artisan Pasta, Truffles & Regional Sauces</p>
-                  </a>
+                      <div class="grid grid-cols-3 gap-3">
+                        <a href="#collection" data-mega-search="duck" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Meat Dishes" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardMeat">Meat Dishes</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
 
-                  <a href="cuisines/france.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryFrance">France</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">FR</span>
-                    </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descFrance">Mother Sauces, Fine Pastry & Technique</p>
-                  </a>
+                        <a href="#collection" data-mega-search="seafood" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=600&q=80" alt="Seafood" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardSeafood">Seafood</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
 
-                  <a href="cuisines/japan.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryJapan">Japan</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">JP</span>
-                    </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descJapan">Umami, Dashi, Fermentation & Knife Work</p>
-                  </a>
+                        <a href="#collection" data-mega-search="pasta" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=600&q=80" alt="Pasta" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardPasta">Pasta</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
 
-                  <a href="cuisines/turkey.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryTurkey">Turkey</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">TR</span>
-                    </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descTurkey">Open-Fire Grills, Meze & Hearth Breads</p>
-                  </a>
+                        <a href="#collection" data-mega-search="saffron" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=600&q=80" alt="Rice Dishes" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardRice">Rice Dishes</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
 
-                  <a href="cuisines/mexico.html" class="group/card p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.09] hover:border-white/75 transition-all flex flex-col justify-between gap-2.5">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-medium text-ivory group-hover/card:text-white" data-i18n="countryMexico">Mexico</span>
-                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-stone group-hover/card:bg-white group-hover/card:text-obsidian transition-colors">MX</span>
+                        <a href="#collection" data-mega-search="sourdough" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Pizza" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardPizza">Pizza</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
+
+                        <a href="#collection" data-mega-search="lamb" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burgers" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
+                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
+                            <span class="text-xs font-medium text-white truncate" data-i18n="megaCardBurgers">Burgers</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
+                          </div>
+                        </a>
+                      </div>
                     </div>
-                    <p class="text-[11px] text-stone leading-relaxed" data-i18n="descMexico">Heirloom Chiles, Mole & Nixtamalization</p>
-                  </a>
+
+                    <!-- World Cuisines Quick Origin Strip -->
+                    <div class="pt-3.5 hairline-t flex items-center justify-between gap-3 flex-wrap">
+                      <span class="text-[10px] uppercase tracking-[0.2em] text-stone" data-i18n="cuisinesEyebrow">CULINARY ATLAS</span>
+                      <div class="flex items-center flex-wrap gap-1.5">
+                        <a href="cuisines/iran.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryIran">Iran</a>
+                        <a href="cuisines/italy.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryItaly">Italy</a>
+                        <a href="cuisines/france.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryFrance">France</a>
+                        <a href="cuisines/japan.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryJapan">Japan</a>
+                        <a href="cuisines/turkey.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryTurkey">Turkey</a>
+                        <a href="cuisines/mexico.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryMexico">Mexico</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. RIGHT SECTION — FEATURED RECIPE BANNER -->
+                  <div class="col-span-3 p-5 lg:p-6 border-s border-white/10">
+                    <div class="group/banner relative h-full min-h-[320px] rounded-2xl overflow-hidden bg-obsidian border border-white/15 flex flex-col justify-between p-5">
+                      <img
+                        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=85"
+                        alt="Featured Culinary Collection"
+                        loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover/banner:scale-105 transition-transform duration-700"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/65 to-obsidian/30"></div>
+
+                      <div class="relative z-10 flex items-center justify-between">
+                        <span class="w-10 h-10 rounded-full glass-surface border border-white/25 flex items-center justify-center text-white">
+                          <i data-lucide="chef-hat" class="w-5 h-5"></i>
+                        </span>
+                        <span class="text-[10px] uppercase tracking-[0.22em] text-white/75 px-2.5 py-1 rounded-full bg-obsidian/60 border border-white/15" data-i18n="megaBannerBadge">FEATURED</span>
+                      </div>
+
+                      <div class="relative z-10 space-y-3">
+                        <h3 class="editorial-serif text-2xl lg:text-[1.7rem] text-white leading-tight" data-i18n="megaBannerTitle">
+                          Discover Delicious Recipes
+                        </h3>
+                        <p class="text-xs uppercase tracking-[0.2em] text-ivory/80 font-light" data-i18n="megaBannerSub">
+                          Cook. Enjoy. Repeat.
+                        </p>
+                        <div class="pt-1.5">
+                          <a
+                            href="#collection"
+                            id="megaExploreAllBtn"
+                            class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full border border-white/80 text-white hover:bg-white hover:text-obsidian text-[11px] uppercase tracking-[0.16em] font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          >
+                            <span data-i18n="megaBannerCta">Explore All</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
           </div>
 
-          <a href="#journal" class="px-3.5 py-2 rounded-full border border-transparent hover:border-white/30 hover:text-white hover:bg-white/[0.05] transition-all" data-i18n="navJournal">Journal</a>
-          <a href="#philosophy" class="px-3.5 py-2 rounded-full border border-transparent hover:border-white/30 hover:text-white hover:bg-white/[0.05] transition-all" data-i18n="navPhilosophy">Philosophy</a>
+          <a href="#journal" data-nav-target="journal" class="nav-link" data-i18n="navJournal">Journal</a>
+          <a href="#philosophy" data-nav-target="philosophy" class="nav-link" data-i18n="navPhilosophy">Philosophy</a>
         </nav>
 
         <!-- Right Controls: Chef Studio + Language Selector -->
@@ -352,35 +598,93 @@
         </div>
       </div>
 
-      <!-- Mobile Dropdown Menu -->
-      <div id="mobileMenu" class="hidden md:hidden pb-5 pt-3 hairline-t space-y-1.5 text-xs uppercase tracking-[0.16em]">
-        <a href="#collection" class="mobile-link block py-3 px-3 rounded-xl text-stone hover:text-white hover:bg-white/[0.05] transition-colors" data-i18n="navMasterclasses">Masterclasses</a>
+      <!-- Mobile Dropdown Menu (Center-Out Glassy White Underline) -->
+      <div id="mobileMenu" class="hidden md:hidden pb-5 pt-3 hairline-t space-y-1 text-xs uppercase tracking-[0.16em] max-h-[82dvh] overflow-y-auto">
+        <div class="mobile-nav-row">
+          <a href="#collection" data-nav-target="collection" class="mobile-link nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
+        </div>
 
         <div>
-          <button
-            id="mobileCuisinesToggle"
-            type="button"
-            aria-expanded="false"
-            class="w-full flex items-center justify-between py-3 px-3 rounded-xl text-stone hover:text-white hover:bg-white/[0.05] transition-colors uppercase tracking-[0.16em]"
-          >
-            <span data-i18n="navCuisines">Cuisines</span>
-            <svg id="mobileCuisinesChevron" class="w-4 h-4 text-white transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-          </button>
-          <div id="mobileCuisinesList" class="hidden px-1 pb-2 pt-1.5 grid grid-cols-2 sm:grid-cols-3 gap-2 normal-case tracking-normal">
-            <a href="cuisines/iran.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryIran">Iran</span><span class="font-mono text-[11px] text-white/70">IR</span></a>
-            <a href="cuisines/italy.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryItaly">Italy</span><span class="font-mono text-[11px] text-white/70">IT</span></a>
-            <a href="cuisines/france.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryFrance">France</span><span class="font-mono text-[11px] text-white/70">FR</span></a>
-            <a href="cuisines/japan.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryJapan">Japan</span><span class="font-mono text-[11px] text-white/70">JP</span></a>
-            <a href="cuisines/turkey.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryTurkey">Turkey</span><span class="font-mono text-[11px] text-white/70">TR</span></a>
-            <a href="cuisines/mexico.html" class="py-3 px-3.5 rounded-xl bg-obsidian/70 hairline-border text-sm text-ivory hover:border-white/70 flex justify-between items-center"><span data-i18n="countryMexico">Mexico</span><span class="font-mono text-[11px] text-white/70">MX</span></a>
+          <div class="mobile-nav-row justify-between">
+            <button
+              id="mobileCuisinesToggle"
+              type="button"
+              aria-expanded="false"
+              class="nav-link gap-2 uppercase tracking-[0.16em]"
+            >
+              <span data-i18n="navCuisines">Cuisines</span>
+              <i id="mobileCuisinesChevron" data-lucide="chevron-down" class="w-4 h-4 text-stone transition-transform duration-200"></i>
+            </button>
+          </div>
+
+          <!-- Mobile Expanded Mega Content -->
+          <div id="mobileCuisinesList" class="hidden px-2 pb-3 pt-2 space-y-4 normal-case tracking-normal">
+            <div class="grid grid-cols-2 gap-1.5">
+              <button type="button" data-mega-cat="all" class="mega-cat-item active flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5"></i><span data-i18n="megaCatAll">All Recipes</span></button>
+              <button type="button" data-mega-cat="mains" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="flame" class="w-3.5 h-3.5"></i><span data-i18n="megaCatMains">Main Dishes</span></button>
+              <button type="button" data-mega-cat="appetizers" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button>
+              <button type="button" data-mega-cat="salads" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="salad" class="w-3.5 h-3.5"></i><span data-i18n="megaCatSalads">Salads</span></button>
+              <button type="button" data-mega-cat="soups" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="soup" class="w-3.5 h-3.5"></i><span data-i18n="megaCatSoups">Soups</span></button>
+              <button type="button" data-mega-cat="pastry" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="cake-slice" class="w-3.5 h-3.5"></i><span data-i18n="megaCatDesserts">Desserts</span></button>
+              <button type="button" data-mega-cat="drinks" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="wine" class="w-3.5 h-3.5"></i><span data-i18n="megaCatDrinks">Drinks</span></button>
+              <button type="button" data-mega-cat="vegetarian" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="leaf" class="w-3.5 h-3.5"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button>
+              <button type="button" data-mega-cat="healthy" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="heart-pulse" class="w-3.5 h-3.5"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button>
+              <button type="button" data-mega-cat="quick" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-white/[0.03]"><i data-lucide="timer" class="w-3.5 h-3.5"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <a href="#collection" data-mega-search="duck" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=75" alt="Meat Dishes" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardMeat">Meat Dishes</span>
+              </a>
+              <a href="#collection" data-mega-search="seafood" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=400&q=75" alt="Seafood" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardSeafood">Seafood</span>
+              </a>
+              <a href="#collection" data-mega-search="pasta" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=400&q=75" alt="Pasta" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPasta">Pasta</span>
+              </a>
+              <a href="#collection" data-mega-search="saffron" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=400&q=75" alt="Rice Dishes" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardRice">Rice Dishes</span>
+              </a>
+              <a href="#collection" data-mega-search="sourdough" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=75" alt="Pizza" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPizza">Pizza</span>
+              </a>
+              <a href="#collection" data-mega-search="lamb" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=75" alt="Burgers" class="w-full h-full object-cover opacity-80" />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-transparent to-transparent"></div>
+                <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardBurgers">Burgers</span>
+              </a>
+            </div>
+
+            <div class="pt-2 hairline-t flex flex-wrap gap-1.5">
+              <a href="cuisines/iran.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryIran">Iran</a>
+              <a href="cuisines/italy.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryItaly">Italy</a>
+              <a href="cuisines/france.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryFrance">France</a>
+              <a href="cuisines/japan.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryJapan">Japan</a>
+              <a href="cuisines/turkey.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryTurkey">Turkey</a>
+              <a href="cuisines/mexico.html" class="px-3 py-1.5 rounded-full bg-obsidian/70 hairline-border text-xs text-ivory" data-i18n="countryMexico">Mexico</a>
+            </div>
           </div>
         </div>
 
-        <a href="#journal" class="mobile-link block py-3 px-3 rounded-xl text-stone hover:text-white hover:bg-white/[0.05] transition-colors" data-i18n="navJournal">Journal</a>
-        <a href="#philosophy" class="mobile-link block py-3 px-3 rounded-xl text-stone hover:text-white hover:bg-white/[0.05] transition-colors" data-i18n="navPhilosophy">Philosophy</a>
-        <button id="openStudioMobileBtn" class="w-full text-start block py-3 px-3 rounded-xl text-white hover:bg-white/10 transition-colors" data-i18n="navAddEntry">Add Entry</button>
+        <div class="mobile-nav-row">
+          <a href="#journal" data-nav-target="journal" class="mobile-link nav-link" data-i18n="navJournal">Journal</a>
+        </div>
+        <div class="mobile-nav-row">
+          <a href="#philosophy" data-nav-target="philosophy" class="mobile-link nav-link" data-i18n="navPhilosophy">Philosophy</a>
+        </div>
+        <div class="mobile-nav-row">
+          <button id="openStudioMobileBtn" class="nav-link uppercase tracking-[0.16em]" data-i18n="navAddEntry">Add Entry</button>
+        </div>
       </div>
     </div>
   </header>
@@ -412,7 +716,6 @@
       <div class="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-obsidian/40 to-transparent"></div>
     </div>
 
-    <!-- Hero Video Play/Pause Control -->
     <button
       id="heroVideoToggleBtn"
       aria-label="Toggle Background Video"
@@ -426,7 +729,6 @@
       </svg>
     </button>
 
-    <!-- Focused Hero Content -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div class="max-w-3xl space-y-6">
         <div class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-white/80 font-medium">
@@ -442,7 +744,6 @@
           An international collection of filmed masterclasses, foundational techniques, and seasonal compositions from the studio kitchen.
         </p>
 
-        <!-- Unified Modern Search Bar + Primary White CTA -->
         <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 max-w-2xl">
           <div class="flex-1 flex items-center gap-3 px-4 h-12 sm:h-[52px] rounded-full glass-surface focus-within:border-white/70 transition-colors">
             <svg class="w-4 h-4 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
@@ -485,10 +786,9 @@
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 mb-10 hairline-b">
         <div>
           <span class="block text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
-          <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="collectionTitle">Masterclasses & Recipes</h2>
+          <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="collectionTitle">Masterclasses &amp; Recipes</h2>
         </div>
 
-        <!-- Tactile Pill Category Tabs -->
         <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 py-1"></div>
       </div>
 
@@ -514,7 +814,6 @@
   <!-- 4. CINEMATIC STUDIO INTERLUDE WITH SECOND BACKGROUND VIDEO (video2.mp4) -->
   <!-- ======================================================================= -->
   <section id="studio-reel" class="relative min-h-[56vh] sm:min-h-[62vh] flex items-center justify-center overflow-hidden hairline-t hairline-b">
-    <!-- Second Ambient Culinary Video Background -->
     <div class="absolute inset-0 z-0 overflow-hidden bg-obsidian">
       <video
         id="interludeBgVideo"
@@ -534,12 +833,10 @@
         />
       </video>
 
-      <!-- Seamless Top/Bottom & Center Vignette Overlays -->
       <div class="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/55 to-obsidian"></div>
       <div class="absolute inset-0 bg-obsidian/35"></div>
     </div>
 
-    <!-- Second Video Play/Pause Control -->
     <button
       id="interludeVideoToggleBtn"
       aria-label="Toggle Second Background Video"
@@ -553,7 +850,6 @@
       </svg>
     </button>
 
-    <!-- Centered Editorial Statement -->
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-6">
       <span class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.26em] text-white/80 font-medium">
         <span class="w-6 h-[1px] bg-white/60"></span>
@@ -606,7 +902,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-        <!-- Portrait Column -->
         <div class="lg:col-span-5">
           <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] bg-charcoal hairline-border shadow-2xl">
             <img
@@ -618,7 +913,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/15 to-transparent"></div>
             <div class="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 flex items-end justify-between gap-4">
               <div>
-                <p class="text-[10px] uppercase tracking-[0.24em] text-white/80 font-medium mb-1" data-i18n="chefRole">FOUNDER & EXECUTIVE CHEF</p>
+                <p class="text-[10px] uppercase tracking-[0.24em] text-white/80 font-medium mb-1" data-i18n="chefRole">FOUNDER &amp; EXECUTIVE CHEF</p>
                 <p class="editorial-serif text-xl sm:text-2xl text-white italic" data-i18n="chefName">Chef Julian Vance</p>
               </div>
               <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-1 ring-white/45 shadow-xl bg-obsidian shrink-0">
@@ -632,7 +927,6 @@
           </div>
         </div>
 
-        <!-- Editorial Manifesto Column -->
         <div class="lg:col-span-7 space-y-6">
           <span class="block text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium" data-i18n="philosophyEyebrow">PHILOSOPHY</span>
           <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight text-white" data-i18n="philosophyTitle">
@@ -642,7 +936,6 @@
             After fifteen years leading tasting-menu kitchens across Paris, Kyoto, and Copenhagen, ATELIER was created as an unfiltered digital monograph. Every masterclass strips away theatrical excess to focus purely on reproducible technique, sensory cues, and culinary clarity.
           </p>
 
-          <!-- Metric Row -->
           <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-6 hairline-t">
             <div>
               <span class="editorial-serif text-3xl sm:text-4xl text-white block">15</span>
@@ -670,7 +963,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 hairline-b">
 
-        <!-- Column 1: Brand & Signature -->
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center gap-3.5">
             <div class="w-11 h-11 rounded-full overflow-hidden ring-1 ring-white/35 bg-obsidian shrink-0">
@@ -686,7 +978,6 @@
           </p>
         </div>
 
-        <!-- Column 2: Quick Navigation -->
         <div class="md:col-span-3 space-y-3.5">
           <span class="block text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium" data-i18n="footerExplore">EXPLORE</span>
           <ul class="space-y-2.5 text-sm text-stone">
@@ -697,11 +988,9 @@
           </ul>
         </div>
 
-        <!-- Column 3: Direct Contact & Social Channels -->
         <div class="md:col-span-4 space-y-4">
-          <span class="block text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium" data-i18n="footerConnect">CONNECT & CHANNELS</span>
+          <span class="block text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium" data-i18n="footerConnect">CONNECT &amp; CHANNELS</span>
 
-          <!-- Email Direct Link -->
           <a href="mailto:chef@atelier-culinaire.com" class="inline-flex items-center gap-3 text-sm text-ivory/90 hover:text-white transition-colors group">
             <span class="w-9 h-9 rounded-full btn-glass flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
@@ -711,7 +1000,6 @@
             <span>chef@atelier-culinaire.com</span>
           </a>
 
-          <!-- Social Icons Row: YouTube, Instagram, X -->
           <div class="flex items-center gap-3 pt-1">
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="btn-glass w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-white">
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -734,7 +1022,6 @@
         </div>
       </div>
 
-      <!-- Bottom Copyright Bar -->
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone">
         <span>&copy; 2026 ATELIER CULINAIRE. All rights reserved.</span>
         <div class="flex items-center gap-6">
@@ -750,7 +1037,6 @@
   <!-- ======================================================================= -->
   <div id="langModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="animate-reveal glass-surface bg-charcoal/95 rounded-t-2xl sm:rounded-2xl w-full max-w-4xl max-h-[88dvh] flex flex-col overflow-hidden shadow-2xl border border-white/15">
-      <!-- Modal Header -->
       <div class="px-6 sm:px-8 py-5 bg-white/[0.02] hairline-b flex items-center justify-between shrink-0">
         <div>
           <span class="block text-[10px] uppercase tracking-[0.24em] text-white/75 font-medium mb-1" data-i18n="langModalEyebrow">GLOBAL EDITION</span>
@@ -763,11 +1049,8 @@
         </button>
       </div>
 
-      <!-- Horizontal 4-Column Tile Grid (3 Rows of 4 on Desktop, 3 on Tablet, 2 on Mobile) -->
       <div class="overflow-y-auto p-5 sm:p-7">
-        <div id="langGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          <!-- Populated dynamically by JS -->
-        </div>
+        <div id="langGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
       </div>
     </div>
   </div>
@@ -777,8 +1060,6 @@
   <!-- ======================================================================= -->
   <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto">
     <div id="recipeModalWrapper" class="animate-reveal max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
-
-      <!-- Sticky Modal Header -->
       <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <button id="closeRecipeModalBtn" aria-label="Close" class="btn-glass w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-stone hover:text-white">
@@ -805,12 +1086,10 @@
         </div>
       </div>
 
-      <!-- Cook Mode Status Strip -->
       <div id="cookModeStrip" class="hidden bg-white/10 border-b border-white/20 px-4 sm:px-6 py-2.5 text-xs text-white flex items-center justify-between">
         <span data-i18n="cookModeActive">Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.</span>
       </div>
 
-      <!-- Modal Content Body -->
       <div class="p-4 sm:p-8 lg:p-10 space-y-8 sm:space-y-10">
         <div class="cook-dim space-y-3 sm:space-y-4">
           <h2 id="modalTitle" class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight"></h2>
@@ -831,7 +1110,6 @@
           </div>
         </div>
 
-        <!-- Video Player Frame -->
         <div class="cook-dim space-y-3 sm:space-y-4">
           <div class="relative rounded-2xl overflow-hidden bg-obsidian aspect-video hairline-border group">
             <img id="modalVideoPoster" src="" alt="" onerror="this.style.display='none'" class="w-full h-full object-cover transition-transform duration-700" />
@@ -860,7 +1138,6 @@
           <div id="videoChapters" class="flex items-center gap-2 overflow-x-auto no-scrollbar sm:flex-wrap pb-1"></div>
         </div>
 
-        <!-- Ingredients & Method Grid -->
         <div id="methodAnchor" class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6 hairline-t">
           <div class="lg:col-span-5 space-y-5 sm:space-y-6">
             <div class="flex items-center justify-between pb-4 hairline-b">
@@ -1065,13 +1342,31 @@
           navMasterclasses: 'Masterclasses',
           navCuisines: 'Cuisines',
           cuisinesEyebrow: 'CULINARY ATLAS',
-          cuisinesHint: 'Explore authentic recipes by origin',
-          countryIran: 'Iran', descIran: 'Saffron, Slow Braises & Aromatic Rice',
-          countryItaly: 'Italy', descItaly: 'Artisan Pasta, Truffles & Regional Sauces',
-          countryFrance: 'France', descFrance: 'Mother Sauces, Fine Pastry & Technique',
-          countryJapan: 'Japan', descJapan: 'Umami, Dashi, Fermentation & Knife Work',
-          countryTurkey: 'Turkey', descTurkey: 'Open-Fire Grills, Meze & Hearth Breads',
-          countryMexico: 'Mexico', descMexico: 'Heirloom Chiles, Mole & Nixtamalization',
+          megaSidebarTitle: 'Categories',
+          megaCatAll: 'All Recipes',
+          megaCatMains: 'Main Dishes',
+          megaCatAppetizers: 'Appetizers',
+          megaCatSalads: 'Salads',
+          megaCatSoups: 'Soups',
+          megaCatDesserts: 'Desserts',
+          megaCatDrinks: 'Drinks',
+          megaCatVegetarian: 'Vegetarian',
+          megaCatHealthy: 'Healthy Food',
+          megaCatQuick: 'Quick & Easy',
+          megaCenterTitle: 'Culinary Specialties',
+          megaCenterSub: 'Curated dishes & techniques',
+          megaCardMeat: 'Meat Dishes',
+          megaCardSeafood: 'Seafood',
+          megaCardPasta: 'Pasta',
+          megaCardRice: 'Rice Dishes',
+          megaCardPizza: 'Pizza',
+          megaCardBurgers: 'Burgers',
+          megaBannerBadge: 'FEATURED',
+          megaBannerTitle: 'Discover Delicious Recipes',
+          megaBannerSub: 'Cook. Enjoy. Repeat.',
+          megaBannerCta: 'Explore All',
+          countryIran: 'Iran', countryItaly: 'Italy', countryFrance: 'France',
+          countryJapan: 'Japan', countryTurkey: 'Turkey', countryMexico: 'Mexico',
           navJournal: 'Journal',
           navPhilosophy: 'Philosophy',
           navAddEntry: 'Add Entry',
@@ -1149,13 +1444,31 @@
           navMasterclasses: 'مسترکلاس‌ها',
           navCuisines: 'آشپزی ملل',
           cuisinesEyebrow: 'اطلس آشپزی جهان',
-          cuisinesHint: 'کاوش دستور پخت‌های اصیل بر اساس کشور',
-          countryIran: 'ایران', descIran: 'زعفران، خورش‌های آرام‌پز و پلوهای معطر',
-          countryItaly: 'ایتالیا', descItaly: 'پاستای دست‌ساز، ترافل و سس‌های اصیل',
-          countryFrance: 'فرانسه', descFrance: 'سس‌های مادر، شیرینی‌پزی و تکنیک کلاسیک',
-          countryJapan: 'ژاپن', descJapan: 'اومامی، داشی، تخمیر و برش‌های دقیق',
-          countryTurkey: 'ترکیه', descTurkey: 'گریل روی آتش، مزه‌ها و نان‌های تنوری',
-          countryMexico: 'مکزیک', descMexico: 'فلفل‌های اصیل، سس موله و طعم‌های دودی',
+          megaSidebarTitle: 'دسته‌بندی‌ها',
+          megaCatAll: 'همه دستور پخت‌ها',
+          megaCatMains: 'غذاهای اصلی',
+          megaCatAppetizers: 'پیش‌غذاها',
+          megaCatSalads: 'سالادها',
+          megaCatSoups: 'سوپ‌ها',
+          megaCatDesserts: 'دسرها',
+          megaCatDrinks: 'نوشیدنی‌ها',
+          megaCatVegetarian: 'گیاهی',
+          megaCatHealthy: 'غذای سالم',
+          megaCatQuick: 'سریع و آسان',
+          megaCenterTitle: 'تخصص‌های آشپزی',
+          megaCenterSub: 'غذاها و تکنیک‌های منتخب',
+          megaCardMeat: 'غذاهای گوشتی',
+          megaCardSeafood: 'غذای دریایی',
+          megaCardPasta: 'پاستا',
+          megaCardRice: 'پلو و برنج',
+          megaCardPizza: 'پیتزا',
+          megaCardBurgers: 'برگرها',
+          megaBannerBadge: 'پیشنهاد ویژه',
+          megaBannerTitle: 'کشف طعم‌های ماندگار',
+          megaBannerSub: 'بپز. لذت ببر. تکرار کن.',
+          megaBannerCta: 'مشاهده همه',
+          countryIran: 'ایران', countryItaly: 'ایتالیا', countryFrance: 'فرانسه',
+          countryJapan: 'ژاپن', countryTurkey: 'ترکیه', countryMexico: 'مکزیک',
           navJournal: 'مجله تخصصی',
           navPhilosophy: 'فلسفه آشپزی',
           navAddEntry: 'ثبت آموزش جدید',
@@ -1233,7 +1546,14 @@
           navMasterclasses: 'Meisterklassen',
           navCuisines: 'Länderküchen',
           cuisinesEyebrow: 'KULINARISCHER ATLAS',
-          cuisinesHint: 'Authentische Rezepte nach Herkunft entdecken',
+          megaSidebarTitle: 'Kategorien',
+          megaCatAll: 'Alle Rezepte', megaCatMains: 'Hauptgerichte', megaCatAppetizers: 'Vorspeisen',
+          megaCatSalads: 'Salate', megaCatSoups: 'Suppen', megaCatDesserts: 'Desserts',
+          megaCatDrinks: 'Getränke', megaCatVegetarian: 'Vegetarisch', megaCatHealthy: 'Gesunde Küche', megaCatQuick: 'Schnell & Einfach',
+          megaCenterTitle: 'Kulinarische Spezialitäten', megaCenterSub: 'Ausgewählte Gerichte & Techniken',
+          megaCardMeat: 'Fleischgerichte', megaCardSeafood: 'Meeresfrüchte', megaCardPasta: 'Pasta',
+          megaCardRice: 'Reisgerichte', megaCardPizza: 'Pizza', megaCardBurgers: 'Burger',
+          megaBannerBadge: 'EMPFEHLUNG', megaBannerTitle: 'Köstliche Rezepte entdecken', megaBannerSub: 'Kochen. Genießen. Wiederholen.', megaBannerCta: 'Alle entdecken',
           countryIran: 'Iran', countryItaly: 'Italien', countryFrance: 'Frankreich', countryJapan: 'Japan', countryTurkey: 'Türkei', countryMexico: 'Mexiko',
           navJournal: 'Journal', navPhilosophy: 'Philosophie', navAddEntry: 'Neuer Eintrag',
           heroEyebrow: 'PRIVATES KULINARISCHES ARCHIV',
@@ -1252,6 +1572,8 @@
         },
         fr: {
           brandSubtitle: 'CULINAIRE', navMasterclasses: 'Masterclasses', navCuisines: 'Cuisines',
+          megaSidebarTitle: 'Catégories', megaCatAll: 'Toutes les recettes', megaCatMains: 'Plats principaux',
+          megaBannerTitle: 'Découvrir des recettes', megaBannerCta: 'Tout explorer',
           countryIran: 'Iran', countryItaly: 'Italie', countryFrance: 'France', countryJapan: 'Japon', countryTurkey: 'Turquie', countryMexico: 'Mexique',
           navJournal: 'Journal', navPhilosophy: 'Philosophie', navAddEntry: 'Publier',
           toastLangChanged: 'Langue définie sur Français.',
@@ -1259,6 +1581,8 @@
         },
         ar: {
           brandSubtitle: 'أتيليه الطهي', navMasterclasses: 'الدروس الاحترافية', navCuisines: 'مطابخ العالم',
+          megaSidebarTitle: 'التصنيفات', megaCatAll: 'جميع الوصفات', megaCatMains: 'الأطباق الرئيسية',
+          megaBannerTitle: 'اكتشف أشهى الوصفات', megaBannerCta: 'استكشف الكل',
           countryIran: 'إيران', countryItaly: 'إيطاليا', countryFrance: 'فرنسا', countryJapan: 'اليابان', countryTurkey: 'تركيا', countryMexico: 'المكسيك',
           navJournal: 'المجلة', navPhilosophy: 'الفلسفة', navAddEntry: 'إضافة محتوى',
           toastLangChanged: 'تم تغيير اللغة إلى العربية.',
@@ -1769,7 +2093,6 @@
         if (announce) showToast(t('toastLangChanged'));
       }
 
-      /* Horizontal Multi-Column Card Grid for 12 Languages */
       function renderLangGrid() {
         const grid = document.getElementById('langGrid');
         if (!grid) return;
@@ -2217,11 +2540,149 @@
         });
       }
 
+      /* ---------------------------------------------------------------------
+       * HEADER NAVIGATION ACTIVE UNDERLINE STATE SYNC (CLICK + SCROLL)
+       * --------------------------------------------------------------------- */
+      function initHeaderActiveNav() {
+        const navTargets = document.querySelectorAll('[data-nav-target]');
+        const setActiveNav = (targetId) => {
+          navTargets.forEach((el) => {
+            el.classList.toggle('active', el.getAttribute('data-nav-target') === targetId);
+          });
+        };
+
+        navTargets.forEach((el) => {
+          el.addEventListener('click', () => {
+            setActiveNav(el.getAttribute('data-nav-target'));
+          });
+        });
+
+        const sections = ['collection', 'journal', 'philosophy']
+          .map((id) => document.getElementById(id))
+          .filter(Boolean);
+
+        if ('IntersectionObserver' in window && sections.length > 0) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  setActiveNav(entry.target.id);
+                }
+              });
+            },
+            { rootMargin: '-35% 0px -50% 0px', threshold: 0 }
+          );
+          sections.forEach((sec) => observer.observe(sec));
+        }
+      }
+
+      /* ---------------------------------------------------------------------
+       * CUISINES MEGA MENU INTERACTION CONTROLLER (HOVER, CLICK, KEYBOARD)
+       * --------------------------------------------------------------------- */
+      function initCuisinesMegaMenu() {
+        const wrapper = document.getElementById('cuisinesMegaWrapper');
+        const trigger = document.getElementById('cuisinesMegaTrigger');
+        const panel = document.getElementById('cuisinesMegaPanel');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        if (!wrapper || !trigger || !panel) return;
+
+        let closeTimeout = null;
+
+        const openMega = () => {
+          clearTimeout(closeTimeout);
+          wrapper.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeMega = (delay = 0) => {
+          clearTimeout(closeTimeout);
+          if (delay > 0) {
+            closeTimeout = setTimeout(() => {
+              wrapper.classList.remove('is-open');
+              trigger.setAttribute('aria-expanded', 'false');
+            }, delay);
+          } else {
+            wrapper.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+          }
+        };
+
+        wrapper.addEventListener('mouseenter', openMega);
+        wrapper.addEventListener('mouseleave', () => closeMega(160));
+
+        trigger.addEventListener('click', () => {
+          if (wrapper.classList.contains('is-open')) closeMega(0);
+          else openMega();
+        });
+
+        wrapper.addEventListener('focusout', (e) => {
+          if (!wrapper.contains(e.relatedTarget)) closeMega(0);
+        });
+
+        const catButtons = document.querySelectorAll('.mega-cat-item');
+        catButtons.forEach((btn) => {
+          btn.addEventListener('mouseenter', () => {
+            catButtons.forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+          });
+          btn.addEventListener('click', () => {
+            catButtons.forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            const targetCat = btn.getAttribute('data-mega-cat');
+            const validTabs = ['all', 'masterclasses', 'mains', 'pastry', 'techniques'];
+            activeCategory = validTabs.includes(targetCat) ? targetCat : 'all';
+            searchQuery = '';
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            document.getElementById('clearSearchBtn')?.classList.add('hidden');
+            renderCategoryTabs();
+            renderRecipeGrid();
+            closeMega(0);
+            mobileMenu?.classList.add('hidden');
+            mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+            document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' });
+          });
+        });
+
+        document.querySelectorAll('.mega-food-card').forEach((card) => {
+          card.addEventListener('click', () => {
+            activeCategory = 'all';
+            searchQuery = '';
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            document.getElementById('clearSearchBtn')?.classList.add('hidden');
+            renderCategoryTabs();
+            renderRecipeGrid();
+            closeMega(0);
+            mobileMenu?.classList.add('hidden');
+            mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+          });
+        });
+
+        document.getElementById('megaExploreAllBtn')?.addEventListener('click', () => {
+          activeCategory = 'all';
+          searchQuery = '';
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) searchInput.value = '';
+          document.getElementById('clearSearchBtn')?.classList.add('hidden');
+          renderCategoryTabs();
+          renderRecipeGrid();
+          closeMega(0);
+        });
+
+        return closeMega;
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+
         loadCustomRecipes();
         setLanguage('en', false);
 
-        // Bind both ambient background videos (video.mp4 & video2.mp4)
+        initHeaderActiveNav();
+        const closeMegaMenu = initCuisinesMegaMenu();
+
         bindAmbientVideoToggle('heroBgVideo', 'heroVideoToggleBtn', 'heroVideoPauseIcon', 'heroVideoPlayIcon');
         bindAmbientVideoToggle('interludeBgVideo', 'interludeVideoToggleBtn', 'interludeVideoPauseIcon', 'interludeVideoPlayIcon');
 
@@ -2241,6 +2702,7 @@
         mobileCuisinesToggle?.addEventListener('click', () => {
           const isHidden = mobileCuisinesList.classList.toggle('hidden');
           mobileCuisinesToggle.setAttribute('aria-expanded', String(!isHidden));
+          mobileCuisinesToggle.classList.toggle('active', !isHidden);
           mobileCuisinesChevron?.classList.toggle('rotate-180', !isHidden);
         });
 
@@ -2292,7 +2754,13 @@
         document.getElementById('journalModal')?.addEventListener('click', (e) => { if (e.target.id === 'journalModal') closeJournalModal(); });
 
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') { closeLangModal(); closeRecipeModal(); closeJournalModal(); closeStudioModal(); }
+          if (e.key === 'Escape') {
+            if (closeMegaMenu) closeMegaMenu(0);
+            closeLangModal();
+            closeRecipeModal();
+            closeJournalModal();
+            closeStudioModal();
+          }
         });
       });
     })();
