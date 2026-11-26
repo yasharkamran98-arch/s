@@ -343,6 +343,251 @@
     ::-webkit-scrollbar-track { background: #0B0C0E; }
     ::-webkit-scrollbar-thumb { background: #2A2D36; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #FFFFFF; }
+
+    /* =====================================================================
+       FULL-BLEED RESPONSIVE VIDEO BACKGROUNDS
+       Keep the complete source frame visible without distortion or zoom.
+       ===================================================================== */
+    .atelier-video-section {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: hidden;
+      border: 0 !important;
+      outline: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: #0B0C0E;
+    }
+
+    .atelier-video-section > .absolute.inset-0:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      border: 0 !important;
+      border-radius: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      background: #0B0C0E;
+    }
+
+    .atelier-video-section .atelier-bg-video {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0;
+      padding: 0;
+      object-fit: cover;
+      object-position: center center;
+      transform: none !important;
+      opacity: 1 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+      background: #0B0C0E;
+      pointer-events: none;
+      filter: brightness(.70) saturate(.68) contrast(.96);
+    }
+
+    /* Remove the previous heavy gradient layers. The site's own charcoal
+       background fills any aspect-ratio space without cropping the footage. */
+    .atelier-video-section > .absolute.inset-0:first-child > .absolute.inset-0 {
+      display: none !important;
+    }
+
+    .atelier-video-section::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      /* A restrained tint keeps foreground text readable while preserving
+         the footage's original color and detail. */
+      background: rgba(5, 6, 8, .60);
+    }
+
+    .atelier-video-hero {
+      min-height: clamp(680px, 94svh, 1120px);
+      border: 0 !important;
+    }
+
+    #heroBgVideo {
+      object-position: center 34%;
+    }
+
+    .atelier-video-interlude {
+      min-height: clamp(460px, 72vh, 860px);
+      margin-block: 0;
+      border: 0 !important;
+    }
+
+    .atelier-video-section > button,
+    .atelier-video-section > .relative {
+      position: relative;
+      z-index: 3;
+    }
+
+    @media (max-width: 767px) {
+      .atelier-video-hero {
+        min-height: 88svh;
+      }
+      .atelier-video-interlude {
+        min-height: 60svh;
+      }
+      .atelier-video-section .atelier-bg-video {
+        object-fit: cover;
+        object-position: center center;
+      }
+      #heroBgVideo {
+        object-position: center 28%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .atelier-video-section .atelier-bg-video {
+        transform: none !important;
+      }
+    }
+  
+/* Seamless video-to-page blending */
+#top,
+#studio-reel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #050608;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+#top::before,
+#studio-reel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, #050608 0%, rgba(5,6,8,.42) 9%, transparent 25%, transparent 74%, rgba(5,6,8,.58) 91%, #050608 100%),
+    linear-gradient(90deg, rgba(5,6,8,.42) 0%, transparent 10%, transparent 90%, rgba(5,6,8,.42) 100%);
+}
+#top::after,
+#studio-reel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: inset 0 0 110px 34px rgba(5,6,8,.42);
+}
+#heroBgVideo,
+#interludeBgVideo {
+  border:  0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/* Give both video scenes more vertical room so the footage reads more completely */
+#top {
+  min-height: clamp(820px, 112svh, 1320px) !important;
+  height: auto !important;
+}
+#heroBgVideo {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: clamp(820px, 112svh, 1320px) !important;
+  object-fit: cover !important;
+  object-position: center 34% !important;
+}
+#studio-reel {
+  min-height: clamp(560px, 86vh, 1020px) !important;
+  height: auto !important;
+}
+#interludeBgVideo {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: clamp(560px, 86vh, 1020px) !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+@media (max-width: 700px) {
+  #top {
+    min-height: 98svh !important;
+  }
+  #heroBgVideo {
+    min-height: 98svh !important;
+    object-position: center 30% !important;
+  }
+  #studio-reel {
+    min-height: 72vh !important;
+  }
+  #interludeBgVideo {
+    min-height: 72vh !important;
+  }
+}
+
+
+    /* Compact language selector — matched to ATELIER's charcoal / ivory palette */
+    .language-dropdown { position: relative; z-index: 80; }
+    .language-trigger { white-space: nowrap; }
+    .language-chevron { transition: transform 250ms ease, color 250ms ease; }
+    .language-dropdown.is-open .language-chevron { transform: rotate(180deg); color: #F4F3EF; }
+    .language-menu {
+      position: absolute; top: calc(100% + 10px); right: 0; width: 188px;
+      padding: 7px; border-radius: 14px; background: rgba(19,21,25,.97);
+      border: 1px solid rgba(255,255,255,.075); box-shadow: 0 18px 42px rgba(0,0,0,.48);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateY(-7px) scale(.985); transform-origin: top right;
+      transition: opacity 350ms ease, transform 350ms cubic-bezier(.2,.75,.25,1), visibility 350ms;
+    }
+    .language-dropdown.is-open .language-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); }
+    .language-option {
+      width: 100%; min-height: 42px; display: flex; align-items: center; gap: 10px;
+      padding: 0 11px; border: 0; border-radius: 9px; background: transparent;
+      color: #D7D8DC; text-align: left; font: 400 12px/1.2 Inter, sans-serif;
+      opacity: 0; transform: translateY(-7px);
+      transition: opacity 350ms ease, transform 350ms cubic-bezier(.2,.75,.25,1), background 180ms ease, color 180ms ease;
+      transition-delay: 0ms;
+    }
+    .language-dropdown.is-open .language-option { opacity: 1; transform: translateY(0); }
+    .language-dropdown.is-open .language-option:nth-child(1) { transition-delay: 0ms; }
+    .language-dropdown.is-open .language-option:nth-child(2) { transition-delay: 60ms; }
+    .language-dropdown.is-open .language-option:nth-child(3) { transition-delay: 120ms; }
+    .language-dropdown.is-closing .language-option:nth-child(1) { transition-delay: 120ms; }
+    .language-dropdown.is-closing .language-option:nth-child(2) { transition-delay: 60ms; }
+    .language-dropdown.is-closing .language-option:nth-child(3) { transition-delay: 0ms; }
+    .language-dropdown.is-closing .language-menu { opacity: 1; visibility: visible; pointer-events: none; transform: translateY(0) scale(1); }
+    .language-dropdown.is-closing .language-option { opacity: 0; transform: translateY(-7px); }
+    .language-option:hover, .language-option:focus-visible { outline: none; color: #fff; background: rgba(255,255,255,.075); }
+    .language-option[aria-checked="true"] { color: #fff; background: rgba(205,119,63,.17); }
+    .language-option-label { display: inline-flex; align-items: center; gap: 9px; flex: 1; }
+    .language-flag { font-size: 15px; line-height: 1; }
+    .language-option-meta { color: #858991; font: 500 10px/1 Inter, sans-serif; letter-spacing: .08em; }
+    .language-check { width: 12px; color: #D58B5B; font-size: 12px; opacity: 0; }
+    .language-option[aria-checked="true"] .language-check { opacity: 1; }
+    html[dir="rtl"] .language-menu { right: auto; left: 0; transform-origin: top left; }
+    html[dir="rtl"] .language-option { text-align: right; font-family: 'Vazirmatn', sans-serif; }
+    #google_translate_element { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }
+    body { top: 0 !important; }
+    @media (max-width: 480px) { .language-menu { width: 176px; } .language-trigger { padding-inline: 10px; gap: 7px; } }
+    @media (prefers-reduced-motion: reduce) { .language-menu, .language-option, .language-chevron { transition-duration: .01ms !important; transition-delay: 0ms !important; } }
+
   </style>
 </head>
 <body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
@@ -557,17 +802,20 @@
             <span class="hidden sm:inline" data-i18n="navAddEntry">Add Entry</span>
           </button>
 
-          <button
-            id="openLangModalBtn"
-            aria-label="Select Language"
-            class="btn-glass inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium"
-          >
-            <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a13.5 13.5 0 013.6 9 13.5 13.5 0 01-3.6 9 13.5 13.5 0 01-3.6-9A13.5 13.5 0 0112 3z" />
-            </svg>
-            <span id="activeLangCode" class="font-semibold text-white">EN</span>
-          </button>
+          <div id="languageDropdown" class="language-dropdown relative">
+            <button id="languageDropdownTrigger" type="button" aria-label="Select language" aria-expanded="false" aria-controls="languageDropdownMenu" class="language-trigger btn-glass inline-flex items-center justify-center gap-2 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.12em] font-medium">
+              <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" d="M3.6 9h16.8M3.6 15h16.8M12 3c2.2 2.4 3.3 5.4 3.3 9s-1.1 6.6-3.3 9c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3z"></path>
+              </svg>
+              <span id="activeLangCode" class="font-semibold text-white">EN</span>
+              <svg class="language-chevron w-3 h-3 text-stone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="languageDropdownMenu" class="language-menu" role="menu" aria-label="Choose language" aria-hidden="true">
+              <button type="button" class="language-option" role="menuitemradio" aria-checked="true" data-lang-pick="en"><span class="language-option-label"><span class="language-flag">🇬🇧</span>English</span><span class="language-option-meta">EN</span><span class="language-check" aria-hidden="true">✓</span></button>
+              <button type="button" class="language-option" role="menuitemradio" aria-checked="false" data-lang-pick="de"><span class="language-option-label"><span class="language-flag">🇩🇪</span>Deutsch</span><span class="language-option-meta">DE</span><span class="language-check" aria-hidden="true">✓</span></button>
+              <button type="button" class="language-option" role="menuitemradio" aria-checked="false" data-lang-pick="fa"><span class="language-flag">🇮🇷</span>فارسی</span><span class="language-option-meta">FA</span><span class="language-check" aria-hidden="true">✓</span></button>
+            </div>
+          </div>
 
           <button
             id="mobileMenuBtn"
@@ -682,7 +930,7 @@
   <!-- ======================================================================= -->
   <!-- 2. EDITORIAL HERO WITH FIRST BACKGROUND VIDEO (video.mp4)               -->
   <!-- ======================================================================= -->
-  <section id="top" class="relative min-h-[82svh] sm:min-h-[80vh] flex items-end pb-14 sm:pb-20 lg:pb-24 pt-20 sm:pt-24 overflow-hidden hairline-b">
+  <section id="top" class="atelier-video-section atelier-video-hero relative min-h-[82svh] sm:min-h-[80vh] flex items-end pb-14 sm:pb-20 lg:pb-24 pt-20 sm:pt-24 overflow-hidden">
     <div class="absolute inset-0 z-0 overflow-hidden bg-obsidian">
       <video
         id="heroBgVideo"
@@ -692,13 +940,14 @@
         playsinline
         preload="auto"
         poster="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85"
-        class="w-full h-full object-cover object-center opacity-50 scale-[1.02] pointer-events-none"
+        class="atelier-bg-video pointer-events-none"
+        disablepictureinpicture
       >
         <source src="video.mp4" type="video/mp4" />
         <img
           src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85"
           alt="Fine Dining Plating"
-          class="w-full h-full object-cover object-center opacity-45"
+          class="w-full h-full object-contain object-center"
         />
       </video>
 
@@ -803,7 +1052,7 @@
   <!-- ======================================================================= -->
   <!-- 4. CINEMATIC STUDIO INTERLUDE WITH SECOND BACKGROUND VIDEO (video2.mp4) -->
   <!-- ======================================================================= -->
-  <section id="studio-reel" class="relative min-h-[56vh] sm:min-h-[62vh] flex items-center justify-center overflow-hidden hairline-t hairline-b">
+  <section id="studio-reel" class="atelier-video-section atelier-video-interlude relative min-h-[56vh] sm:min-h-[62vh] flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 z-0 overflow-hidden bg-obsidian">
       <video
         id="interludeBgVideo"
@@ -813,13 +1062,14 @@
         playsinline
         preload="auto"
         poster="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1800&q=85"
-        class="w-full h-full object-cover object-center opacity-45 scale-[1.02] pointer-events-none"
+        class="atelier-bg-video pointer-events-none"
+        disablepictureinpicture
       >
         <source src="video2.mp4" type="video/mp4" />
         <img
           src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1800&q=85"
           alt="Studio Kitchen Craft"
-          class="w-full h-full object-cover object-center opacity-40"
+          class="w-full h-full object-contain object-center"
         />
       </video>
 
@@ -1021,29 +1271,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- ======================================================================= -->
-  <!-- 8. HORIZONTAL MULTI-COLUMN 12-LANGUAGE SELECTOR MODAL                   -->
-  <!-- ======================================================================= -->
-  <div id="langModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="animate-reveal glass-surface bg-charcoal/95 rounded-t-2xl sm:rounded-2xl w-full max-w-4xl max-h-[88dvh] flex flex-col overflow-hidden shadow-2xl border border-white/15">
-      <div class="px-6 sm:px-8 py-5 bg-white/[0.02] hairline-b flex items-center justify-between shrink-0">
-        <div>
-          <span class="block text-[10px] uppercase tracking-[0.24em] text-white/75 font-medium mb-1" data-i18n="langModalEyebrow">GLOBAL EDITION</span>
-          <h3 class="editorial-serif text-2xl sm:text-3xl text-white" data-i18n="langModalTitle">Select Language</h3>
-        </div>
-        <button id="closeLangModalBtn" aria-label="Close" class="btn-glass w-10 h-10 flex items-center justify-center rounded-full text-stone hover:text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <div class="overflow-y-auto p-5 sm:p-7">
-        <div id="langGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- ======================================================================= -->
   <!-- 9. INTERACTIVE RECIPE & VIDEO MASTERCLASS MODAL                         -->
@@ -1307,23 +1534,16 @@
   <!-- ======================================================================= -->
   <!-- 13. APPLICATION ENGINE & 12-LANGUAGE i18n ARCHITECTURE                  -->
   <!-- ======================================================================= -->
+  <div id="google_translate_element" aria-hidden="true"></div>
+
   <script>
     (function () {
       'use strict';
 
       const LANGUAGES = [
-        { code: 'en', iso: 'EN', native: 'English', intl: 'International', dir: 'ltr' },
-        { code: 'fa', iso: 'FA', native: 'فارسی', intl: 'Persian', dir: 'rtl' },
-        { code: 'de', iso: 'DE', native: 'Deutsch', intl: 'German', dir: 'ltr' },
-        { code: 'fr', iso: 'FR', native: 'Français', intl: 'French', dir: 'ltr' },
-        { code: 'es', iso: 'ES', native: 'Español', intl: 'Spanish', dir: 'ltr' },
-        { code: 'it', iso: 'IT', native: 'Italiano', intl: 'Italian', dir: 'ltr' },
-        { code: 'ar', iso: 'AR', native: 'العربية', intl: 'Arabic', dir: 'rtl' },
-        { code: 'tr', iso: 'TR', native: 'Türkçe', intl: 'Turkish', dir: 'ltr' },
-        { code: 'ja', iso: 'JA', native: '日本語', intl: 'Japanese', dir: 'ltr' },
-        { code: 'zh', iso: 'ZH', native: '中文', intl: 'Chinese', dir: 'ltr' },
-        { code: 'ru', iso: 'RU', native: 'Русский', intl: 'Russian', dir: 'ltr' },
-        { code: 'ko', iso: 'KO', native: '한국어', intl: 'Korean', dir: 'ltr' },
+        { code: 'en', iso: 'EN', native: 'English', intl: 'English', dir: 'ltr', flag: '🇬🇧' },
+        { code: 'de', iso: 'DE', native: 'Deutsch', intl: 'German', dir: 'ltr', flag: '🇩🇪' },
+        { code: 'fa', iso: 'FA', native: 'فارسی', intl: 'Persian', dir: 'rtl', flag: '🇮🇷' },
       ];
 
       const UI_TRANSLATIONS = {
@@ -1942,7 +2162,12 @@
       ];
 
       const STORAGE_KEY = 'atelier_custom_recipes_v1';
-      let currentLang = 'en';
+      let currentLang = (() => {
+        try {
+          const saved = localStorage.getItem('atelier_language_v1');
+          return ['en', 'de', 'fa'].includes(saved) ? saved : 'en';
+        } catch (_) { return 'en'; }
+      })();
       let activeCategory = 'all';
       let searchQuery = '';
       let recipes = [...DEFAULT_RECIPES];
@@ -2060,10 +2285,14 @@
       function setLanguage(langCode, announce = true) {
         const langObj = LANGUAGES.find((l) => l.code === langCode) || LANGUAGES[0];
         currentLang = langObj.code;
+        try { localStorage.setItem('atelier_language_v1', langObj.code); } catch (_) {}
         document.documentElement.lang = langObj.code;
         document.documentElement.dir = langObj.dir;
         document.documentElement.setAttribute('data-lang', langObj.code);
         document.getElementById('activeLangCode').textContent = langObj.iso;
+        document.querySelectorAll('#languageDropdownMenu [data-lang-pick]').forEach((option) => {
+          option.setAttribute('aria-checked', String(option.getAttribute('data-lang-pick') === langObj.code));
+        });
 
         document.querySelectorAll('[data-i18n]').forEach((el) => {
           el.textContent = t(el.getAttribute('data-i18n'));
@@ -2114,21 +2343,90 @@
         grid.querySelectorAll('.lang-pick-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
             setLanguage(btn.getAttribute('data-lang-pick'), true);
-            closeLangModal();
+            closeLanguageDropdown();
           });
         });
       }
 
-      function openLangModal() {
-        renderLangGrid();
-        document.getElementById('langModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+      let languageCloseTimer = null;
+      let googleTranslateRefreshTimer = null;
+
+      function openLanguageDropdown() {
+        const wrap = document.getElementById('languageDropdown');
+        const trigger = document.getElementById('languageDropdownTrigger');
+        const menu = document.getElementById('languageDropdownMenu');
+        if (!wrap || !trigger || !menu) return;
+        clearTimeout(languageCloseTimer);
+        wrap.classList.remove('is-closing');
+        wrap.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        (menu.querySelector('[aria-checked="true"]') || menu.querySelector('[data-lang-pick]'))?.focus();
       }
 
-      function closeLangModal() {
-        document.getElementById('langModal').classList.add('hidden');
-        document.body.style.overflow = '';
+      function closeLanguageDropdown(returnFocus = false) {
+        const wrap = document.getElementById('languageDropdown');
+        const trigger = document.getElementById('languageDropdownTrigger');
+        const menu = document.getElementById('languageDropdownMenu');
+        if (!wrap || !trigger || !menu || !wrap.classList.contains('is-open')) return;
+        wrap.classList.remove('is-open');
+        wrap.classList.add('is-closing');
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        clearTimeout(languageCloseTimer);
+        languageCloseTimer = setTimeout(() => {
+          wrap.classList.remove('is-closing');
+          if (returnFocus) trigger.focus();
+        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 20 : 430);
       }
+
+      function applyGoogleTranslation(lang) {
+        const apply = () => {
+          const combo = document.querySelector('.goog-te-combo');
+          if (!combo) return false;
+          combo.value = lang === 'en' ? '' : lang;
+          combo.dispatchEvent(new Event('change', { bubbles: true }));
+          return true;
+        };
+        if (apply()) return;
+        let attempts = 0;
+        const wait = setInterval(() => {
+          attempts += 1;
+          if (apply() || attempts >= 20) clearInterval(wait);
+        }, 250);
+      }
+
+      window.googleTranslateElementInit = function () {
+        if (!window.google?.translate?.TranslateElement) return;
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'de,fa',
+          autoDisplay: false
+        }, 'google_translate_element');
+        if (currentLang !== 'en') applyGoogleTranslation(currentLang);
+      };
+
+      // Re-apply translation when the site's own renderers add new cards or modal content.
+      let translationObserver = null;
+      function watchDynamicContent() {
+        const targets = ['recipeGrid', 'journalGrid', 'recipeModalWrapper', 'journalModalBody']
+          .map((id) => document.getElementById(id)).filter(Boolean);
+        if (!targets.length || !window.MutationObserver) return;
+        translationObserver = new MutationObserver((records) => {
+          if (currentLang === 'en' || records.every((record) => [...record.addedNodes].every((node) =>
+            node.nodeType === 1 && (node.closest?.('#google_translate_element, .skiptranslate, .goog-te-menu-frame'))
+          ))) return;
+          clearTimeout(googleTranslateRefreshTimer);
+          translationObserver.disconnect();
+          googleTranslateRefreshTimer = setTimeout(() => {
+            applyGoogleTranslation(currentLang);
+            setTimeout(() => targets.forEach((target) => translationObserver?.observe(target, { childList: true, subtree: true })), 1000);
+          }, 250);
+        });
+        targets.forEach((target) => translationObserver.observe(target, { childList: true, subtree: true }));
+      }
+
+      function closeLangModal() { closeLanguageDropdown(); }
 
       function renderCategoryTabs() {
         const container = document.getElementById('categoryTabs');
@@ -2662,7 +2960,8 @@
         if (window.lucide) window.lucide.createIcons();
 
         loadCustomRecipes();
-        setLanguage('en', false);
+        setLanguage(currentLang, false);
+        watchDynamicContent();
 
         initHeaderActiveNav();
         const closeMegaMenu = initCuisinesMegaMenu();
@@ -2690,10 +2989,43 @@
           mobileCuisinesChevron?.classList.toggle('rotate-180', !isHidden);
         });
 
-        document.getElementById('openLangModalBtn')?.addEventListener('click', openLangModal);
-        document.getElementById('footerLangBtn')?.addEventListener('click', openLangModal);
-        document.getElementById('closeLangModalBtn')?.addEventListener('click', closeLangModal);
-        document.getElementById('langModal')?.addEventListener('click', (e) => { if (e.target.id === 'langModal') closeLangModal(); });
+        const languageWrap = document.getElementById('languageDropdown');
+        const languageTrigger = document.getElementById('languageDropdownTrigger');
+        const languageMenu = document.getElementById('languageDropdownMenu');
+        languageTrigger?.addEventListener('click', () => {
+          if (languageWrap.classList.contains('is-open')) closeLanguageDropdown();
+          else openLanguageDropdown();
+        });
+        languageMenu?.addEventListener('click', (event) => {
+          const option = event.target.closest('[data-lang-pick]');
+          if (!option) return;
+          const chosen = option.getAttribute('data-lang-pick');
+          setLanguage(chosen, true);
+          closeLanguageDropdown();
+          applyGoogleTranslation(chosen);
+        });
+        languageWrap?.addEventListener('keydown', (event) => {
+          const options = [...languageMenu.querySelectorAll('[data-lang-pick]')];
+          const index = options.indexOf(document.activeElement);
+          if (event.key === 'Escape') { event.preventDefault(); closeLanguageDropdown(true); }
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            if (!languageWrap.classList.contains('is-open')) openLanguageDropdown();
+            const next = event.key === 'ArrowDown'
+              ? (index + 1 + options.length) % options.length
+              : (index <= 0 ? options.length - 1 : index - 1);
+            options[next]?.focus();
+          }
+          if (event.key === 'Home') { event.preventDefault(); options[0]?.focus(); }
+          if (event.key === 'End') { event.preventDefault(); options[options.length - 1]?.focus(); }
+        });
+        document.addEventListener('click', (event) => {
+          if (languageWrap && !languageWrap.contains(event.target)) closeLanguageDropdown();
+        });
+        document.getElementById('footerLangBtn')?.addEventListener('click', () => {
+          languageTrigger?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          openLanguageDropdown();
+        });
 
         document.getElementById('openStudioBtn')?.addEventListener('click', openStudioModal);
         document.getElementById('openStudioMobileBtn')?.addEventListener('click', () => { mobileMenu.classList.add('hidden'); openStudioModal(); });
@@ -2740,7 +3072,7 @@
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
             if (closeMegaMenu) closeMegaMenu(0);
-            closeLangModal();
+            closeLanguageDropdown();
             closeRecipeModal();
             closeJournalModal();
             closeStudioModal();
@@ -2749,5 +3081,6 @@
       });
     })();
   </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body>
 </html>
