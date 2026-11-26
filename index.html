@@ -328,24 +328,58 @@
     .cat-pill:hover { color: #FFFFFF; background: rgba(47, 79, 79, 0.38); border-color: rgba(105, 105, 105, 0.65); }
     .cat-pill.active { color: #000000; background: linear-gradient(135deg, #FFFFFF 0%, #DDE4E4 100%); border-color: #FFFFFF; font-weight: 500; box-shadow: 0 6px 18px -6px rgba(47, 79, 79, 0.7); }
 
-    /* Pagination Buttons */
-    .page-btn {
-      min-width: 38px;
-      height: 38px;
-      padding: 0 12px;
-      border-radius: 9999px;
-      font-size: 12px;
+    /* ===================================================================== */
+    /* MINIMALIST EDITORIAL UNDERLINE PAGINATION (NO CIRCLES / NO BORDERS)   */
+    /* ===================================================================== */
+    .atelier-page-link {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.22s ease;
+      gap: 6px;
+      min-width: 34px;
+      padding: 8px 6px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      color: var(--text-stone);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: color 220ms ease, opacity 220ms ease;
     }
-    .page-btn.is-current {
-      background: linear-gradient(135deg, #FFFFFF 0%, #DDE4E4 100%);
-      color: #000000;
-      border: 1px solid #FFFFFF;
+    .atelier-page-link::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      bottom: 2px;
+      height: 2px;
+      background: #F2F4F3;
+      box-shadow: 0 0 10px rgba(242, 244, 243, 0.45);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+    .atelier-page-link:hover:not(:disabled),
+    .atelier-page-link:focus-visible:not(:disabled) {
+      color: #FFFFFF;
+      outline: none;
+    }
+    .atelier-page-link:hover:not(:disabled)::after,
+    .atelier-page-link:focus-visible:not(:disabled)::after,
+    .atelier-page-link.is-current::after {
+      transform: scaleX(1);
+    }
+    .atelier-page-link.is-current {
+      color: #FFFFFF;
       font-weight: 600;
-      box-shadow: 0 6px 18px -6px rgba(47, 79, 79, 0.75);
+    }
+    .atelier-page-link:disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
     }
 
     /* Cook Mode */
@@ -353,12 +387,28 @@
     .cook-mode-on .cook-dim:hover { opacity: 1; }
     .cook-mode-on .cook-enlarge { font-size: 1.12rem !important; line-height: 1.95 !important; }
 
-    /* Custom Range Scrubber */
-    input[type="range"].atelier-range { -webkit-appearance: none; appearance: none; background: rgba(105, 105, 105, 0.45); height: 4px; border-radius: 4px; outline: none; }
-    input[type="range"].atelier-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #F2F4F3; cursor: pointer; box-shadow: 0 0 0 3px rgba(47, 79, 79, 0.65); transition: transform 0.2s ease; }
-    input[type="range"].atelier-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    /* ===================================================================== */
+    /* PRO YOUTUBE-GRADE CUSTOM STUDIO VIDEO PLAYER                          */
+    /* ===================================================================== */
+    .studio-player-shell {
+      position: relative;
+      background: #000000;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: all 0.3s ease;
+    }
 
-    /* Custom YouTube Player Container (hides native YT chrome cleanly) */
+    .studio-player-shell:fullscreen,
+    .studio-player-shell:-webkit-full-screen {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      border-radius: 0 !important;
+      border: 0 !important;
+      aspect-ratio: auto !important;
+    }
+
     #ytPlayerMount iframe {
       position: absolute;
       inset: 0;
@@ -366,6 +416,123 @@
       height: 100%;
       border: 0;
       pointer-events: none;
+    }
+
+    .player-controls-chrome {
+      transition: opacity 280ms ease, transform 280ms ease;
+    }
+    .studio-player-shell.controls-hidden .player-controls-chrome {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+    }
+    .studio-player-shell.controls-hidden {
+      cursor: none;
+    }
+
+    /* Progress Scrubber (YouTube-style responsive bar) */
+    input[type="range"].studio-scrubber {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      outline: none;
+      cursor: pointer;
+      transition: height 150ms ease;
+    }
+    .studio-scrubber-wrap:hover input[type="range"].studio-scrubber,
+    input[type="range"].studio-scrubber:active {
+      height: 6px;
+    }
+    input[type="range"].studio-scrubber::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(47, 79, 79, 0.8), 0 2px 8px rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+      transition: transform 150ms ease;
+    }
+    input[type="range"].studio-scrubber::-webkit-slider-thumb:hover {
+      transform: scale(1.22);
+    }
+
+    /* Volume Slider */
+    input[type="range"].studio-volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 72px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"].studio-volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      cursor: pointer;
+    }
+
+    .player-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      min-height: 34px;
+      border-radius: 8px;
+      color: rgba(242, 244, 243, 0.88);
+      transition: color 180ms ease, background-color 180ms ease, transform 150ms ease;
+    }
+    .player-icon-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .player-icon-btn:active { transform: scale(0.92); }
+    .player-icon-btn.is-active {
+      color: #FFFFFF;
+      position: relative;
+    }
+    .player-icon-btn.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 7px;
+      right: 7px;
+      height: 2px;
+      background: #F2F4F3;
+      border-radius: 2px;
+    }
+
+    /* Settings Popup inside Video Player */
+    .player-settings-panel {
+      position: absolute;
+      bottom: 62px;
+      right: 14px;
+      width: 224px;
+      max-height: 260px;
+      overflow-y: auto;
+      border-radius: 14px;
+      background: rgba(14, 16, 16, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(105, 105, 105, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+      z-index: 50;
+      padding: 8px;
+    }
+
+    /* Theater mode inside recipe modal */
+    #recipeModalWrapper.is-theater {
+      max-width: 82rem !important;
     }
 
     @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -525,7 +692,7 @@
         <div class="flex items-center gap-1.5 sm:gap-2.5">
           <a href="admin.html" aria-label="Admin Studio" class="btn-glass inline-flex items-center justify-center gap-2 w-9 sm:w-auto px-0 sm:px-4 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium">
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-            <span class="hidden sm:inline" data-i18n="navAddEntry">Add Entry</span>
+            <span class="hidden sm:inline" data-i18n="navAddEntry">Admin Studio</span>
           </a>
 
           <!-- Compact Animated Language Selector -->
@@ -581,7 +748,7 @@
         </div>
         <div class="mobile-nav-row"><a href="#journal" data-nav-target="journal" class="mobile-link nav-link" data-i18n="navJournal">Journal</a></div>
         <div class="mobile-nav-row"><a href="#philosophy" data-nav-target="philosophy" class="mobile-link nav-link" data-i18n="navPhilosophy">Philosophy</a></div>
-        <div class="mobile-nav-row"><a href="admin.html" class="nav-link uppercase tracking-[0.16em]" data-i18n="navAddEntry">Add Entry</a></div>
+        <div class="mobile-nav-row"><a href="admin.html" class="nav-link uppercase tracking-[0.16em]" data-i18n="navAddEntry">Admin Studio</a></div>
       </div>
     </div>
   </header>
@@ -631,29 +798,29 @@
   </section>
 
   <!-- ======================================================================= -->
-  <!-- 3. MASTERCLASSES & RECIPES GRID (CONNECTED TO FIREBASE + PAGINATION)    -->
+  <!-- 3. MASTERCLASSES & RECIPES GRID (FIREBASE + UNDERLINE PAGINATION)       -->
   <!-- ======================================================================= -->
-  <section id="collection" class="relative py-14 sm:py-24 lg:py-28">
+  <section id="collection" class="relative py-12 sm:py-24 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 mb-8 sm:mb-10 hairline-b">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 pb-5 sm:pb-8 mb-6 sm:mb-10 hairline-b">
         <div>
-          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/75 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
-          <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="collectionTitle">Masterclasses &amp; Recipes</h2>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/75 font-medium mb-1.5 sm:mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
+          <h2 class="editorial-serif text-[2rem] sm:text-4xl lg:text-5xl font-normal text-white leading-tight" data-i18n="collectionTitle">Masterclasses &amp; Recipes</h2>
         </div>
 
         <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 py-1"></div>
       </div>
 
-      <div class="flex items-center justify-between text-xs text-stone mb-6 sm:mb-8">
-        <span id="resultsCountText" class="font-medium text-ivory/90">6 Entries</span>
+      <div class="flex items-center justify-between text-xs text-stone mb-5 sm:mb-8">
+        <span id="resultsCountText" class="font-medium text-ivory/90 tracking-wide">6 Entries</span>
         <span class="hidden md:inline" data-i18n="collectionHint">Select any entry for full video, scalable formula, and cook mode</span>
       </div>
 
-      <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-7 gap-y-7 sm:gap-y-11"></div>
+      <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-x-7 sm:gap-y-11"></div>
 
-      <!-- Pagination Bar (Shown automatically when items > 6) -->
-      <nav id="paginationBar" aria-label="Pagination" class="hidden mt-12 sm:mt-14 pt-6 hairline-t flex items-center justify-center gap-2 flex-wrap"></nav>
+      <!-- Editorial Underline Pagination Bar (No circles, clean line under active page) -->
+      <nav id="paginationBar" aria-label="Pagination" class="hidden mt-10 sm:mt-14 pt-6 hairline-t flex items-center justify-center gap-4 sm:gap-6"></nav>
 
       <div id="emptyState" class="hidden py-16 sm:py-20 px-4 text-center card-melt rounded-2xl">
         <p class="editorial-serif text-2xl text-white mb-2" data-i18n="emptyTitle">No matching entries found</p>
@@ -795,7 +962,7 @@
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone text-center sm:text-start">
         <span>&copy; 2026 ATELIER CULINAIRE. All rights reserved.</span>
         <div class="flex items-center gap-6">
-          <a href="admin.html" class="hover:text-white transition-colors uppercase tracking-[0.14em]" data-i18n="navAddEntry">Add Entry</a>
+          <a href="admin.html" class="hover:text-white transition-colors uppercase tracking-[0.14em]" data-i18n="navAddEntry">Admin Studio</a>
           <a href="#top" class="hover:text-white transition-colors uppercase tracking-[0.14em]" data-i18n="footerTop">Top &uarr;</a>
         </div>
       </div>
@@ -803,10 +970,10 @@
   </footer>
 
   <!-- ======================================================================= -->
-  <!-- 8. INTERACTIVE RECIPE & CUSTOM YOUTUBE VIDEO MASTERCLASS MODAL          -->
+  <!-- 8. INTERACTIVE RECIPE & PRO YOUTUBE-GRADE STUDIO VIDEO PLAYER MODAL     -->
   <!-- ======================================================================= -->
   <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto">
-    <div id="recipeModalWrapper" class="animate-reveal modal-melt max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 sm:border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
+    <div id="recipeModalWrapper" class="animate-reveal modal-melt max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 sm:border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl transition-all duration-300">
       <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-3.5 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <button id="closeRecipeModalBtn" aria-label="Close" class="btn-glass w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-stone hover:text-white">
@@ -833,19 +1000,19 @@
         <span data-i18n="cookModeActive">Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.</span>
       </div>
 
-      <div class="p-4 sm:p-8 lg:p-10 space-y-7 sm:space-y-10">
-        <div class="cook-dim space-y-3 sm:space-y-4">
+      <div class="p-4 sm:p-8 lg:p-10 space-y-6 sm:space-y-10">
+        <div class="cook-dim space-y-2.5 sm:space-y-4">
           <h2 id="modalTitle" class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight"></h2>
-          <p id="modalDesc" class="text-sm sm:text-base text-stone font-light leading-relaxed max-w-3xl"></p>
+          <p id="modalDesc" class="text-[13px] sm:text-base text-stone font-light leading-relaxed max-w-3xl"></p>
           <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 text-xs text-stone uppercase tracking-[0.14em]">
             <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span id="modalPrepTime"></span></span>
             <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg><span id="modalDifficulty"></span></span>
           </div>
         </div>
 
-        <!-- Custom Video Player (Supports YouTube Stream + Fallback Poster) -->
+        <!-- PRO YOUTUBE-GRADE STUDIO VIDEO PLAYER (Full-Bleed on Mobile!) -->
         <div class="cook-dim space-y-3 sm:space-y-4">
-          <div class="relative rounded-2xl overflow-hidden bg-black aspect-video hairline-border group">
+          <div id="customVideoPlayer" dir="ltr" class="studio-player-shell -mx-4 sm:mx-0 rounded-none sm:rounded-2xl aspect-video sm:hairline-border border-y border-[#696969]/30 sm:border">
             <!-- YouTube IFrame Mount -->
             <div id="ytPlayerMount" class="absolute inset-0 z-0 hidden"></div>
 
@@ -855,27 +1022,94 @@
             <!-- Clickable Play/Pause Surface -->
             <div id="videoClickSurface" class="absolute inset-0 z-20 cursor-pointer"></div>
 
-            <!-- Center Play Button Overlay -->
-            <div id="videoPosterOverlay" class="absolute inset-0 z-30 bg-black/45 flex items-center justify-center transition-opacity">
-              <button id="videoCenterPlayBtn" aria-label="Play" class="btn-primary w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>
+            <!-- Center Big Play Button Overlay -->
+            <div id="videoPosterOverlay" class="absolute inset-0 z-30 bg-black/45 flex items-center justify-center transition-opacity pointer-events-auto">
+              <button id="videoCenterPlayBtn" type="button" aria-label="Play Video" class="btn-primary w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-2xl">
+                <svg class="w-7 h-7 sm:w-8 sm:h-8 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
               </button>
             </div>
 
-            <!-- Custom Bottom Control Bar -->
-            <div class="absolute bottom-0 inset-x-0 z-40 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 sm:px-6 pb-3.5 sm:pb-4 pt-8 sm:pt-10">
-              <input id="videoScrubber" type="range" min="0" max="100" step="0.2" value="0" class="atelier-range w-full mb-3 cursor-pointer" />
-              <div class="flex items-center justify-between text-xs text-ivory/90">
-                <div class="flex items-center gap-4">
-                  <button id="videoToggleBtn" class="inline-flex items-center gap-2 hover:text-white transition-colors uppercase tracking-wider text-[11px] py-1">
-                    <span id="videoToggleText">Play</span>
-                  </button>
-                  <button id="videoMuteBtn" aria-label="Mute" class="text-stone hover:text-white transition-colors">
-                    <i data-lucide="volume-2" class="w-4 h-4"></i>
-                  </button>
-                  <span id="videoClock" dir="ltr" data-no-translate="true" class="font-mono text-[11px] text-stone">00:00 / 12:00</span>
+            <!-- YouTube-Style Settings Popup (Speed, Quality, Subtitles) -->
+            <div id="playerSettingsPanel" class="player-settings-panel hidden text-xs text-ivory" data-no-translate="true">
+              <div class="space-y-3">
+                <div>
+                  <div class="text-[10px] uppercase tracking-[0.18em] text-stone px-2 py-1">Playback Speed</div>
+                  <div id="speedOptions" class="grid grid-cols-3 gap-1 mt-1">
+                    <button type="button" data-speed="0.5" class="speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">0.5x</button>
+                    <button type="button" data-speed="0.75" class="speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">0.75x</button>
+                    <button type="button" data-speed="1" class="speed-opt py-1.5 rounded-lg bg-ivory text-black font-semibold text-center">1x</button>
+                    <button type="button" data-speed="1.25" class="speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">1.25x</button>
+                    <button type="button" data-speed="1.5" class="speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">1.5x</button>
+                    <button type="button" data-speed="2" class="speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">2x</button>
+                  </div>
                 </div>
-                <span class="hidden sm:inline text-[10px] uppercase tracking-[0.2em] text-stone" data-no-translate="true">4K STUDIO MASTER</span>
+                <div class="pt-2 hairline-t">
+                  <div class="text-[10px] uppercase tracking-[0.18em] text-stone px-2 py-1">Quality</div>
+                  <div id="qualityOptions" class="grid grid-cols-2 gap-1 mt-1">
+                    <button type="button" data-quality="default" class="quality-opt py-1.5 rounded-lg bg-ivory text-black font-semibold text-center">Auto</button>
+                    <button type="button" data-quality="hd1080" class="quality-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">1080p HD</button>
+                    <button type="button" data-quality="hd720" class="quality-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">720p HD</button>
+                    <button type="button" data-quality="large" class="quality-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center">480p</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Control Chrome -->
+            <div class="player-controls-chrome absolute bottom-0 inset-x-0 z-40 bg-gradient-to-t from-black/95 via-black/75 to-transparent px-3 sm:px-5 pb-2.5 sm:pb-3.5 pt-10">
+              <!-- Scrubber -->
+              <div class="studio-scrubber-wrap py-2 -mt-2">
+                <input id="videoScrubber" type="range" min="0" max="100" step="0.1" value="0" class="studio-scrubber" />
+              </div>
+
+              <!-- Controls Row -->
+              <div class="flex items-center justify-between gap-2 text-xs text-ivory">
+                <!-- Left Controls: Play/Pause, -10s, +10s, Volume, Clock -->
+                <div class="flex items-center gap-1 sm:gap-2">
+                  <button id="videoToggleBtn" type="button" aria-label="Play or Pause" class="player-icon-btn">
+                    <svg id="ctrlPlayIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+                    <svg id="ctrlPauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                  </button>
+
+                  <button id="videoBack10Btn" type="button" aria-label="Rewind 10 seconds" title="-10s" class="player-icon-btn text-[11px] font-mono">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/></svg>
+                  </button>
+
+                  <button id="videoFwd10Btn" type="button" aria-label="Forward 10 seconds" title="+10s" class="player-icon-btn text-[11px] font-mono">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"/></svg>
+                  </button>
+
+                  <!-- Volume Mute + Slider -->
+                  <div class="flex items-center gap-1.5 group/vol">
+                    <button id="videoMuteBtn" type="button" aria-label="Mute or Unmute" class="player-icon-btn">
+                      <svg id="volOnIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/></svg>
+                      <svg id="volOffIcon" class="w-4 h-4 hidden text-stone" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/></svg>
+                    </button>
+                    <input id="videoVolumeSlider" type="range" min="0" max="100" value="100" aria-label="Volume" class="studio-volume-slider hidden sm:block" />
+                  </div>
+
+                  <span id="videoClock" dir="ltr" data-no-translate="true" class="font-mono text-[11px] text-ivory/85 ms-1">00:00 / 12:00</span>
+                </div>
+
+                <!-- Right Controls: Subtitles (CC), Settings, Theater, Fullscreen -->
+                <div class="flex items-center gap-0.5 sm:gap-1.5">
+                  <button id="videoCaptionsBtn" type="button" aria-label="Subtitles" title="Subtitles (CC)" class="player-icon-btn">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg>
+                  </button>
+
+                  <button id="videoSettingsBtn" type="button" aria-label="Settings" title="Settings" class="player-icon-btn">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </button>
+
+                  <button id="videoTheaterBtn" type="button" aria-label="Theater Mode" title="Theater Mode" class="player-icon-btn hidden sm:inline-flex">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/></svg>
+                  </button>
+
+                  <button id="videoFullscreenBtn" type="button" aria-label="Fullscreen" title="Fullscreen" class="player-icon-btn">
+                    <svg id="fsEnterIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
+                    <svg id="fsExitIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"/></svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -942,7 +1176,7 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 11. APPLICATION ENGINE + FIREBASE FIRESTORE + CUSTOM YOUTUBE PLAYER     -->
+  <!-- 11. APPLICATION ENGINE + FIREBASE FIRESTORE + PRO YOUTUBE PLAYER        -->
   <!-- ======================================================================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -1013,8 +1247,8 @@
         jumpToMethod: 'Jump to Method', cookMode: 'Cook Mode',
         cookModeActive: 'Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.',
         ingredientsHeading: 'Ingredients', servingsLabel: 'Yield', methodHeading: 'Method', chefNoteLabel: "CHEF'S NOTE",
-        play: 'Play', pause: 'Pause', entriesCount: 'Entries', checkedOf: 'prepared',
-        prevPage: 'Previous', nextPage: 'Next', toastLangChanged: 'Language switched to English.',
+        entriesCount: 'Entries', checkedOf: 'prepared',
+        prevPage: 'Prev', nextPage: 'Next', toastLangChanged: 'Language switched to English.',
         cats: { all: 'All', masterclasses: 'Masterclasses', mains: 'Mains', pastry: 'Pastry', techniques: 'Techniques' },
         diff: { essential: 'Essential', intermediate: 'Intermediate', advanced: 'Advanced' },
         units: { g: 'g', ml: 'ml', tbsp: 'tbsp', tsp: 'tsp', pcs: 'pcs', cup: 'cup', pinch: 'pinch', min: 'min' },
@@ -1052,7 +1286,7 @@
         jumpToMethod: 'پرش به مراحل پخت', cookMode: 'حالت آشپزی',
         cookModeActive: 'حالت آشپزی فعال شد — صفحه نمایش روشن می‌ماند و خوانایی متن افزایش یافت.',
         ingredientsHeading: 'مواد اولیه', servingsLabel: 'نفر', methodHeading: 'مراحل اجرا', chefNoteLabel: 'یادداشت سرآشپز',
-        play: 'پخش', pause: 'توقف', entriesCount: 'مورد', checkedOf: 'آماده شده',
+        entriesCount: 'مورد', checkedOf: 'آماده شده',
         prevPage: 'قبلی', nextPage: 'بعدی', toastLangChanged: 'زبان سایت به فارسی تغییر یافت.',
         cats: { all: 'همه', masterclasses: 'مسترکلاس‌ها', mains: 'غذاهای اصلی', pastry: 'شیرینی‌پزی', techniques: 'تکنیک‌ها' },
         diff: { essential: 'پایه', intermediate: 'متوسط', advanced: 'پیشرفته' },
@@ -1091,7 +1325,7 @@
         jumpToMethod: 'Zur Zubereitung', cookMode: 'Kochmodus',
         cookModeActive: 'Kochmodus aktiv — Bildschirm bleibt wach und Typografie ist vergrößert.',
         ingredientsHeading: 'Zutaten', servingsLabel: 'Portionen', methodHeading: 'Zubereitung', chefNoteLabel: 'HINWEIS DES CHEFS',
-        play: 'Abspielen', pause: 'Pause', entriesCount: 'Einträge', checkedOf: 'vorbereitet',
+        entriesCount: 'Einträge', checkedOf: 'vorbereitet',
         prevPage: 'Zurück', nextPage: 'Weiter', toastLangChanged: 'Sprache auf Deutsch umgestellt.',
         cats: { all: 'Alle', masterclasses: 'Meisterklassen', mains: 'Hauptgerichte', pastry: 'Patisserie', techniques: 'Techniken' },
         diff: { essential: 'Basis', intermediate: 'Mittel', advanced: 'Anspruchsvoll' },
@@ -1468,18 +1702,20 @@
     let langDropdown = null;
     let wakeLockSentinel = null;
 
-    /* --- Custom YouTube Player + Fallback Timer State --- */
+    /* --- Pro Video Player State --- */
     let ytApiReady = false;
     let ytPlayer = null;
     let ytSyncInterval = null;
-    let ytIsMuted = false;
+    let controlsHideTimer = null;
     let videoPlaying = false;
     let videoSeconds = 0;
+    let videoVolume = 100;
+    let videoMuted = false;
+    let captionsEnabled = false;
+    let currentSpeed = 1;
     let videoInterval = null;
 
-    window.onYouTubeIframeAPIReady = () => {
-      ytApiReady = true;
-    };
+    window.onYouTubeIframeAPIReady = () => { ytApiReady = true; };
 
     function t(key) {
       const dict = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
@@ -1525,7 +1761,6 @@
           id: docSnap.id,
           ...docSnap.data(),
         }));
-        // Combine Firestore recipes (newest first) + default recipes
         recipes = [...firestoreRecipes, ...DEFAULT_RECIPES];
         renderRecipeGrid();
         AutoTranslator.translateNode(document.getElementById('recipeGrid'));
@@ -1577,7 +1812,7 @@
       });
     }
 
-    /* --- Recipes Grid + 6-Per-Page Pagination --- */
+    /* --- Recipes Grid + Accurate Count + Underline Pagination --- */
     function renderRecipeGrid() {
       const grid = document.getElementById('recipeGrid');
       const empty = document.getElementById('emptyState');
@@ -1593,8 +1828,8 @@
         return catMatch && searchMatch;
       });
 
-      countEl.textContent = `${filtered.length} ${t('entriesCount')}`;
       if (filtered.length === 0) {
+        countEl.textContent = `0 ${t('entriesCount')}`;
         grid.innerHTML = '';
         empty.classList.remove('hidden');
         paginationBar.classList.add('hidden');
@@ -1609,22 +1844,32 @@
 
       const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
       const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+      const shownStart = startIdx + 1;
+      const shownEnd = startIdx + pageItems.length;
+
+      // Clear & accurate count: shows exact range on current page when paginated
+      countEl.textContent = totalPages > 1
+        ? `${shownStart}–${shownEnd} / ${filtered.length} ${t('entriesCount')}`
+        : `${filtered.length} ${t('entriesCount')}`;
 
       grid.innerHTML = pageItems.map((r) => {
         const loc = getLocalizedRecipe(r);
         const safeImg = isSafeUrl(r.image) ? escapeHTML(r.image) : '';
         return `
-          <article data-recipe-id="${escapeHTML(r.id)}" class="recipe-card card-melt group cursor-pointer flex flex-col rounded-2xl p-3">
-            <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-black mb-3.5 sm:mb-4">
-              ${safeImg ? `<img src="${safeImg}" alt="${escapeHTML(loc.title)}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100" />` : ''}
-              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent"></div>
-              <div class="absolute top-3 end-3 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
-                <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>
+          <article data-recipe-id="${escapeHTML(r.id)}" class="recipe-card card-melt group cursor-pointer flex flex-col rounded-2xl p-3 sm:p-3">
+            <div class="relative aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden bg-black mb-3.5 sm:mb-4">
+              ${safeImg ? `<img src="${safeImg}" alt="${escapeHTML(loc.title)}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-95 group-hover:opacity-100" />` : ''}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent"></div>
+              <div class="absolute top-2.5 end-2.5 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
+                <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
                 <span>${escapeHTML(r.duration || '15:00')}</span>
               </div>
-              <div class="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-ivory/90">
-                <span>${escapeHTML(getCategoryLabel(r.category))}</span>
-                <span>${escapeHTML(r.prepMin)} ${escapeHTML(getUnitLabel('min'))}</span>
+              <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-ivory/95">
+                <span class="px-2 py-0.5 rounded bg-black/55 backdrop-blur-sm">${escapeHTML(getCategoryLabel(r.category))}</span>
+                <span class="inline-flex items-center gap-1">
+                  <svg class="w-3 h-3 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  ${escapeHTML(r.prepMin)} ${escapeHTML(getUnitLabel('min'))}
+                </span>
               </div>
             </div>
             <div class="px-1.5 pb-1.5 space-y-2 flex-1 flex flex-col">
@@ -1632,8 +1877,8 @@
                 <span>${escapeHTML(getDiffLabel(r.difficulty))}</span>
                 <span class="text-stone">${escapeHTML(r.baseServings)} ${escapeHTML(t('servingsLabel'))}</span>
               </div>
-              <h3 class="editorial-serif text-xl sm:text-2xl font-normal text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
-              <p class="text-xs text-stone font-light leading-relaxed line-clamp-2">${escapeHTML(loc.desc)}</p>
+              <h3 class="editorial-serif text-[1.35rem] sm:text-2xl font-normal text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
+              <p class="text-[13px] sm:text-xs text-stone font-light leading-relaxed line-clamp-2">${escapeHTML(loc.desc)}</p>
             </div>
           </article>
         `;
@@ -1646,14 +1891,16 @@
         });
       });
 
-      /* Render Pagination Controls if > 1 page */
+      /* Minimalist Underline Pagination (No Circles / No Borders) */
       if (totalPages > 1) {
         paginationBar.classList.remove('hidden');
-        let html = `<button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} class="page-btn btn-glass px-4 gap-1.5">${escapeHTML(t('prevPage'))}</button>`;
+        let html = `<button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} class="atelier-page-link text-xs uppercase">${escapeHTML(t('prevPage'))}</button>`;
+        html += `<div class="flex items-center gap-3 sm:gap-5">`;
         for (let p = 1; p <= totalPages; p++) {
-          html += `<button type="button" data-page="${p}" data-no-translate="true" class="page-btn ${p === currentPage ? 'is-current' : 'btn-glass'}">${p}</button>`;
+          html += `<button type="button" data-page="${p}" data-no-translate="true" aria-current="${p === currentPage ? 'page' : 'false'}" class="atelier-page-link font-mono ${p === currentPage ? 'is-current' : ''}">${p}</button>`;
         }
-        html += `<button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} class="page-btn btn-glass px-4 gap-1.5">${escapeHTML(t('nextPage'))}</button>`;
+        html += `</div>`;
+        html += `<button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} class="atelier-page-link text-xs uppercase">${escapeHTML(t('nextPage'))}</button>`;
         paginationBar.innerHTML = html;
 
         paginationBar.querySelectorAll('button[data-page]').forEach((btn) => {
@@ -1714,7 +1961,45 @@
     }
     function closeJournalModal() { document.getElementById('journalModal').classList.add('hidden'); document.body.style.overflow = ''; }
 
-    /* --- Custom YouTube Player & Modal Controller --- */
+    /* ===================================================================== */
+    /* PRO YOUTUBE-GRADE STUDIO VIDEO PLAYER CONTROLLER                      */
+    /* ===================================================================== */
+    const playerShell = document.getElementById('customVideoPlayer');
+    const settingsPanel = document.getElementById('playerSettingsPanel');
+
+    function showPlayerControlsTemporarily() {
+      if (!playerShell) return;
+      playerShell.classList.remove('controls-hidden');
+      clearTimeout(controlsHideTimer);
+      if (videoPlaying && settingsPanel.classList.contains('hidden')) {
+        controlsHideTimer = setTimeout(() => {
+          if (videoPlaying && settingsPanel.classList.contains('hidden')) {
+            playerShell.classList.add('controls-hidden');
+          }
+        }, 3000);
+      }
+    }
+
+    function updateVolumeUI() {
+      const isMutedNow = videoMuted || videoVolume === 0;
+      document.getElementById('volOnIcon')?.classList.toggle('hidden', isMutedNow);
+      document.getElementById('volOffIcon')?.classList.toggle('hidden', !isMutedNow);
+      const slider = document.getElementById('videoVolumeSlider');
+      if (slider) {
+        const val = isMutedNow ? 0 : videoVolume;
+        slider.value = val;
+        slider.style.background = `linear-gradient(to right, #FFFFFF ${val}%, rgba(255,255,255,0.25) ${val}%)`;
+      }
+    }
+
+    function updateScrubberFill(pct) {
+      const scrubber = document.getElementById('videoScrubber');
+      if (!scrubber) return;
+      const clamped = Math.max(0, Math.min(100, pct));
+      scrubber.value = clamped;
+      scrubber.style.background = `linear-gradient(to right, #FFFFFF ${clamped}%, rgba(255,255,255,0.24) ${clamped}%)`;
+    }
+
     function destroyYouTubePlayer() {
       if (ytSyncInterval) { clearInterval(ytSyncInterval); ytSyncInterval = null; }
       if (ytPlayer && typeof ytPlayer.destroy === 'function') {
@@ -1723,8 +2008,8 @@
       ytPlayer = null;
       const mount = document.getElementById('ytPlayerMount');
       if (mount) { mount.innerHTML = ''; mount.classList.add('hidden'); }
-      const poster = document.getElementById('modalVideoPoster');
-      if (poster) poster.classList.remove('opacity-0', 'pointer-events-none');
+      document.getElementById('modalVideoPoster')?.classList.remove('opacity-0', 'pointer-events-none');
+      playerShell?.classList.remove('controls-hidden');
     }
 
     function mountYouTubePlayer(youtubeId, autoplay = false) {
@@ -1747,10 +2032,13 @@
             iv_load_policy: 3,
             playsinline: 1,
             disablekb: 1,
+            cc_load_policy: captionsEnabled ? 1 : 0,
           },
           events: {
             onReady: (e) => {
-              if (ytIsMuted) e.target.mute();
+              e.target.setVolume(videoVolume);
+              if (videoMuted) e.target.mute();
+              e.target.setPlaybackRate(currentSpeed);
               const dur = e.target.getDuration();
               if (dur > 0 && activeRecipe) activeRecipe.durationSec = Math.floor(dur);
               updateVideoDisplay();
@@ -1760,8 +2048,10 @@
                 videoPlaying = true;
                 document.getElementById('modalVideoPoster')?.classList.add('opacity-0', 'pointer-events-none');
                 startYouTubeSync();
+                showPlayerControlsTemporarily();
               } else if (e.data === window.YT.PlayerState.PAUSED || e.data === window.YT.PlayerState.ENDED) {
                 videoPlaying = false;
+                playerShell?.classList.remove('controls-hidden');
                 if (e.data === window.YT.PlayerState.ENDED) {
                   videoSeconds = 0;
                   document.getElementById('modalVideoPoster')?.classList.remove('opacity-0', 'pointer-events-none');
@@ -1796,7 +2086,34 @@
           if (dur > 0 && activeRecipe) activeRecipe.durationSec = dur;
           updateVideoDisplay();
         }
-      }, 400);
+      }, 350);
+    }
+
+    function seekRelative(deltaSec) {
+      if (!activeRecipe) return;
+      const total = activeRecipe.durationSec || 600;
+      const next = Math.max(0, Math.min(total, videoSeconds + deltaSec));
+      videoSeconds = next;
+      if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+        ytPlayer.seekTo(next, true);
+      }
+      updateVideoDisplay();
+      showPlayerControlsTemporarily();
+    }
+
+    function toggleCaptions() {
+      captionsEnabled = !captionsEnabled;
+      document.getElementById('videoCaptionsBtn')?.classList.toggle('is-active', captionsEnabled);
+      if (ytPlayer) {
+        try {
+          if (captionsEnabled) {
+            ytPlayer.loadModule('captions');
+            ytPlayer.setOption('captions', 'track', { languageCode: currentLang.split('-')[0] });
+          } else {
+            ytPlayer.unloadModule('captions');
+          }
+        } catch {}
+      }
     }
 
     function openRecipeModal(recipe) {
@@ -1806,7 +2123,11 @@
       stopVideo();
       destroyYouTubePlayer();
       videoSeconds = 0;
+      captionsEnabled = false;
+      document.getElementById('videoCaptionsBtn')?.classList.remove('is-active');
+      settingsPanel?.classList.add('hidden');
       populateRecipeModal(recipe, true);
+      updateVolumeUI();
       const modal = document.getElementById('recipeModal');
       modal.classList.remove('hidden');
       modal.scrollTop = 0;
@@ -1905,11 +2226,13 @@
     }
 
     function closeRecipeModal() {
+      if (document.fullscreenElement) { try { document.exitFullscreen(); } catch {} }
       stopVideo();
       destroyYouTubePlayer();
       releaseWakeLock();
       const cb = document.getElementById('cookModeCheckbox');
       if (cb && cb.checked) { cb.checked = false; setCookMode(false); }
+      document.getElementById('recipeModalWrapper')?.classList.remove('is-theater');
       document.getElementById('recipeModal').classList.add('hidden');
       document.body.style.overflow = '';
     }
@@ -1917,9 +2240,11 @@
     function updateVideoDisplay() {
       if (!activeRecipe) return;
       const total = activeRecipe.durationSec || 600;
-      document.getElementById('videoScrubber').value = Math.min(100, (videoSeconds / total) * 100);
+      const pct = Math.min(100, (videoSeconds / total) * 100);
+      updateScrubberFill(pct);
       document.getElementById('videoClock').textContent = `${formatClock(videoSeconds)} / ${formatClock(total)}`;
-      document.getElementById('videoToggleText').textContent = videoPlaying ? t('pause') : t('play');
+      document.getElementById('ctrlPlayIcon')?.classList.toggle('hidden', videoPlaying);
+      document.getElementById('ctrlPauseIcon')?.classList.toggle('hidden', !videoPlaying);
       const overlay = document.getElementById('videoPosterOverlay');
       overlay.classList.toggle('opacity-0', videoPlaying);
       overlay.classList.toggle('pointer-events-none', videoPlaying);
@@ -1927,6 +2252,7 @@
 
     function toggleVideo() {
       if (!activeRecipe) return;
+      settingsPanel?.classList.add('hidden');
       if (activeRecipe.youtubeId) {
         if (!ytPlayer) {
           mountYouTubePlayer(activeRecipe.youtubeId, true);
@@ -1940,6 +2266,7 @@
       if (videoPlaying) { stopVideo(); } else {
         videoPlaying = true;
         updateVideoDisplay();
+        showPlayerControlsTemporarily();
         videoInterval = setInterval(() => {
           videoSeconds += 1;
           if (videoSeconds >= (activeRecipe.durationSec || 600)) { videoSeconds = 0; stopVideo(); }
@@ -2078,30 +2405,107 @@
       document.getElementById('incServingsBtn')?.addEventListener('click', () => { if (currentServings < 24) { currentServings += 1; renderModalIngredients(); AutoTranslator.translateNode(document.getElementById('ingredientsList')); } });
       document.getElementById('decServingsBtn')?.addEventListener('click', () => { if (currentServings > 1) { currentServings -= 1; renderModalIngredients(); AutoTranslator.translateNode(document.getElementById('ingredientsList')); } });
 
+      /* --- Pro Video Player Event Listeners --- */
+      playerShell?.addEventListener('mousemove', showPlayerControlsTemporarily);
+      playerShell?.addEventListener('touchstart', showPlayerControlsTemporarily, { passive: true });
+
       document.getElementById('videoCenterPlayBtn')?.addEventListener('click', toggleVideo);
       document.getElementById('videoToggleBtn')?.addEventListener('click', toggleVideo);
-      document.getElementById('videoClickSurface')?.addEventListener('click', toggleVideo);
-      document.getElementById('videoMuteBtn')?.addEventListener('click', () => {
-        ytIsMuted = !ytIsMuted;
-        if (ytPlayer) { ytIsMuted ? ytPlayer.mute() : ytPlayer.unMute(); }
+      document.getElementById('videoClickSurface')?.addEventListener('click', () => {
+        if (!settingsPanel.classList.contains('hidden')) { settingsPanel.classList.add('hidden'); return; }
+        toggleVideo();
       });
+      document.getElementById('videoBack10Btn')?.addEventListener('click', () => seekRelative(-10));
+      document.getElementById('videoFwd10Btn')?.addEventListener('click', () => seekRelative(10));
+
+      document.getElementById('videoMuteBtn')?.addEventListener('click', () => {
+        videoMuted = !videoMuted;
+        if (ytPlayer) { videoMuted ? ytPlayer.mute() : ytPlayer.unMute(); }
+        updateVolumeUI();
+      });
+      document.getElementById('videoVolumeSlider')?.addEventListener('input', (e) => {
+        videoVolume = Number(e.target.value);
+        videoMuted = videoVolume === 0;
+        if (ytPlayer) {
+          ytPlayer.setVolume(videoVolume);
+          videoMuted ? ytPlayer.mute() : ytPlayer.unMute();
+        }
+        updateVolumeUI();
+      });
+
       document.getElementById('videoScrubber')?.addEventListener('input', (e) => {
         if (!activeRecipe) return;
-        const sec = Math.floor((Number(e.target.value) / 100) * (activeRecipe.durationSec || 600));
+        const pct = Number(e.target.value);
+        const sec = Math.floor((pct / 100) * (activeRecipe.durationSec || 600));
         videoSeconds = sec;
         if (ytPlayer && typeof ytPlayer.seekTo === 'function') ytPlayer.seekTo(sec, true);
         updateVideoDisplay();
+      });
+
+      document.getElementById('videoCaptionsBtn')?.addEventListener('click', toggleCaptions);
+
+      document.getElementById('videoSettingsBtn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsPanel.classList.toggle('hidden');
+      });
+
+      document.querySelectorAll('.speed-opt').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentSpeed = Number(btn.getAttribute('data-speed')) || 1;
+          if (ytPlayer && typeof ytPlayer.setPlaybackRate === 'function') ytPlayer.setPlaybackRate(currentSpeed);
+          document.querySelectorAll('.speed-opt').forEach((b) => {
+            const active = b === btn;
+            b.className = active ? 'speed-opt py-1.5 rounded-lg bg-ivory text-black font-semibold text-center' : 'speed-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center';
+          });
+        });
+      });
+
+      document.querySelectorAll('.quality-opt').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const q = btn.getAttribute('data-quality') || 'default';
+          if (ytPlayer && typeof ytPlayer.setPlaybackQuality === 'function') ytPlayer.setPlaybackQuality(q);
+          document.querySelectorAll('.quality-opt').forEach((b) => {
+            const active = b === btn;
+            b.className = active ? 'quality-opt py-1.5 rounded-lg bg-ivory text-black font-semibold text-center' : 'quality-opt py-1.5 rounded-lg bg-white/[0.04] hover:bg-[#2F4F4F]/50 text-center';
+          });
+        });
+      });
+
+      document.getElementById('videoTheaterBtn')?.addEventListener('click', () => {
+        document.getElementById('recipeModalWrapper')?.classList.toggle('is-theater');
+      });
+
+      document.getElementById('videoFullscreenBtn')?.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          (playerShell.requestFullscreen || playerShell.webkitRequestFullscreen)?.call(playerShell);
+        } else {
+          (document.exitFullscreen || document.webkitExitFullscreen)?.call(document);
+        }
+      });
+
+      document.addEventListener('fullscreenchange', () => {
+        const isFs = Boolean(document.fullscreenElement);
+        document.getElementById('fsEnterIcon')?.classList.toggle('hidden', isFs);
+        document.getElementById('fsExitIcon')?.classList.toggle('hidden', !isFs);
       });
 
       document.getElementById('closeJournalModalBtn')?.addEventListener('click', closeJournalModal);
       document.getElementById('journalModal')?.addEventListener('click', (e) => { if (e.target.id === 'journalModal') closeJournalModal(); });
 
       document.addEventListener('keydown', (e) => {
+        const modalOpen = !document.getElementById('recipeModal').classList.contains('hidden');
         if (e.key === 'Escape') {
           if (closeMegaMenu) closeMegaMenu(0);
           langDropdown?.close(true);
+          if (!settingsPanel.classList.contains('hidden')) { settingsPanel.classList.add('hidden'); return; }
           closeRecipeModal();
           closeJournalModal();
+        } else if (modalOpen && document.activeElement?.tagName !== 'INPUT') {
+          if (e.key === ' ' || e.key.toLowerCase() === 'k') { e.preventDefault(); toggleVideo(); }
+          else if (e.key.toLowerCase() === 'm') { document.getElementById('videoMuteBtn')?.click(); }
+          else if (e.key.toLowerCase() === 'f') { document.getElementById('videoFullscreenBtn')?.click(); }
+          else if (e.key === 'ArrowRight') { seekRelative(5); }
+          else if (e.key === 'ArrowLeft') { seekRelative(-5); }
         }
       });
     });
