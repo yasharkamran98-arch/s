@@ -64,6 +64,13 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: transparent;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    @media (max-width: 767px) {
+      body {
+        background-attachment: scroll;
+      }
     }
 
     .editorial-serif {
@@ -171,6 +178,7 @@
       position: absolute;
       inset: 0 0 auto 0;
       z-index: 40;
+      padding-top: env(safe-area-inset-top);
       background: transparent;
       border: 0 !important;
       box-shadow: none !important;
@@ -198,14 +206,14 @@
       color: #FFFFFF;
     }
     @media (max-width: 767px) {
-      .atelier-hero-header::before { height: 170px; }
+      .atelier-hero-header::before { height: 150px; }
     }
 
     /* Mobile nav text-width center-out underline wrapper */
     .mobile-nav-row {
       display: flex;
       align-items: center;
-      padding: 10px 4px;
+      padding: 11px 4px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -237,13 +245,13 @@
       position: absolute;
       top: calc(100% + 10px);
       inset-inline-end: 0;
-      min-width: 172px;
+      min-width: 164px;
       padding: 6px;
       border-radius: 14px;
-      background: rgba(19, 21, 25, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.07);
+      background: rgba(19, 21, 25, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
       z-index: 60;
       overflow: hidden;
       max-height: 0;
@@ -278,7 +286,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 9px 12px;
+      padding: 10px 12px;
       border: 0;
       border-radius: 10px;
       background: transparent;
@@ -413,7 +421,7 @@
 
     /* Tactile Modern Buttons */
     .btn-glass {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.14);
       color: var(--text-ivory);
       transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
@@ -464,7 +472,7 @@
     /* Cook Mode */
     .cook-mode-on .cook-dim { opacity: 0.28; transition: opacity 0.3s ease; }
     .cook-mode-on .cook-dim:hover { opacity: 1; }
-    .cook-mode-on .cook-enlarge { font-size: 1.15rem !important; line-height: 2 !important; }
+    .cook-mode-on .cook-enlarge { font-size: 1.12rem !important; line-height: 1.95 !important; }
 
     /* Custom Range Scrubber */
     input[type="range"].atelier-range {
@@ -502,7 +510,6 @@
 
     /* =====================================================================
        FULL-BLEED RESPONSIVE VIDEO BACKGROUNDS
-       Keep the complete source frame visible without distortion or zoom.
        ===================================================================== */
     .atelier-video-section {
       position: relative;
@@ -559,8 +566,6 @@
       filter: brightness(.70) saturate(.68) contrast(.96);
     }
 
-    /* Remove the previous heavy gradient layers. The site's own charcoal
-       background fills any aspect-ratio space without cropping the footage. */
     .atelier-video-section > .absolute.inset-0:first-child > .absolute.inset-0 {
       display: none !important;
     }
@@ -571,24 +576,7 @@
       z-index: 1;
       inset: 0;
       pointer-events: none;
-      /* A restrained tint keeps foreground text readable while preserving
-         the footage's original color and detail. */
-      background: rgba(5, 6, 8, .60);
-    }
-
-    .atelier-video-hero {
-      min-height: clamp(680px, 94svh, 1120px);
-      border: 0 !important;
-    }
-
-    #heroBgVideo {
-      object-position: center 34%;
-    }
-
-    .atelier-video-interlude {
-      min-height: clamp(460px, 72vh, 860px);
-      margin-block: 0;
-      border: 0 !important;
+      background: rgba(5, 6, 8, .58);
     }
 
     .atelier-video-section > button,
@@ -597,19 +585,79 @@
       z-index: 3;
     }
 
+    /* Seamless video-to-page blending */
+    #top,
+    #studio-reel {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: #050608;
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+    }
+    #top::before,
+    #studio-reel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, #050608 0%, rgba(5,6,8,.42) 9%, transparent 25%, transparent 74%, rgba(5,6,8,.62) 91%, #050608 100%),
+        linear-gradient(90deg, rgba(5,6,8,.42) 0%, transparent 10%, transparent 90%, rgba(5,6,8,.42) 100%);
+    }
+    #top::after,
+    #studio-reel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 110px 34px rgba(5,6,8,.42);
+    }
+    #heroBgVideo,
+    #interludeBgVideo {
+      border: 0 !important;
+      outline: 0 !important;
+      box-shadow: none !important;
+    }
+
+    /* Responsive Vertical Room for Desktop & Mobile */
+    #top {
+      min-height: clamp(760px, 100svh, 1200px) !important;
+      height: auto !important;
+    }
+    #heroBgVideo {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center 34% !important;
+    }
+    #studio-reel {
+      min-height: clamp(500px, 78vh, 960px) !important;
+      height: auto !important;
+    }
+    #interludeBgVideo {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+
     @media (max-width: 767px) {
-      .atelier-video-hero {
-        min-height: 88svh;
-      }
-      .atelier-video-interlude {
-        min-height: 60svh;
-      }
-      .atelier-video-section .atelier-bg-video {
-        object-fit: cover;
-        object-position: center center;
+      #top {
+        min-height: 92svh !important;
       }
       #heroBgVideo {
-        object-position: center 28%;
+        object-position: center 28% !important;
+      }
+      #studio-reel {
+        min-height: 58svh !important;
+      }
+      #top::after,
+      #studio-reel::after {
+        box-shadow: inset 0 0 60px 18px rgba(5,6,8,.45);
       }
     }
 
@@ -618,86 +666,7 @@
         transform: none !important;
       }
     }
-  
-/* Seamless video-to-page blending */
-#top,
-#studio-reel {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: #050608;
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-#top::before,
-#studio-reel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, #050608 0%, rgba(5,6,8,.42) 9%, transparent 25%, transparent 74%, rgba(5,6,8,.58) 91%, #050608 100%),
-    linear-gradient(90deg, rgba(5,6,8,.42) 0%, transparent 10%, transparent 90%, rgba(5,6,8,.42) 100%);
-}
-#top::after,
-#studio-reel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  box-shadow: inset 0 0 110px 34px rgba(5,6,8,.42);
-}
-#heroBgVideo,
-#interludeBgVideo {
-  border:  0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-
-/* Give both video scenes more vertical room so the footage reads more completely */
-#top {
-  min-height: clamp(820px, 112svh, 1320px) !important;
-  height: auto !important;
-}
-#heroBgVideo {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: clamp(820px, 112svh, 1320px) !important;
-  object-fit: cover !important;
-  object-position: center 34% !important;
-}
-#studio-reel {
-  min-height: clamp(560px, 86vh, 1020px) !important;
-  height: auto !important;
-}
-#interludeBgVideo {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: clamp(560px, 86vh, 1020px) !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-}
-@media (max-width: 700px) {
-  #top {
-    min-height: 98svh !important;
-  }
-  #heroBgVideo {
-    min-height: 98svh !important;
-    object-position: center 30% !important;
-  }
-  #studio-reel {
-    min-height: 72vh !important;
-  }
-  #interludeBgVideo {
-    min-height: 72vh !important;
-  }
-}
-
-</style>
+  </style>
 </head>
 <body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
 
@@ -706,11 +675,11 @@
   <!-- ======================================================================= -->
   <header class="atelier-hero-header">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-3">
 
         <!-- Brand Signature Emblem + Wordmark -->
-        <a href="#top" class="flex items-center gap-3 group focus:outline-none shrink-0">
-          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden ring-1 ring-white/35 group-hover:ring-white shadow-lg bg-obsidian shrink-0 transition-all duration-300">
+        <a href="#top" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none shrink-0">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden ring-1 ring-white/35 group-hover:ring-white shadow-lg bg-obsidian shrink-0 transition-all duration-300">
             <img
               src="photos/logo.jpg"
               alt="Signature Culinary Seal"
@@ -718,7 +687,7 @@
             />
           </div>
           <div class="flex items-baseline gap-2.5">
-            <span data-no-translate="true" class="editorial-serif text-xl sm:text-2xl lg:text-3xl font-medium tracking-[0.16em] sm:tracking-[0.22em] text-ivory uppercase">ATELIER</span>
+            <span data-no-translate="true" class="editorial-serif text-lg sm:text-2xl lg:text-3xl font-medium tracking-[0.16em] sm:tracking-[0.22em] text-ivory uppercase">ATELIER</span>
             <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.26em] text-stone group-hover:text-white transition-colors" data-i18n="brandSubtitle">CULINAIRE</span>
           </div>
         </a>
@@ -899,11 +868,11 @@
         </nav>
 
         <!-- Right Controls: Chef Studio + Compact Animated Language Dropdown -->
-        <div class="flex items-center gap-2 sm:gap-2.5">
+        <div class="flex items-center gap-1.5 sm:gap-2.5">
           <button
             id="openStudioBtn"
             aria-label="Add Entry"
-            class="btn-glass inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium"
+            class="btn-glass inline-flex items-center justify-center gap-2 w-9 sm:w-auto px-0 sm:px-4 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium"
           >
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -919,9 +888,9 @@
               aria-label="Select Language"
               aria-haspopup="listbox"
               aria-expanded="false"
-              class="btn-glass inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-white/80"
+              class="btn-glass inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-white/80"
             >
-              <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a13.5 13.5 0 013.6 9 13.5 13.5 0 01-3.6 9 13.5 13.5 0 01-3.6-9A13.5 13.5 0 0112 3z" />
               </svg>
@@ -945,10 +914,10 @@
         </div>
       </div>
 
-      <!-- Mobile Dropdown Menu (Opaque Dark Surface — Fixed Readability Bug) -->
+      <!-- Mobile Dropdown Menu -->
       <div
         id="mobileMenu"
-        class="hidden md:hidden relative z-50 mt-2 px-4 pb-5 pt-3 rounded-2xl bg-[#0B0C0E]/95 backdrop-blur-xl border border-white/15 shadow-2xl space-y-1 text-xs uppercase tracking-[0.16em] max-h-[82dvh] overflow-y-auto"
+        class="hidden md:hidden relative z-50 mt-2 px-4 pb-5 pt-3 rounded-2xl bg-[#0B0C0E]/95 backdrop-blur-xl border border-white/15 shadow-2xl space-y-1 text-xs uppercase tracking-[0.16em] max-h-[80dvh] overflow-y-auto"
       >
         <div class="mobile-nav-row">
           <a href="#collection" data-nav-target="collection" class="mobile-link nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
@@ -967,7 +936,7 @@
             </button>
           </div>
 
-          <!-- Mobile Expanded Mega Content (Solid Charcoal Surface) -->
+          <!-- Mobile Expanded Mega Content -->
           <div
             id="mobileCuisinesList"
             class="hidden mt-2 p-3 rounded-xl bg-[#131519] border border-white/10 space-y-4 normal-case tracking-normal"
@@ -1045,7 +1014,7 @@
   <!-- ======================================================================= -->
   <!-- 2. EDITORIAL HERO WITH FIRST BACKGROUND VIDEO (video.mp4)               -->
   <!-- ======================================================================= -->
-  <section id="top" class="atelier-video-section atelier-video-hero relative min-h-[82svh] sm:min-h-[80vh] flex items-end pb-14 sm:pb-20 lg:pb-24 pt-20 sm:pt-24 overflow-hidden">
+  <section id="top" class="atelier-video-section atelier-video-hero relative flex items-end pb-10 sm:pb-20 lg:pb-24 pt-24 sm:pt-28 overflow-hidden">
     <div class="absolute inset-0 z-0 overflow-hidden bg-obsidian">
       <video
         id="heroBgVideo"
@@ -1062,7 +1031,7 @@
         <img
           src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85"
           alt="Fine Dining Plating"
-          class="w-full h-full object-contain object-center"
+          class="w-full h-full object-cover object-center"
         />
       </video>
 
@@ -1070,35 +1039,22 @@
       <div class="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-obsidian/40 to-transparent"></div>
     </div>
 
-    <button
-      id="heroVideoToggleBtn"
-      aria-label="Toggle Background Video"
-      class="absolute top-20 end-4 sm:top-24 sm:end-8 z-20 btn-glass w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-white"
-    >
-      <svg id="heroVideoPauseIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-      </svg>
-      <svg id="heroVideoPlayIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-      </svg>
-    </button>
-
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-      <div class="max-w-3xl space-y-6">
-        <div class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-white/80 font-medium">
-          <span class="w-7 h-[1.5px] bg-white/80 shrink-0"></span>
+      <div class="max-w-3xl space-y-4 sm:space-y-6">
+        <div class="inline-flex items-center gap-2.5 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-white/80 font-medium">
+          <span class="w-6 sm:w-7 h-[1.5px] bg-white/80 shrink-0"></span>
           <span data-i18n="heroEyebrow">PRIVATE CULINARY ARCHIVE</span>
         </div>
 
-        <h1 class="editorial-serif text-[2.35rem] sm:text-5xl md:text-6xl lg:text-[4.6rem] font-normal leading-[1.1] text-white" data-i18n="heroTitle">
+        <h1 class="editorial-serif text-[2.1rem] sm:text-5xl md:text-6xl lg:text-[4.6rem] font-normal leading-[1.14] sm:leading-[1.1] text-white" data-i18n="heroTitle">
           Precision, Restraint, and the Architecture of Flavor.
         </h1>
 
-        <p class="text-sm sm:text-base text-stone max-w-xl leading-relaxed font-light" data-i18n="heroSubtitle">
+        <p class="text-[13px] sm:text-base text-ivory/80 sm:text-stone max-w-xl leading-relaxed font-light" data-i18n="heroSubtitle">
           An international collection of filmed masterclasses, foundational techniques, and seasonal compositions from the studio kitchen.
         </p>
 
-        <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 max-w-2xl">
+        <div class="pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 max-w-2xl">
           <div class="flex-1 flex items-center gap-3 px-4 h-12 sm:h-[52px] rounded-full glass-surface focus-within:border-white/70 transition-colors">
             <svg class="w-4 h-4 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -1134,26 +1090,26 @@
   <!-- ======================================================================= -->
   <!-- 3. MASTERCLASSES & RECIPES GRID                                         -->
   <!-- ======================================================================= -->
-  <section id="collection" class="py-16 sm:py-24 lg:py-28">
+  <section id="collection" class="py-14 sm:py-24 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 mb-10 hairline-b">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 mb-8 sm:mb-10 hairline-b">
         <div>
-          <span class="block text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
           <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="collectionTitle">Masterclasses &amp; Recipes</h2>
         </div>
 
         <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 py-1"></div>
       </div>
 
-      <div class="flex items-center justify-between text-xs text-stone mb-8">
+      <div class="flex items-center justify-between text-xs text-stone mb-6 sm:mb-8">
         <span id="resultsCountText" class="font-medium text-white/85">6 Entries</span>
         <span class="hidden md:inline" data-i18n="collectionHint">Select any entry for full video, scalable formula, and cook mode</span>
       </div>
 
-      <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-11"></div>
+      <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-7 gap-y-7 sm:gap-y-11"></div>
 
-      <div id="emptyState" class="hidden py-20 px-4 text-center hairline-border rounded-2xl bg-charcoal/50">
+      <div id="emptyState" class="hidden py-16 sm:py-20 px-4 text-center hairline-border rounded-2xl bg-charcoal/50">
         <p class="editorial-serif text-2xl text-white mb-2" data-i18n="emptyTitle">No matching entries found</p>
         <p class="text-xs text-stone mb-6" data-i18n="emptySubtitle">Adjust your search query or select another discipline.</p>
         <button id="resetFilterBtn" class="btn-glass px-6 py-2.5 rounded-full text-xs uppercase tracking-[0.16em]" data-i18n="emptyReset">
@@ -1167,7 +1123,7 @@
   <!-- ======================================================================= -->
   <!-- 4. CINEMATIC STUDIO INTERLUDE WITH SECOND BACKGROUND VIDEO (video2.mp4) -->
   <!-- ======================================================================= -->
-  <section id="studio-reel" class="atelier-video-section atelier-video-interlude relative min-h-[56vh] sm:min-h-[62vh] flex items-center justify-center overflow-hidden">
+  <section id="studio-reel" class="atelier-video-section atelier-video-interlude relative flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 z-0 overflow-hidden bg-obsidian">
       <video
         id="interludeBgVideo"
@@ -1184,7 +1140,7 @@
         <img
           src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1800&q=85"
           alt="Studio Kitchen Craft"
-          class="w-full h-full object-contain object-center"
+          class="w-full h-full object-cover object-center"
         />
       </video>
 
@@ -1192,39 +1148,26 @@
       <div class="absolute inset-0 bg-obsidian/35"></div>
     </div>
 
-    <button
-      id="interludeVideoToggleBtn"
-      aria-label="Toggle Second Background Video"
-      class="absolute top-5 end-5 sm:top-7 sm:end-8 z-20 btn-glass w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-white"
-    >
-      <svg id="interludeVideoPauseIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-      </svg>
-      <svg id="interludeVideoPlayIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-      </svg>
-    </button>
-
-    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-6">
-      <span class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.26em] text-white/80 font-medium">
-        <span class="w-6 h-[1px] bg-white/60"></span>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center space-y-5 sm:space-y-6">
+      <span class="inline-flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.26em] text-white/80 font-medium">
+        <span class="w-5 sm:w-6 h-[1px] bg-white/60"></span>
         <span data-i18n="interludeEyebrow">BEHIND THE PASS</span>
-        <span class="w-6 h-[1px] bg-white/60"></span>
+        <span class="w-5 sm:w-6 h-[1px] bg-white/60"></span>
       </span>
 
       <h2 class="editorial-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight" data-i18n="interludeTitle">
         Fire, Steam, and the Quiet Rhythm of Craft.
       </h2>
 
-      <p class="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed" data-i18n="interludeSubtitle">
+      <p class="text-[13px] sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed" data-i18n="interludeSubtitle">
         Every gesture in the kitchen carries intention—from listening to the sizzle of a cold pan to resting a cut before the final slice.
       </p>
 
-      <div class="pt-3 flex flex-wrap items-center justify-center gap-3.5">
-        <a href="#journal" class="btn-primary px-7 py-3 rounded-full text-xs uppercase tracking-[0.16em] font-semibold" data-i18n="interludeCtaPrimary">
+      <div class="pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-3.5 max-w-sm sm:max-w-none mx-auto">
+        <a href="#journal" class="btn-primary px-7 py-3 rounded-full text-xs uppercase tracking-[0.16em] font-semibold text-center" data-i18n="interludeCtaPrimary">
           Explore the Journal
         </a>
-        <a href="#philosophy" class="btn-glass px-7 py-3 rounded-full text-xs uppercase tracking-[0.16em] font-medium" data-i18n="interludeCtaSecondary">
+        <a href="#philosophy" class="btn-glass px-7 py-3 rounded-full text-xs uppercase tracking-[0.16em] font-medium text-center" data-i18n="interludeCtaSecondary">
           Our Philosophy
         </a>
       </div>
@@ -1234,28 +1177,28 @@
   <!-- ======================================================================= -->
   <!-- 5. EDITORIAL JOURNAL & TECHNIQUES                                       -->
   <!-- ======================================================================= -->
-  <section id="journal" class="py-16 sm:py-24 lg:py-28 bg-charcoal/45 hairline-b">
+  <section id="journal" class="py-14 sm:py-24 lg:py-28 bg-charcoal/45 hairline-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-12">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-5 mb-9 sm:mb-12">
         <div>
-          <span class="block text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="journalEyebrow">CULINARY NOTES</span>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="journalEyebrow">CULINARY NOTES</span>
           <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="journalTitle">The Journal</h2>
         </div>
-        <p class="text-sm text-stone max-w-md font-light leading-relaxed" data-i18n="journalSubtitle">
+        <p class="text-[13px] sm:text-sm text-stone max-w-md font-light leading-relaxed" data-i18n="journalSubtitle">
           Essays on thermal control, fermentation, and ingredient provenance written for cooks who value the reasoning behind every movement.
         </p>
       </div>
 
-      <div id="journalGrid" class="grid grid-cols-1 md:grid-cols-2 gap-7 lg:gap-10"></div>
+      <div id="journalGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 lg:gap-10"></div>
     </div>
   </section>
 
   <!-- ======================================================================= -->
   <!-- 6. ABOUT THE CHEF / PHILOSOPHY SECTION (PERSONAL PHOTO)                 -->
   <!-- ======================================================================= -->
-  <section id="philosophy" class="py-16 sm:py-24 lg:py-28">
+  <section id="philosophy" class="py-14 sm:py-24 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
         <div class="lg:col-span-5">
           <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] bg-charcoal hairline-border shadow-2xl">
@@ -1266,12 +1209,12 @@
               class="w-full h-full object-cover object-top lg:object-center contrast-[1.03]"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/15 to-transparent"></div>
-            <div class="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 flex items-end justify-between gap-4">
+            <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex items-end justify-between gap-3 sm:gap-4">
               <div>
-                <p class="text-[10px] uppercase tracking-[0.24em] text-white/80 font-medium mb-1" data-i18n="chefRole">FOUNDER &amp; EXECUTIVE CHEF</p>
+                <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/80 font-medium mb-1" data-i18n="chefRole">FOUNDER &amp; EXECUTIVE CHEF</p>
                 <p class="editorial-serif text-xl sm:text-2xl text-white italic" data-i18n="chefName">Chef Julian Vance</p>
               </div>
-              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-1 ring-white/45 shadow-xl bg-obsidian shrink-0">
+              <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-1 ring-white/45 shadow-xl bg-obsidian shrink-0">
                 <img
                   src="photos/logo.jpg"
                   alt="Signature Seal"
@@ -1282,27 +1225,27 @@
           </div>
         </div>
 
-        <div class="lg:col-span-7 space-y-6">
-          <span class="block text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium" data-i18n="philosophyEyebrow">PHILOSOPHY</span>
-          <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight text-white" data-i18n="philosophyTitle">
+        <div class="lg:col-span-7 space-y-5 sm:space-y-6">
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium" data-i18n="philosophyEyebrow">PHILOSOPHY</span>
+          <h2 class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal leading-tight text-white" data-i18n="philosophyTitle">
             Great cooking is never loud. It is the quiet discipline of heat, time, and respect for raw ingredients.
           </h2>
           <p class="text-sm sm:text-base text-stone leading-7 sm:leading-8 font-light" data-i18n="philosophyBody">
             After fifteen years leading tasting-menu kitchens across Paris, Kyoto, and Copenhagen, ATELIER was created as an unfiltered digital monograph. Every masterclass strips away theatrical excess to focus purely on reproducible technique, sensory cues, and culinary clarity.
           </p>
 
-          <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-6 hairline-t">
+          <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-5 sm:pt-6 hairline-t">
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">15</span>
-              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statYears">Years in Kitchens</span>
+              <span class="editorial-serif text-2xl sm:text-4xl text-white block" data-no-translate="true">15</span>
+              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-stone mt-1 block leading-snug" data-i18n="statYears">Years in Kitchens</span>
             </div>
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">12</span>
-              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statLanguages">Languages Supported</span>
+              <span class="editorial-serif text-2xl sm:text-4xl text-white block" data-no-translate="true">12</span>
+              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-stone mt-1 block leading-snug" data-i18n="statLanguages">Languages Supported</span>
             </div>
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">64</span>
-              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statFilms">Masterclass Films</span>
+              <span class="editorial-serif text-2xl sm:text-4xl text-white block" data-no-translate="true">64</span>
+              <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-stone mt-1 block leading-snug" data-i18n="statFilms">Masterclass Films</span>
             </div>
           </div>
         </div>
@@ -1314,9 +1257,9 @@
   <!-- ======================================================================= -->
   <!-- 7. MODERN STRUCTURED FOOTER WITH SOCIAL & CONTACT LINKS                 -->
   <!-- ======================================================================= -->
-  <footer class="pt-16 pb-10 hairline-t bg-charcoal/60">
+  <footer class="pt-14 sm:pt-16 pb-10 hairline-t bg-charcoal/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 hairline-b">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 pb-10 sm:pb-12 hairline-b">
 
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center gap-3.5">
@@ -1352,7 +1295,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </span>
-            <span data-no-translate="true">chef@atelier-culinaire.com</span>
+            <span data-no-translate="true" class="break-all">chef@atelier-culinaire.com</span>
           </a>
 
           <div class="flex items-center gap-3 pt-1">
@@ -1377,7 +1320,7 @@
         </div>
       </div>
 
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone">
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone text-center sm:text-start">
         <span>&copy; 2026 ATELIER CULINAIRE. All rights reserved.</span>
         <div class="flex items-center gap-6">
           <button id="footerStudioBtn" class="hover:text-white transition-colors uppercase tracking-[0.14em]" data-i18n="navAddEntry">Add Entry</button>
@@ -1392,7 +1335,7 @@
   <!-- ======================================================================= -->
   <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto">
     <div id="recipeModalWrapper" class="animate-reveal max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
-      <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-3.5 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <button id="closeRecipeModalBtn" aria-label="Close" class="btn-glass w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-stone hover:text-white">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
@@ -1403,17 +1346,17 @@
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-          <button id="jumpToMethodBtn" class="btn-glass px-3.5 sm:px-4 py-2 rounded-full text-[10px] sm:text-[11px] uppercase tracking-[0.14em] inline-flex items-center gap-2">
+          <button id="jumpToMethodBtn" class="btn-glass px-3 sm:px-4 py-2 rounded-full text-[10px] sm:text-[11px] uppercase tracking-[0.12em] inline-flex items-center gap-1.5 sm:gap-2">
             <svg class="w-3.5 h-3.5 shrink-0 text-white" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
             </svg>
             <span data-i18n="jumpToMethod">Jump to Method</span>
           </button>
 
-          <label class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full btn-glass cursor-pointer select-none">
+          <label class="inline-flex items-center gap-2 px-3 py-2 rounded-full btn-glass cursor-pointer select-none">
             <input id="cookModeCheckbox" type="checkbox" class="sr-only peer" />
             <span class="w-7 h-4 rounded-full bg-white/15 peer-checked:bg-white relative transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-3 after:h-3 after:rounded-full after:bg-stone peer-checked:after:bg-obsidian after:transition-transform peer-checked:after:translate-x-3 shrink-0"></span>
-            <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-ivory" data-i18n="cookMode">Cook Mode</span>
+            <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-ivory" data-i18n="cookMode">Cook Mode</span>
           </label>
         </div>
       </div>
@@ -1422,11 +1365,11 @@
         <span data-i18n="cookModeActive">Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.</span>
       </div>
 
-      <div class="p-4 sm:p-8 lg:p-10 space-y-8 sm:space-y-10">
+      <div class="p-4 sm:p-8 lg:p-10 space-y-7 sm:space-y-10">
         <div class="cook-dim space-y-3 sm:space-y-4">
           <h2 id="modalTitle" class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight"></h2>
           <p id="modalDesc" class="text-sm sm:text-base text-stone font-light leading-relaxed max-w-3xl"></p>
-          <div class="flex flex-wrap items-center gap-5 sm:gap-6 pt-1 text-xs text-stone uppercase tracking-[0.14em]">
+          <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 text-xs text-stone uppercase tracking-[0.14em]">
             <span class="inline-flex items-center gap-2">
               <svg class="w-4 h-4 text-white/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1446,8 +1389,8 @@
           <div class="relative rounded-2xl overflow-hidden bg-obsidian aspect-video hairline-border group">
             <img id="modalVideoPoster" src="" alt="" onerror="this.style.display='none'" class="w-full h-full object-cover transition-transform duration-700" />
             <div id="videoPosterOverlay" class="absolute inset-0 bg-black/45 flex items-center justify-center transition-opacity">
-              <button id="videoCenterPlayBtn" aria-label="Play" class="btn-primary w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <button id="videoCenterPlayBtn" aria-label="Play" class="btn-primary w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
                 </svg>
               </button>
@@ -2299,7 +2242,6 @@
 
       /* ===================================================================== */
       /* FREE ZERO-API-KEY AUTOMATIC WHOLE-SITE TRANSLATION ENGINE             */
-      /* Translates entire DOM + dynamically added future content via Observer */
       /* ===================================================================== */
       const AutoTranslator = (() => {
         const CACHE_KEY = 'atelier_free_tx_cache_v1';
@@ -2354,7 +2296,6 @@
           if (!node || node.nodeType !== 3) return true;
           const parent = node.parentElement;
           if (!parent || isExcludedElement(parent)) return true;
-          // Skip elements that already have an exact hand-crafted UI translation for activeLang
           const i18nKey = parent.getAttribute('data-i18n');
           if (i18nKey && UI_TRANSLATIONS[activeLang] && UI_TRANSLATIONS[activeLang][i18nKey] !== undefined) {
             return true;
@@ -2385,7 +2326,6 @@
           const cacheKey = `${targetLang}::${text}`;
           if (cache[cacheKey]) return cache[cacheKey];
 
-          // Primary free endpoint (Google Translate public gtx — no API key)
           try {
             const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
             const res = await fetch(url);
@@ -2401,7 +2341,6 @@
             }
           } catch (err) {}
 
-          // Secondary free fallback (MyMemory — no API key)
           try {
             const fallbackUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${encodeURIComponent(targetLang)}`;
             const res = await fetch(fallbackUrl);
@@ -2430,7 +2369,6 @@
 
           if (missing.length === 0) return results;
 
-          // Group into compact chunks to minimize network calls
           const chunks = [];
           let currentChunk = [];
           let currentLen = 0;
@@ -2474,7 +2412,6 @@
               }
             } catch (err) {}
 
-            // Fallback to individual translation if delimiter split didn't match
             await Promise.all(chunk.map(async (orig) => {
               const tr = await fetchSingleTranslation(orig, targetLang);
               results.set(orig, tr);
@@ -2527,7 +2464,6 @@
           const myToken = runToken;
           const { textNodes, attrItems } = collectTargets(root);
 
-          // If switching back to English, restore original texts cleanly
           if (targetLang === 'en') {
             isApplying = true;
             try {
@@ -2544,7 +2480,6 @@
             } finally {
               isApplying = false;
             }
-            // Also translate any non-English future content (e.g. Persian/German) to English
             const nonEnStrings = new Set();
             textNodes.forEach(({ orig }) => {
               if (/[\u0600-\u06FFäöüßÄÖÜ]/.test(orig)) nonEnStrings.add(orig.trim());
@@ -2768,7 +2703,6 @@
           this.wrapper.classList.add('is-open');
           this.trigger.setAttribute('aria-expanded', 'true');
 
-          // Force layout so transitions run cleanly from initial state
           void this.menuEl.offsetHeight;
 
           requestAnimationFrame(() => {
@@ -2802,7 +2736,6 @@
             return;
           }
 
-          // Reverse cascading exit for options
           const totalItems = this.optionEls.length;
           this.optionEls.forEach((btn, idx) => {
             const reverseIdx = totalItems - 1 - idx;
@@ -2811,7 +2744,6 @@
 
           this.menuEl.classList.add('is-closing');
 
-          // Wait for options to disappear, then collapse container smoothly
           const itemsFinishMs = (totalItems - 1) * this.STAGGER_MS + this.ITEM_DURATION_MS;
           const collapseTimer = setTimeout(() => {
             if (!this.menuEl) return;
@@ -2841,12 +2773,10 @@
           const langObj = this.languages.find((l) => l.code === langCode);
           if (!langObj) return;
 
-          // Update header abbreviation immediately
           if (this.codeBadge) {
             this.codeBadge.textContent = langObj.iso;
           }
 
-          // Reflect selected state immediately before closing animation starts
           this.optionEls.forEach((btn) => {
             const selected = btn.getAttribute('data-lang-code') === langCode;
             btn.classList.toggle('is-selected', selected);
@@ -3046,7 +2976,6 @@
           AutoTranslator.setApplying(false);
         }
 
-        // Automatically translate entire site + any dynamic or future content
         AutoTranslator.setLanguage(currentLang);
 
         if (announce) showToast(t('toastLangChanged'));
@@ -3098,7 +3027,7 @@
           const loc = getLocalizedRecipe(r);
           return `
             <article data-recipe-id="${r.id}" class="recipe-card group cursor-pointer flex flex-col rounded-2xl p-3 bg-charcoal/40 hairline-border hover:border-white/65 hover:bg-charcoal/80 transition-all duration-300">
-              <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian mb-4">
+              <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian mb-3.5 sm:mb-4">
                 <img src="${r.image}" alt="${loc.title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100" />
                 <div class="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent"></div>
                 <div class="absolute top-3 end-3 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
@@ -3141,11 +3070,11 @@
                 <img src="${art.image}" alt="${loc.title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
                 <div class="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent"></div>
               </div>
-              <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
-                <div class="space-y-3">
+              <div class="p-5 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
+                <div class="space-y-2.5 sm:space-y-3">
                   <span class="text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium block">${loc.tag}</span>
                   <h3 class="editorial-serif text-2xl sm:text-3xl text-ivory group-hover:text-white transition-colors leading-snug">${loc.title}</h3>
-                  <p class="text-sm text-stone font-light leading-relaxed">${loc.excerpt}</p>
+                  <p class="text-[13px] sm:text-sm text-stone font-light leading-relaxed">${loc.excerpt}</p>
                 </div>
                 <div class="pt-4 hairline-t flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-stone group-hover:text-white transition-colors">
                   <span>${t('readEssay')}</span>
@@ -3437,27 +3366,10 @@
         showToast(t('toastPublished'));
       }
 
-      function bindAmbientVideoToggle(videoId, btnId, pauseIconId, playIconId) {
+      function initAmbientVideo(videoId) {
         const vid = document.getElementById(videoId);
-        const btn = document.getElementById(btnId);
-        const pauseIcon = document.getElementById(pauseIconId);
-        const playIcon = document.getElementById(playIconId);
-        if (!vid || !btn) return;
-        vid.play().catch(() => {
-          pauseIcon?.classList.add('hidden');
-          playIcon?.classList.remove('hidden');
-        });
-        btn.addEventListener('click', () => {
-          if (vid.paused) {
-            vid.play();
-            pauseIcon?.classList.remove('hidden');
-            playIcon?.classList.add('hidden');
-          } else {
-            vid.pause();
-            pauseIcon?.classList.add('hidden');
-            playIcon?.classList.remove('hidden');
-          }
-        });
+        if (!vid) return;
+        vid.play().catch(() => {});
       }
 
       function initHeaderActiveNav() {
@@ -3596,7 +3508,6 @@
 
         loadCustomRecipes();
 
-        // Initialize compact animated language dropdown in header
         langDropdown = new LanguageDropdown({
           wrapper: document.getElementById('langDropdownWrapper'),
           trigger: document.getElementById('langDropdownTrigger'),
@@ -3606,7 +3517,6 @@
           onSelect: (code) => setLanguage(code, true),
         });
 
-        // Restore saved language or default to EN
         let initialLang = 'en';
         try {
           const savedLang = localStorage.getItem(LANG_STORAGE_KEY);
@@ -3619,8 +3529,8 @@
         initHeaderActiveNav();
         const closeMegaMenu = initCuisinesMegaMenu();
 
-        bindAmbientVideoToggle('heroBgVideo', 'heroVideoToggleBtn', 'heroVideoPauseIcon', 'heroVideoPlayIcon');
-        bindAmbientVideoToggle('interludeBgVideo', 'interludeVideoToggleBtn', 'interludeVideoPauseIcon', 'interludeVideoPlayIcon');
+        initAmbientVideo('heroBgVideo');
+        initAmbientVideo('interludeBgVideo');
 
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -3642,7 +3552,6 @@
           mobileCuisinesChevron?.classList.toggle('rotate-180', !isHidden);
         });
 
-        // Footer Language button scrolls smoothly to top and opens header language dropdown
         document.getElementById('footerLangBtn')?.addEventListener('click', () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setTimeout(() => { langDropdown?.open(true); }, 380);
