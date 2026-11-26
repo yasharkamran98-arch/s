@@ -19,18 +19,20 @@
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Modern Dark Monochrome Design Tokens -->
+  <!-- Melted Dark Slate & Obsidian Design Tokens -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            obsidian: '#0B0C0E',
-            charcoal: '#131519',
-            elevated: '#1B1E24',
-            ivory: '#F4F3EF',
-            stone: '#94979E',
-            hairline: 'rgba(255, 255, 255, 0.09)',
+            obsidian: '#000000',
+            charcoal: '#121212',
+            elevated: '#1B2020',
+            slateDeep: '#2F4F4F',
+            dimGray: '#696969',
+            ivory: '#F2F4F3',
+            stone: '#A3AAAA',
+            hairline: 'rgba(105, 105, 105, 0.28)',
           },
           fontFamily: {
             serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
@@ -44,20 +46,23 @@
 
   <style>
     :root {
-      --bg-obsidian: #0B0C0E;
-      --bg-charcoal: #131519;
-      --accent-white: #FFFFFF;
-      --text-ivory: #F4F3EF;
-      --text-stone: #94979E;
-      --border-hairline: rgba(255, 255, 255, 0.09);
+      --bg-obsidian: #000000;
+      --bg-charcoal: #121212;
+      --bg-slate: #2F4F4F;
+      --bg-dimgray: #696969;
+      --accent-white: #F2F4F3;
+      --text-ivory: #F2F4F3;
+      --text-stone: #A3AAAA;
+      --border-hairline: rgba(105, 105, 105, 0.28);
+    }
+
+    html {
+      background-color: #000000;
     }
 
     body {
-      background-color: var(--bg-obsidian);
-      background-image:
-        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.045) 0%, transparent 45%),
-        radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
-      background-attachment: fixed;
+      position: relative;
+      background-color: #000000;
       color: var(--text-ivory);
       font-family: 'Inter', system-ui, sans-serif;
       overflow-x: hidden;
@@ -67,9 +72,114 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
+    /* ===================================================================== */
+    /* MELTED, BLURRED & MESH AMBIENT BACKGROUND                             */
+    /* Palette: #000000, #121212, #2F4F4F, #696969                           */
+    /* ===================================================================== */
+    .atelier-mesh-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 85% 65% at 15% 18%, rgba(47, 79, 79, 0.34) 0%, transparent 62%),
+        radial-gradient(ellipse 70% 55% at 88% 28%, rgba(105, 105, 105, 0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 70% at 50% 85%, rgba(18, 18, 18, 0.92) 0%, #000000 72%),
+        linear-gradient(160deg, #000000 0%, #121212 48%, #000000 100%);
+    }
+
+    .mesh-blob {
+      position: absolute;
+      border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
+      filter: blur(115px);
+      will-change: transform, border-radius;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .mesh-blob-1 {
+      width: 58vw;
+      height: 58vw;
+      min-width: 420px;
+      min-height: 420px;
+      top: -14%;
+      left: -12%;
+      background: radial-gradient(circle at 40% 40%, rgba(47, 79, 79, 0.62) 0%, rgba(18, 18, 18, 0.35) 58%, transparent 80%);
+      animation: meltDriftA 26s ease-in-out infinite alternate;
+    }
+
+    .mesh-blob-2 {
+      width: 48vw;
+      height: 48vw;
+      min-width: 360px;
+      min-height: 360px;
+      top: 18%;
+      right: -14%;
+      background: radial-gradient(circle at 50% 50%, rgba(105, 105, 105, 0.34) 0%, rgba(47, 79, 79, 0.24) 50%, transparent 78%);
+      animation: meltDriftB 32s ease-in-out infinite alternate;
+    }
+
+    .mesh-blob-3 {
+      width: 64vw;
+      height: 52vw;
+      min-width: 440px;
+      min-height: 380px;
+      bottom: -18%;
+      left: 10%;
+      background: radial-gradient(circle at 45% 55%, rgba(47, 79, 79, 0.5) 0%, rgba(18, 18, 18, 0.65) 55%, transparent 82%);
+      animation: meltDriftC 30s ease-in-out infinite alternate;
+    }
+
+    .mesh-blob-4 {
+      width: 42vw;
+      height: 42vw;
+      min-width: 300px;
+      min-height: 300px;
+      bottom: 8%;
+      right: 4%;
+      background: radial-gradient(circle at 50% 50%, rgba(105, 105, 105, 0.26) 0%, rgba(18, 18, 18, 0.4) 55%, transparent 80%);
+      animation: meltDriftA 36s ease-in-out infinite alternate-reverse;
+    }
+
+    .mesh-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.68) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, transparent 18%, transparent 82%, rgba(0, 0, 0, 0.72) 100%);
+    }
+
+    @keyframes meltDriftA {
+      0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%; }
+      50%  { transform: translate3d(5vw, 6vh, 0) scale(1.12) rotate(12deg); border-radius: 58% 42% 45% 55% / 40% 56% 44% 60%; }
+      100% { transform: translate3d(-3vw, 10vh, 0) scale(0.96) rotate(-8deg); border-radius: 48% 52% 60% 40% / 55% 45% 52% 48%; }
+    }
+
+    @keyframes meltDriftB {
+      0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); border-radius: 52% 48% 44% 56% / 56% 44% 52% 48%; }
+      50%  { transform: translate3d(-6vw, 8vh, 0) scale(1.14) rotate(-14deg); border-radius: 42% 58% 56% 44% / 48% 52% 42% 58%; }
+      100% { transform: translate3d(-2vw, -5vh, 0) scale(0.95) rotate(10deg); border-radius: 55% 45% 48% 52% / 44% 56% 50% 50%; }
+    }
+
+    @keyframes meltDriftC {
+      0%   { transform: translate3d(0, 0, 0) scale(1); border-radius: 46% 54% 58% 42% / 50% 46% 54% 50%; }
+      50%  { transform: translate3d(6vw, -6vh, 0) scale(1.1); border-radius: 56% 44% 44% 56% / 42% 58% 48% 52%; }
+      100% { transform: translate3d(-4vw, -3vh, 0) scale(1.02); border-radius: 44% 56% 52% 48% / 56% 44% 55% 45%; }
+    }
+
     @media (max-width: 767px) {
-      body {
-        background-attachment: scroll;
+      .mesh-blob {
+        filter: blur(82px);
+      }
+      .mesh-blob-1 { width: 88vw; height: 88vw; min-width: 280px; min-height: 280px; }
+      .mesh-blob-2 { width: 78vw; height: 78vw; min-width: 250px; min-height: 250px; }
+      .mesh-blob-3 { width: 92vw; height: 78vw; min-width: 300px; min-height: 260px; }
+      .mesh-blob-4 { width: 72vw; height: 72vw; min-width: 220px; min-height: 220px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mesh-blob {
+        animation: none !important;
       }
     }
 
@@ -105,26 +215,50 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Modern Liquid Glass Surface */
+    /* Liquid Glass Surfaces Tuned for Melted Slate/Charcoal Mesh */
     .glass-surface {
-      background: rgba(19, 21, 25, 0.8);
-      backdrop-filter: blur(22px) saturate(140%);
-      -webkit-backdrop-filter: blur(22px) saturate(140%);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
+      background: linear-gradient(145deg, rgba(18, 18, 18, 0.72) 0%, rgba(18, 18, 18, 0.56) 100%);
+      backdrop-filter: blur(22px) saturate(135%);
+      -webkit-backdrop-filter: blur(22px) saturate(135%);
+      border: 1px solid rgba(105, 105, 105, 0.34);
+      box-shadow: 0 14px 40px -14px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
     }
 
     .mega-glass {
-      background: rgba(15, 17, 21, 0.94);
-      backdrop-filter: blur(28px) saturate(150%);
-      -webkit-backdrop-filter: blur(28px) saturate(150%);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 28px 70px -18px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+      background: linear-gradient(155deg, rgba(18, 18, 18, 0.94) 0%, rgba(12, 16, 16, 0.95) 55%, rgba(0, 0, 0, 0.96) 100%);
+      backdrop-filter: blur(28px) saturate(145%);
+      -webkit-backdrop-filter: blur(28px) saturate(145%);
+      border: 1px solid rgba(105, 105, 105, 0.36);
+      box-shadow: 0 30px 72px -18px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(47, 79, 79, 0.25) inset;
     }
 
-    .hairline-border { border: 1px solid rgba(255, 255, 255, 0.09); }
-    .hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
-    .hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.09); }
+    .card-melt {
+      background: linear-gradient(160deg, rgba(18, 18, 18, 0.68) 0%, rgba(10, 14, 14, 0.58) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(105, 105, 105, 0.26);
+      box-shadow: 0 14px 36px -18px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      transition: border-color 0.28s ease, background 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+    }
+
+    .card-melt:hover {
+      background: linear-gradient(160deg, rgba(47, 79, 79, 0.28) 0%, rgba(18, 18, 18, 0.82) 100%);
+      border-color: rgba(242, 244, 243, 0.45);
+      box-shadow: 0 22px 46px -18px rgba(0, 0, 0, 0.9), 0 0 28px -10px rgba(47, 79, 79, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .modal-melt {
+      background:
+        radial-gradient(ellipse 75% 40% at 20% 0%, rgba(47, 79, 79, 0.28) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 35% at 85% 10%, rgba(105, 105, 105, 0.14) 0%, transparent 60%),
+        #121212;
+      border-color: rgba(105, 105, 105, 0.34);
+    }
+
+    .hairline-border { border: 1px solid rgba(105, 105, 105, 0.28); }
+    .hairline-b { border-bottom: 1px solid rgba(105, 105, 105, 0.24); }
+    .hairline-t { border-top: 1px solid rgba(105, 105, 105, 0.24); }
 
     /* ===================================================================== */
     /* CENTER-OUT GLASSY WHITE ANIMATED UNDERLINE (HEADER NAVIGATION)        */
@@ -147,8 +281,8 @@
       bottom: 0;
       width: 100%;
       height: 2px;
-      background: rgba(255, 255, 255, 0.72);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.26);
+      background: rgba(242, 244, 243, 0.8);
+      box-shadow: 0 0 10px rgba(47, 79, 79, 0.7);
       transform: scaleX(0);
       transform-origin: center;
       transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms ease;
@@ -190,26 +324,19 @@
       position: absolute;
       inset: 0 0 auto 0;
       height: 190px;
-      background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.82) 24%, rgba(0, 0, 0, 0.46) 58%, transparent 100%);
+      background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.82) 24%, rgba(0, 0, 0, 0.45) 58%, transparent 100%);
       pointer-events: none;
       z-index: -1;
     }
     .atelier-hero-header .nav-link::after {
-      background: #F4F3EF;
+      background: #F2F4F3;
       box-shadow: none;
       height: 1px;
-    }
-    .atelier-hero-header .nav-link:hover,
-    .atelier-hero-header .nav-link:focus-visible,
-    .atelier-hero-header .nav-link.active,
-    .atelier-hero-header .mega-wrapper.is-open .mega-trigger {
-      color: #FFFFFF;
     }
     @media (max-width: 767px) {
       .atelier-hero-header::before { height: 150px; }
     }
 
-    /* Mobile nav text-width center-out underline wrapper */
     .mobile-nav-row {
       display: flex;
       align-items: center;
@@ -248,10 +375,10 @@
       min-width: 164px;
       padding: 6px;
       border-radius: 14px;
-      background: rgba(19, 21, 25, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(105, 105, 105, 0.36);
       z-index: 60;
       overflow: hidden;
       max-height: 0;
@@ -290,7 +417,7 @@
       border: 0;
       border-radius: 10px;
       background: transparent;
-      color: rgba(244, 243, 239, 0.82);
+      color: rgba(242, 244, 243, 0.84);
       font-size: 13px;
       font-weight: 400;
       line-height: 1.2;
@@ -318,19 +445,19 @@
 
     .atelier-lang-option:hover,
     .atelier-lang-option:focus-visible {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(47, 79, 79, 0.38);
       color: #FFFFFF;
     }
 
     .atelier-lang-option.is-selected {
-      background: rgba(244, 243, 239, 0.13);
+      background: rgba(47, 79, 79, 0.52);
       color: #FFFFFF;
       font-weight: 500;
     }
 
     .atelier-lang-option.is-selected:hover,
     .atelier-lang-option.is-selected:focus-visible {
-      background: rgba(244, 243, 239, 0.17);
+      background: rgba(47, 79, 79, 0.65);
     }
 
     .atelier-lang-label {
@@ -349,7 +476,7 @@
     .atelier-lang-check {
       width: 14px;
       height: 14px;
-      color: #F4F3EF;
+      color: #F2F4F3;
       opacity: 0;
       transform: scale(0.8);
       transition: opacity 200ms ease, transform 200ms ease;
@@ -363,6 +490,63 @@
 
     .atelier-lang-option[data-lang-code="fa"] .atelier-lang-name {
       font-family: 'Vazirmatn', sans-serif;
+    }
+
+    /* Mobile-friendly language list: all added culinary languages remain reachable. */
+    .atelier-lang-menu {
+      max-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(105, 105, 105, 0.75) transparent;
+    }
+    .atelier-lang-menu.is-expanded {
+      max-height: min(68vh, 520px);
+    }
+    .atelier-lang-option {
+      min-height: 42px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 767px) {
+      /* Give the hero search a comfortable, full-width touch target on phones. */
+      #top .max-w-2xl {
+        width: 100%;
+        max-width: 100%;
+      }
+      #top #searchInput {
+        min-width: 0;
+        min-height: 52px;
+        font-size: 16px;
+        line-height: 1.45;
+      }
+      #top .max-w-2xl > .glass-surface {
+        width: 100%;
+        min-height: 58px;
+        padding-inline: 18px;
+        border-radius: 18px;
+        gap: 12px;
+      }
+      #top .max-w-2xl > #watchFeaturedBtn {
+        width: 100%;
+        min-height: 54px;
+      }
+      #langDropdownWrapper .atelier-lang-menu {
+        position: fixed;
+        top: calc(env(safe-area-inset-top) + 58px);
+        inset-inline: 12px;
+        width: auto;
+        min-width: 0;
+        max-height: 0;
+        z-index: 100;
+      }
+      #langDropdownWrapper .atelier-lang-menu.is-expanded {
+        max-height: min(72vh, 560px);
+      }
+      #langDropdownWrapper .atelier-lang-option {
+        min-height: 46px;
+        padding: 12px 14px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -387,15 +571,15 @@
     }
     .mega-cat-item:hover {
       color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(47, 79, 79, 0.34);
+      border-color: rgba(105, 105, 105, 0.45);
     }
     .mega-cat-item.active {
-      background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 100%);
-      color: #0B0C0E;
+      background: linear-gradient(135deg, #F2F4F3 0%, #D4DCDC 100%);
+      color: #000000;
       font-weight: 500;
-      border-color: #FFFFFF;
-      box-shadow: 0 0 22px -4px rgba(255, 255, 255, 0.35);
+      border-color: #F2F4F3;
+      box-shadow: 0 0 22px -4px rgba(47, 79, 79, 0.65);
     }
 
     /* Mega Menu Panel Open/Close State */
@@ -419,32 +603,35 @@
       color: #FFFFFF;
     }
 
-    /* Tactile Modern Buttons */
+    /* Tactile Modern Buttons Harmonized with #000000 / #121212 / #2F4F4F / #696969 */
     .btn-glass {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(18, 18, 18, 0.58);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(105, 105, 105, 0.42);
       color: var(--text-ivory);
       transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.11);
-      border-color: rgba(255, 255, 255, 0.72);
+      background: rgba(47, 79, 79, 0.42);
+      border-color: rgba(242, 244, 243, 0.68);
       color: #FFFFFF;
+      box-shadow: 0 8px 22px -8px rgba(47, 79, 79, 0.7);
       transform: translateY(-1px);
     }
     .btn-glass:active { transform: scale(0.96) translateY(0); }
 
     .btn-primary {
-      background: #FFFFFF;
-      color: #0B0C0E;
-      border: 1px solid #FFFFFF;
-      box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.28);
+      background: linear-gradient(135deg, #FFFFFF 0%, #E2E8E8 100%);
+      color: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 26px -8px rgba(47, 79, 79, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
       transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .btn-primary:hover {
-      background: #E8E8EC;
-      border-color: #E8E8EC;
-      box-shadow: 0 12px 28px -6px rgba(255, 255, 255, 0.42);
+      background: linear-gradient(135deg, #FFFFFF 0%, #CFDADA 100%);
+      border-color: #FFFFFF;
+      box-shadow: 0 14px 32px -6px rgba(47, 79, 79, 0.85);
       transform: translateY(-1px);
     }
     .btn-primary:active { transform: scale(0.97) translateY(0); }
@@ -452,20 +639,21 @@
     /* Modern Pill Category Tabs */
     .cat-pill {
       color: var(--text-stone);
-      background: transparent;
-      border: 1px solid transparent;
+      background: rgba(18, 18, 18, 0.38);
+      border: 1px solid rgba(105, 105, 105, 0.25);
       transition: all 0.22s ease;
     }
     .cat-pill:hover {
       color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(47, 79, 79, 0.38);
+      border-color: rgba(105, 105, 105, 0.65);
     }
     .cat-pill.active {
-      color: #0B0C0E;
-      background: #FFFFFF;
+      color: #000000;
+      background: linear-gradient(135deg, #FFFFFF 0%, #DDE4E4 100%);
       border-color: #FFFFFF;
       font-weight: 500;
+      box-shadow: 0 6px 18px -6px rgba(47, 79, 79, 0.7);
     }
     .cat-pill:active { transform: scale(0.96); }
 
@@ -478,7 +666,7 @@
     input[type="range"].atelier-range {
       -webkit-appearance: none;
       appearance: none;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(105, 105, 105, 0.45);
       height: 4px;
       border-radius: 4px;
       outline: none;
@@ -489,9 +677,9 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: #FFFFFF;
+      background: #F2F4F3;
       cursor: pointer;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 0 3px rgba(47, 79, 79, 0.65);
       transition: transform 0.2s ease;
     }
     input[type="range"].atelier-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
@@ -504,12 +692,12 @@
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0B0C0E; }
-    ::-webkit-scrollbar-thumb { background: #2A2D36; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #FFFFFF; }
+    ::-webkit-scrollbar-track { background: #000000; }
+    ::-webkit-scrollbar-thumb { background: #2F4F4F; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #696969; }
 
     /* =====================================================================
-       FULL-BLEED RESPONSIVE VIDEO BACKGROUNDS
+       FULL-BLEED RESPONSIVE VIDEO BACKGROUNDS BLENDED INTO MELTED MESH
        ===================================================================== */
     .atelier-video-section {
       position: relative;
@@ -523,7 +711,7 @@
       outline: 0 !important;
       border-radius: 0 !important;
       box-shadow: none !important;
-      background: #0B0C0E;
+      background: transparent;
     }
 
     .atelier-video-section > .absolute.inset-0:first-child {
@@ -538,7 +726,7 @@
       border-radius: 0 !important;
       outline: 0 !important;
       box-shadow: none !important;
-      background: #0B0C0E;
+      background: #000000;
     }
 
     .atelier-video-section .atelier-bg-video {
@@ -561,9 +749,9 @@
       border-radius: 0 !important;
       outline: 0 !important;
       box-shadow: none !important;
-      background: #0B0C0E;
+      background: #000000;
       pointer-events: none;
-      filter: brightness(.70) saturate(.68) contrast(.96);
+      filter: brightness(.68) saturate(.62) contrast(.98);
     }
 
     .atelier-video-section > .absolute.inset-0:first-child > .absolute.inset-0 {
@@ -576,7 +764,7 @@
       z-index: 1;
       inset: 0;
       pointer-events: none;
-      background: rgba(5, 6, 8, .58);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.56) 0%, rgba(18, 18, 18, 0.42) 55%, rgba(47, 79, 79, 0.24) 100%);
     }
 
     .atelier-video-section > button,
@@ -585,13 +773,13 @@
       z-index: 3;
     }
 
-    /* Seamless video-to-page blending */
+    /* Seamless video-to-mesh blending */
     #top,
     #studio-reel {
       position: relative;
       isolation: isolate;
       overflow: hidden;
-      background: #050608;
+      background: transparent;
       border: 0 !important;
       outline: 0 !important;
       box-shadow: none !important;
@@ -601,11 +789,11 @@
       content: "";
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
       background:
-        linear-gradient(180deg, #050608 0%, rgba(5,6,8,.42) 9%, transparent 25%, transparent 74%, rgba(5,6,8,.62) 91%, #050608 100%),
-        linear-gradient(90deg, rgba(5,6,8,.42) 0%, transparent 10%, transparent 90%, rgba(5,6,8,.42) 100%);
+        linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.38) 12%, transparent 28%, transparent 70%, rgba(0,0,0,0.68) 89%, rgba(0,0,0,0.98) 100%),
+        linear-gradient(90deg, rgba(0,0,0,0.45) 0%, transparent 12%, transparent 88%, rgba(0,0,0,0.45) 100%);
     }
     #top::after,
     #studio-reel::after {
@@ -614,7 +802,7 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      box-shadow: inset 0 0 110px 34px rgba(5,6,8,.42);
+      box-shadow: inset 0 0 110px 36px rgba(0, 0, 0, 0.5);
     }
     #heroBgVideo,
     #interludeBgVideo {
@@ -657,7 +845,7 @@
       }
       #top::after,
       #studio-reel::after {
-        box-shadow: inset 0 0 60px 18px rgba(5,6,8,.45);
+        box-shadow: inset 0 0 60px 18px rgba(0, 0, 0, 0.48);
       }
     }
 
@@ -668,7 +856,16 @@
     }
   </style>
 </head>
-<body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
+<body class="text-ivory selection:bg-[#2F4F4F] selection:text-white">
+
+  <!-- MELTED, BLURRED MESH AMBIENT BACKGROUND -->
+  <div class="atelier-mesh-bg" aria-hidden="true">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+    <div class="mesh-blob mesh-blob-4"></div>
+    <div class="mesh-vignette"></div>
+  </div>
 
   <!-- ======================================================================= -->
   <!-- 1. HEADER WITH PREMIUM CUISINES MEGA MENU                               -->
@@ -679,7 +876,7 @@
 
         <!-- Brand Signature Emblem + Wordmark -->
         <a href="#top" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none shrink-0">
-          <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden ring-1 ring-white/35 group-hover:ring-white shadow-lg bg-obsidian shrink-0 transition-all duration-300">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden ring-1 ring-[#696969]/70 group-hover:ring-white shadow-lg bg-obsidian shrink-0 transition-all duration-300">
             <img
               src="photos/logo.jpg"
               alt="Signature Culinary Seal"
@@ -721,7 +918,7 @@
                 <div class="grid grid-cols-12">
 
                   <!-- 1. LEFT SIDEBAR — 10 FOOD CATEGORIES -->
-                  <div class="col-span-3 p-4 lg:p-5 border-e border-white/10 bg-white/[0.015]">
+                  <div class="col-span-3 p-4 lg:p-5 border-e border-[#696969]/25 bg-[#121212]/40">
                     <div class="px-2.5 pb-3 mb-2 hairline-b flex items-center justify-between">
                       <span class="text-[10px] uppercase tracking-[0.22em] text-stone font-medium" data-i18n="megaSidebarTitle">Categories</span>
                       <span class="text-[10px] font-mono text-stone/70" data-no-translate="true">10</span>
@@ -744,59 +941,59 @@
                   <div class="col-span-6 p-5 lg:p-6 flex flex-col justify-between gap-5">
                     <div>
                       <div class="flex items-center justify-between pb-3 mb-4 hairline-b">
-                        <span class="text-[10px] uppercase tracking-[0.22em] text-white/80 font-medium" data-i18n="megaCenterTitle">Culinary Specialties</span>
+                        <span class="text-[10px] uppercase tracking-[0.22em] text-ivory/85 font-medium" data-i18n="megaCenterTitle">Culinary Specialties</span>
                         <span class="text-[11px] text-stone font-light" data-i18n="megaCenterSub">Curated dishes &amp; techniques</span>
                       </div>
 
                       <div class="grid grid-cols-3 gap-3">
-                        <a href="#collection" data-mega-search="duck" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="duck" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Meat Dishes" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardMeat">Meat Dishes</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
                           </div>
                         </a>
 
-                        <a href="#collection" data-mega-search="seafood" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="seafood" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=600&q=80" alt="Seafood" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardSeafood">Seafood</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
                           </div>
                         </a>
 
-                        <a href="#collection" data-mega-search="pasta" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="pasta" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=600&q=80" alt="Pasta" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardPasta">Pasta</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
                           </div>
                         </a>
 
-                        <a href="#collection" data-mega-search="saffron" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="saffron" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=600&q=80" alt="Rice Dishes" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardRice">Rice Dishes</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
                           </div>
                         </a>
 
-                        <a href="#collection" data-mega-search="sourdough" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="sourdough" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Pizza" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardPizza">Pizza</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
                           </div>
                         </a>
 
-                        <a href="#collection" data-mega-search="lamb" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10 hover:border-white/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
+                        <a href="#collection" data-mega-search="lamb" class="mega-food-card group/card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30 hover:border-ivory/75 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-white">
                           <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burgers" loading="lazy" class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-500 ease-out opacity-85 group-hover/card:opacity-100" />
-                          <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/35 to-transparent"></div>
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent"></div>
                           <div class="absolute inset-x-3 bottom-2.5 flex items-center justify-between gap-1">
                             <span class="text-xs font-medium text-white truncate" data-i18n="megaCardBurgers">Burgers</span>
                             <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white/70 group-hover/card:text-white group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all shrink-0"></i>
@@ -809,32 +1006,32 @@
                     <div class="pt-3.5 hairline-t flex items-center justify-between gap-3 flex-wrap">
                       <span class="text-[10px] uppercase tracking-[0.2em] text-stone" data-i18n="cuisinesEyebrow">CULINARY ATLAS</span>
                       <div class="flex items-center flex-wrap gap-1.5">
-                        <a href="cuisines/iran.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryIran">Iran</a>
-                        <a href="cuisines/italy.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryItaly">Italy</a>
-                        <a href="cuisines/france.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryFrance">France</a>
-                        <a href="cuisines/japan.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryJapan">Japan</a>
-                        <a href="cuisines/turkey.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryTurkey">Turkey</a>
-                        <a href="cuisines/mexico.html" class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/70 hover:bg-white/[0.1] text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryMexico">Mexico</a>
+                        <a href="cuisines/iran.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryIran">Iran</a>
+                        <a href="cuisines/italy.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryItaly">Italy</a>
+                        <a href="cuisines/france.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryFrance">France</a>
+                        <a href="cuisines/japan.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryJapan">Japan</a>
+                        <a href="cuisines/turkey.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryTurkey">Turkey</a>
+                        <a href="cuisines/mexico.html" class="px-2.5 py-1 rounded-full bg-[#121212]/70 border border-[#696969]/35 hover:border-ivory/70 hover:bg-[#2F4F4F]/50 text-[11px] text-ivory hover:text-white transition-all" data-i18n="countryMexico">Mexico</a>
                       </div>
                     </div>
                   </div>
 
                   <!-- 3. RIGHT SECTION — FEATURED RECIPE BANNER -->
-                  <div class="col-span-3 p-5 lg:p-6 border-s border-white/10">
-                    <div class="group/banner relative h-full min-h-[320px] rounded-2xl overflow-hidden bg-obsidian border border-white/15 flex flex-col justify-between p-5">
+                  <div class="col-span-3 p-5 lg:p-6 border-s border-[#696969]/25">
+                    <div class="group/banner relative h-full min-h-[320px] rounded-2xl overflow-hidden bg-obsidian border border-[#696969]/35 flex flex-col justify-between p-5">
                       <img
                         src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=85"
                         alt="Featured Culinary Collection"
                         loading="lazy"
                         class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover/banner:scale-105 transition-transform duration-700"
                       />
-                      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/65 to-obsidian/30"></div>
+                      <div class="absolute inset-0 bg-gradient-to-t from-black via-[#121212]/70 to-[#2F4F4F]/25"></div>
 
                       <div class="relative z-10 flex items-center justify-between">
-                        <span class="w-10 h-10 rounded-full glass-surface border border-white/25 flex items-center justify-center text-white">
+                        <span class="w-10 h-10 rounded-full glass-surface border border-[#696969]/50 flex items-center justify-center text-white">
                           <i data-lucide="chef-hat" class="w-5 h-5"></i>
                         </span>
-                        <span class="text-[10px] uppercase tracking-[0.22em] text-white/75 px-2.5 py-1 rounded-full bg-obsidian/60 border border-white/15" data-i18n="megaBannerBadge">FEATURED</span>
+                        <span class="text-[10px] uppercase tracking-[0.22em] text-ivory/85 px-2.5 py-1 rounded-full bg-black/65 border border-[#696969]/40" data-i18n="megaBannerBadge">FEATURED</span>
                       </div>
 
                       <div class="relative z-10 space-y-3">
@@ -848,7 +1045,7 @@
                           <a
                             href="#collection"
                             id="megaExploreAllBtn"
-                            class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full border border-white/80 text-white hover:bg-white hover:text-obsidian text-[11px] uppercase tracking-[0.16em] font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                            class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full border border-ivory/80 text-white hover:bg-ivory hover:text-black text-[11px] uppercase tracking-[0.16em] font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                           >
                             <span data-i18n="megaBannerCta">Explore All</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
@@ -917,7 +1114,7 @@
       <!-- Mobile Dropdown Menu -->
       <div
         id="mobileMenu"
-        class="hidden md:hidden relative z-50 mt-2 px-4 pb-5 pt-3 rounded-2xl bg-[#0B0C0E]/95 backdrop-blur-xl border border-white/15 shadow-2xl space-y-1 text-xs uppercase tracking-[0.16em] max-h-[80dvh] overflow-y-auto"
+        class="hidden md:hidden relative z-50 mt-2 px-4 pb-5 pt-3 rounded-2xl bg-[#121212]/95 backdrop-blur-xl border border-[#696969]/35 shadow-2xl space-y-1 text-xs uppercase tracking-[0.16em] max-h-[80dvh] overflow-y-auto"
       >
         <div class="mobile-nav-row">
           <a href="#collection" data-nav-target="collection" class="mobile-link nav-link active" data-i18n="navMasterclasses">Masterclasses</a>
@@ -939,61 +1136,61 @@
           <!-- Mobile Expanded Mega Content -->
           <div
             id="mobileCuisinesList"
-            class="hidden mt-2 p-3 rounded-xl bg-[#131519] border border-white/10 space-y-4 normal-case tracking-normal"
+            class="hidden mt-2 p-3 rounded-xl bg-black/75 border border-[#696969]/30 space-y-4 normal-case tracking-normal"
           >
             <div class="grid grid-cols-2 gap-1.5">
               <button type="button" data-mega-cat="all" class="mega-cat-item active flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAll">All Recipes</span></button>
-              <button type="button" data-mega-cat="mains" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatMains">Main Dishes</span></button>
-              <button type="button" data-mega-cat="appetizers" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button>
-              <button type="button" data-mega-cat="salads" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSalads">Salads</span></button>
-              <button type="button" data-mega-cat="soups" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSoups">Soups</span></button>
-              <button type="button" data-mega-cat="pastry" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDesserts">Desserts</span></button>
-              <button type="button" data-mega-cat="drinks" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDrinks">Drinks</span></button>
-              <button type="button" data-mega-cat="vegetarian" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button>
-              <button type="button" data-mega-cat="healthy" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button>
-              <button type="button" data-mega-cat="quick" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#1B1E24] text-ivory/90"><i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button>
+              <button type="button" data-mega-cat="mains" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="flame" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatMains">Main Dishes</span></button>
+              <button type="button" data-mega-cat="appetizers" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAppetizers">Appetizers</span></button>
+              <button type="button" data-mega-cat="salads" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="salad" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSalads">Salads</span></button>
+              <button type="button" data-mega-cat="soups" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="soup" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatSoups">Soups</span></button>
+              <button type="button" data-mega-cat="pastry" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="cake-slice" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDesserts">Desserts</span></button>
+              <button type="button" data-mega-cat="drinks" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="wine" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatDrinks">Drinks</span></button>
+              <button type="button" data-mega-cat="vegetarian" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="leaf" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatVegetarian">Vegetarian</span></button>
+              <button type="button" data-mega-cat="healthy" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="heart-pulse" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatHealthy">Healthy Food</span></button>
+              <button type="button" data-mega-cat="quick" class="mega-cat-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs bg-[#121212] text-ivory/90"><i data-lucide="timer" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatQuick">Quick &amp; Easy</span></button>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <a href="#collection" data-mega-search="duck" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="duck" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=75" alt="Meat Dishes" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardMeat">Meat Dishes</span>
               </a>
-              <a href="#collection" data-mega-search="seafood" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="seafood" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=400&q=75" alt="Seafood" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardSeafood">Seafood</span>
               </a>
-              <a href="#collection" data-mega-search="pasta" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="pasta" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=400&q=75" alt="Pasta" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPasta">Pasta</span>
               </a>
-              <a href="#collection" data-mega-search="saffron" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="saffron" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=400&q=75" alt="Rice Dishes" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardRice">Rice Dishes</span>
               </a>
-              <a href="#collection" data-mega-search="sourdough" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="sourdough" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=75" alt="Pizza" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardPizza">Pizza</span>
               </a>
-              <a href="#collection" data-mega-search="lamb" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-white/10">
+              <a href="#collection" data-mega-search="lamb" class="mega-food-card relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian border border-[#696969]/30">
                 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=75" alt="Burgers" class="w-full h-full object-cover opacity-80" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/95 via-obsidian/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent"></div>
                 <span class="absolute bottom-2 start-2.5 text-xs font-medium text-white" data-i18n="megaCardBurgers">Burgers</span>
               </a>
             </div>
 
             <div class="pt-3 hairline-t flex flex-wrap gap-1.5">
-              <a href="cuisines/iran.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryIran">Iran</a>
-              <a href="cuisines/italy.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryItaly">Italy</a>
-              <a href="cuisines/france.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryFrance">France</a>
-              <a href="cuisines/japan.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryJapan">Japan</a>
-              <a href="cuisines/turkey.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryTurkey">Turkey</a>
-              <a href="cuisines/mexico.html" class="px-3 py-1.5 rounded-full bg-[#1B1E24] hairline-border text-xs text-ivory hover:text-white" data-i18n="countryMexico">Mexico</a>
+              <a href="cuisines/iran.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryIran">Iran</a>
+              <a href="cuisines/italy.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryItaly">Italy</a>
+              <a href="cuisines/france.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryFrance">France</a>
+              <a href="cuisines/japan.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryJapan">Japan</a>
+              <a href="cuisines/turkey.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryTurkey">Turkey</a>
+              <a href="cuisines/mexico.html" class="px-3 py-1.5 rounded-full bg-[#121212] hairline-border text-xs text-ivory hover:text-white hover:bg-[#2F4F4F]/50" data-i18n="countryMexico">Mexico</a>
             </div>
           </div>
         </div>
@@ -1035,18 +1232,18 @@
         />
       </video>
 
-      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/75 to-obsidian/35"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-obsidian/40 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/35"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div class="max-w-3xl space-y-4 sm:space-y-6">
-        <div class="inline-flex items-center gap-2.5 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-white/80 font-medium">
-          <span class="w-6 sm:w-7 h-[1.5px] bg-white/80 shrink-0"></span>
+        <div class="inline-flex items-center gap-2.5 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-ivory/85 font-medium">
+          <span class="w-6 sm:w-7 h-[1.5px] bg-[#696969] shrink-0"></span>
           <span data-i18n="heroEyebrow">PRIVATE CULINARY ARCHIVE</span>
         </div>
 
-        <h1 class="editorial-serif text-[2.1rem] sm:text-5xl md:text-6xl lg:text-[4.6rem] font-normal leading-[1.14] sm:leading-[1.1] text-white" data-i18n="heroTitle">
+        <h1 class="editorial-serif text-[2.1rem] sm:text-5xl md:text-6xl lg:text-[4.6rem] font-normal leading-[1.14] sm:leading-[1.1] text-white drop-shadow-sm" data-i18n="heroTitle">
           Precision, Restraint, and the Architecture of Flavor.
         </h1>
 
@@ -1055,7 +1252,7 @@
         </p>
 
         <div class="pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 max-w-2xl">
-          <div class="flex-1 flex items-center gap-3 px-4 h-12 sm:h-[52px] rounded-full glass-surface focus-within:border-white/70 transition-colors">
+          <div class="flex-1 flex items-center gap-3 px-4 h-12 sm:h-[52px] rounded-full glass-surface focus-within:border-ivory/75 transition-colors">
             <svg class="w-4 h-4 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
@@ -1090,12 +1287,12 @@
   <!-- ======================================================================= -->
   <!-- 3. MASTERCLASSES & RECIPES GRID                                         -->
   <!-- ======================================================================= -->
-  <section id="collection" class="py-14 sm:py-24 lg:py-28">
+  <section id="collection" class="relative py-14 sm:py-24 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 mb-8 sm:mb-10 hairline-b">
         <div>
-          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/75 font-medium mb-2" data-i18n="collectionEyebrow">CURATED REPERTOIRE</span>
           <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="collectionTitle">Masterclasses &amp; Recipes</h2>
         </div>
 
@@ -1103,13 +1300,13 @@
       </div>
 
       <div class="flex items-center justify-between text-xs text-stone mb-6 sm:mb-8">
-        <span id="resultsCountText" class="font-medium text-white/85">6 Entries</span>
+        <span id="resultsCountText" class="font-medium text-ivory/90">6 Entries</span>
         <span class="hidden md:inline" data-i18n="collectionHint">Select any entry for full video, scalable formula, and cook mode</span>
       </div>
 
       <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-7 gap-y-7 sm:gap-y-11"></div>
 
-      <div id="emptyState" class="hidden py-16 sm:py-20 px-4 text-center hairline-border rounded-2xl bg-charcoal/50">
+      <div id="emptyState" class="hidden py-16 sm:py-20 px-4 text-center card-melt rounded-2xl">
         <p class="editorial-serif text-2xl text-white mb-2" data-i18n="emptyTitle">No matching entries found</p>
         <p class="text-xs text-stone mb-6" data-i18n="emptySubtitle">Adjust your search query or select another discipline.</p>
         <button id="resetFilterBtn" class="btn-glass px-6 py-2.5 rounded-full text-xs uppercase tracking-[0.16em]" data-i18n="emptyReset">
@@ -1144,15 +1341,15 @@
         />
       </video>
 
-      <div class="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/55 to-obsidian"></div>
-      <div class="absolute inset-0 bg-obsidian/35"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black via-black/55 to-black"></div>
+      <div class="absolute inset-0 bg-black/35"></div>
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center space-y-5 sm:space-y-6">
-      <span class="inline-flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.26em] text-white/80 font-medium">
-        <span class="w-5 sm:w-6 h-[1px] bg-white/60"></span>
+      <span class="inline-flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.26em] text-ivory/85 font-medium">
+        <span class="w-5 sm:w-6 h-[1px] bg-[#696969]"></span>
         <span data-i18n="interludeEyebrow">BEHIND THE PASS</span>
-        <span class="w-5 sm:w-6 h-[1px] bg-white/60"></span>
+        <span class="w-5 sm:w-6 h-[1px] bg-[#696969]"></span>
       </span>
 
       <h2 class="editorial-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight" data-i18n="interludeTitle">
@@ -1177,11 +1374,11 @@
   <!-- ======================================================================= -->
   <!-- 5. EDITORIAL JOURNAL & TECHNIQUES                                       -->
   <!-- ======================================================================= -->
-  <section id="journal" class="py-14 sm:py-24 lg:py-28 bg-charcoal/45 hairline-b">
+  <section id="journal" class="relative py-14 sm:py-24 lg:py-28 bg-[#121212]/35 backdrop-blur-[2px] hairline-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-5 mb-9 sm:mb-12">
         <div>
-          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium mb-2" data-i18n="journalEyebrow">CULINARY NOTES</span>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/75 font-medium mb-2" data-i18n="journalEyebrow">CULINARY NOTES</span>
           <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="journalTitle">The Journal</h2>
         </div>
         <p class="text-[13px] sm:text-sm text-stone max-w-md font-light leading-relaxed" data-i18n="journalSubtitle">
@@ -1196,25 +1393,25 @@
   <!-- ======================================================================= -->
   <!-- 6. ABOUT THE CHEF / PHILOSOPHY SECTION (PERSONAL PHOTO)                 -->
   <!-- ======================================================================= -->
-  <section id="philosophy" class="py-14 sm:py-24 lg:py-28">
+  <section id="philosophy" class="relative py-14 sm:py-24 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
         <div class="lg:col-span-5">
-          <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] bg-charcoal hairline-border shadow-2xl">
+          <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] bg-[#121212] hairline-border shadow-2xl">
             <img
               src="photos/photo1.jpg"
               alt="Chef Portrait"
               onerror="this.style.display='none'"
               class="w-full h-full object-cover object-top lg:object-center contrast-[1.03]"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/15 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
             <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex items-end justify-between gap-3 sm:gap-4">
               <div>
-                <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/80 font-medium mb-1" data-i18n="chefRole">FOUNDER &amp; EXECUTIVE CHEF</p>
+                <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium mb-1" data-i18n="chefRole">FOUNDER &amp; EXECUTIVE CHEF</p>
                 <p class="editorial-serif text-xl sm:text-2xl text-white italic" data-i18n="chefName">Chef Julian Vance</p>
               </div>
-              <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-1 ring-white/45 shadow-xl bg-obsidian shrink-0">
+              <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-1 ring-[#696969]/80 shadow-xl bg-black shrink-0">
                 <img
                   src="photos/logo.jpg"
                   alt="Signature Seal"
@@ -1226,7 +1423,7 @@
         </div>
 
         <div class="lg:col-span-7 space-y-5 sm:space-y-6">
-          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-white/70 font-medium" data-i18n="philosophyEyebrow">PHILOSOPHY</span>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/75 font-medium" data-i18n="philosophyEyebrow">PHILOSOPHY</span>
           <h2 class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal leading-tight text-white" data-i18n="philosophyTitle">
             Great cooking is never loud. It is the quiet discipline of heat, time, and respect for raw ingredients.
           </h2>
@@ -1257,13 +1454,13 @@
   <!-- ======================================================================= -->
   <!-- 7. MODERN STRUCTURED FOOTER WITH SOCIAL & CONTACT LINKS                 -->
   <!-- ======================================================================= -->
-  <footer class="pt-14 sm:pt-16 pb-10 hairline-t bg-charcoal/60">
+  <footer class="relative pt-14 sm:pt-16 pb-10 hairline-t bg-[#121212]/55 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 pb-10 sm:pb-12 hairline-b">
 
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-11 h-11 rounded-full overflow-hidden ring-1 ring-white/35 bg-obsidian shrink-0">
+            <div class="w-11 h-11 rounded-full overflow-hidden ring-1 ring-[#696969]/70 bg-black shrink-0">
               <img src="photos/logo.jpg" alt="Signature Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
             </div>
             <div>
@@ -1277,7 +1474,7 @@
         </div>
 
         <div class="md:col-span-3 space-y-3.5">
-          <span class="block text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium" data-i18n="footerExplore">EXPLORE</span>
+          <span class="block text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium" data-i18n="footerExplore">EXPLORE</span>
           <ul class="space-y-2.5 text-sm text-stone">
             <li><a href="#collection" class="hover:text-white transition-colors" data-i18n="navMasterclasses">Masterclasses</a></li>
             <li><a href="#journal" class="hover:text-white transition-colors" data-i18n="navJournal">Journal</a></li>
@@ -1287,7 +1484,7 @@
         </div>
 
         <div class="md:col-span-4 space-y-4">
-          <span class="block text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium" data-i18n="footerConnect">CONNECT &amp; CHANNELS</span>
+          <span class="block text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium" data-i18n="footerConnect">CONNECT &amp; CHANNELS</span>
 
           <a href="mailto:chef@atelier-culinaire.com" class="inline-flex items-center gap-3 text-sm text-ivory/90 hover:text-white transition-colors group">
             <span class="w-9 h-9 rounded-full btn-glass flex items-center justify-center shrink-0">
@@ -1334,7 +1531,7 @@
   <!-- 8. INTERACTIVE RECIPE & VIDEO MASTERCLASS MODAL                         -->
   <!-- ======================================================================= -->
   <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto">
-    <div id="recipeModalWrapper" class="animate-reveal max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
+    <div id="recipeModalWrapper" class="animate-reveal modal-melt max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 sm:border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
       <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-3.5 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <button id="closeRecipeModalBtn" aria-label="Close" class="btn-glass w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-stone hover:text-white">
@@ -1342,7 +1539,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <span id="modalCategoryLabel" class="hidden sm:inline-block truncate text-[11px] uppercase tracking-[0.2em] text-white/80 font-medium">Masterclasses</span>
+          <span id="modalCategoryLabel" class="hidden sm:inline-block truncate text-[11px] uppercase tracking-[0.2em] text-ivory/80 font-medium">Masterclasses</span>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -1355,13 +1552,13 @@
 
           <label class="inline-flex items-center gap-2 px-3 py-2 rounded-full btn-glass cursor-pointer select-none">
             <input id="cookModeCheckbox" type="checkbox" class="sr-only peer" />
-            <span class="w-7 h-4 rounded-full bg-white/15 peer-checked:bg-white relative transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-3 after:h-3 after:rounded-full after:bg-stone peer-checked:after:bg-obsidian after:transition-transform peer-checked:after:translate-x-3 shrink-0"></span>
+            <span class="w-7 h-4 rounded-full bg-[#696969]/40 peer-checked:bg-ivory relative transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-3 after:h-3 after:rounded-full after:bg-stone peer-checked:after:bg-black after:transition-transform peer-checked:after:translate-x-3 shrink-0"></span>
             <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-ivory" data-i18n="cookMode">Cook Mode</span>
           </label>
         </div>
       </div>
 
-      <div id="cookModeStrip" class="hidden bg-white/10 border-b border-white/20 px-4 sm:px-6 py-2.5 text-xs text-white flex items-center justify-between">
+      <div id="cookModeStrip" class="hidden bg-[#2F4F4F]/35 border-b border-[#696969]/35 px-4 sm:px-6 py-2.5 text-xs text-white flex items-center justify-between">
         <span data-i18n="cookModeActive">Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.</span>
       </div>
 
@@ -1371,13 +1568,13 @@
           <p id="modalDesc" class="text-sm sm:text-base text-stone font-light leading-relaxed max-w-3xl"></p>
           <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 text-xs text-stone uppercase tracking-[0.14em]">
             <span class="inline-flex items-center gap-2">
-              <svg class="w-4 h-4 text-white/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span id="modalPrepTime"></span>
             </span>
             <span class="inline-flex items-center gap-2">
-              <svg class="w-4 h-4 text-white/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
               </svg>
               <span id="modalDifficulty"></span>
@@ -1386,7 +1583,7 @@
         </div>
 
         <div class="cook-dim space-y-3 sm:space-y-4">
-          <div class="relative rounded-2xl overflow-hidden bg-obsidian aspect-video hairline-border group">
+          <div class="relative rounded-2xl overflow-hidden bg-black aspect-video hairline-border group">
             <img id="modalVideoPoster" src="" alt="" onerror="this.style.display='none'" class="w-full h-full object-cover transition-transform duration-700" />
             <div id="videoPosterOverlay" class="absolute inset-0 bg-black/45 flex items-center justify-center transition-opacity">
               <button id="videoCenterPlayBtn" aria-label="Play" class="btn-primary w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center">
@@ -1445,8 +1642,8 @@
 
             <ol id="stepsList" class="space-y-5"></ol>
 
-            <div class="p-5 rounded-xl bg-obsidian/70 border border-white/20">
-              <span class="block text-[10px] uppercase tracking-[0.22em] text-white/80 font-medium mb-2" data-i18n="chefNoteLabel">CHEF'S NOTE</span>
+            <div class="p-5 rounded-xl bg-black/55 border border-[#2F4F4F]/70">
+              <span class="block text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium mb-2" data-i18n="chefNoteLabel">CHEF'S NOTE</span>
               <p id="modalChefNote" class="text-sm text-ivory/90 font-light leading-relaxed cook-enlarge"></p>
             </div>
           </div>
@@ -1459,16 +1656,16 @@
   <!-- 9. EDITORIAL JOURNAL READER MODAL                                       -->
   <!-- ======================================================================= -->
   <div id="journalModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-0 sm:p-6 lg:p-8">
-    <div class="animate-reveal max-w-2xl mx-auto my-0 sm:my-6 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
-      <div class="relative h-56 sm:h-64 bg-obsidian">
+    <div class="animate-reveal modal-melt max-w-2xl mx-auto my-0 sm:my-6 min-h-screen sm:min-h-0 sm:border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
+      <div class="relative h-56 sm:h-64 bg-black">
         <img id="journalModalImg" src="" alt="" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-75" />
-        <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/20 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/25 to-transparent"></div>
         <button id="closeJournalModalBtn" aria-label="Close" class="absolute top-4 end-4 btn-glass w-9 h-9 flex items-center justify-center rounded-full text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
       <div class="p-5 sm:p-10 space-y-4 sm:space-y-5">
-        <span id="journalModalTag" class="text-[10px] uppercase tracking-[0.24em] text-white/75 font-medium block"></span>
+        <span id="journalModalTag" class="text-[10px] uppercase tracking-[0.24em] text-ivory/75 font-medium block"></span>
         <h3 id="journalModalTitle" class="editorial-serif text-2xl sm:text-4xl text-white leading-tight"></h3>
         <div id="journalModalBody" class="space-y-4 text-sm sm:text-base text-stone font-light leading-7 sm:leading-8 pt-2"></div>
       </div>
@@ -1479,10 +1676,10 @@
   <!-- 10. CHEF STUDIO / PUBLISH CONTENT MODAL                                 -->
   <!-- ======================================================================= -->
   <div id="studioModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-0 sm:p-6 lg:p-8">
-    <div class="animate-reveal max-w-3xl mx-auto my-0 sm:my-4 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
+    <div class="animate-reveal modal-melt max-w-3xl mx-auto my-0 sm:my-4 min-h-screen sm:min-h-0 sm:border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
       <div class="sticky top-0 z-20 glass-surface border-x-0 border-t-0 px-5 sm:px-8 py-4 sm:py-5 flex items-center justify-between">
         <div>
-          <span class="block text-[10px] uppercase tracking-[0.24em] text-white/75 font-medium mb-1" data-i18n="studioEyebrow">CHEF STUDIO</span>
+          <span class="block text-[10px] uppercase tracking-[0.24em] text-ivory/75 font-medium mb-1" data-i18n="studioEyebrow">CHEF STUDIO</span>
           <h3 class="editorial-serif text-2xl sm:text-3xl text-white" data-i18n="studioTitle">Publish Culinary Entry</h3>
         </div>
         <button id="closeStudioModalBtn" aria-label="Close" class="btn-glass w-9 h-9 flex items-center justify-center rounded-full text-stone hover:text-white">
@@ -1491,7 +1688,7 @@
       </div>
 
       <form id="studioForm" class="p-5 sm:p-8 space-y-5 sm:space-y-6">
-        <div class="p-4 rounded-xl bg-obsidian/70 hairline-border space-y-4">
+        <div class="p-4 rounded-xl bg-black/55 hairline-border space-y-4">
           <div class="flex items-start sm:items-center justify-between gap-3">
             <div>
               <span class="block text-xs font-medium text-white" data-i18n="studioAutoTitle">Auto-Localize Structure</span>
@@ -1499,7 +1696,7 @@
             </div>
             <label class="inline-flex items-center gap-2.5 cursor-pointer shrink-0 pt-0.5 sm:pt-0">
               <input id="autoLocalizeToggle" type="checkbox" checked class="sr-only peer" />
-              <span class="w-9 h-5 rounded-full bg-white/15 peer-checked:bg-white relative transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:rounded-full after:bg-stone peer-checked:after:bg-obsidian after:transition-transform peer-checked:after:translate-x-4"></span>
+              <span class="w-9 h-5 rounded-full bg-[#696969]/40 peer-checked:bg-ivory relative transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:rounded-full after:bg-stone peer-checked:after:bg-black after:transition-transform peer-checked:after:translate-x-4"></span>
             </label>
           </div>
 
@@ -1512,7 +1709,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldCategory">Category</label>
-            <select id="studioCategory" class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70">
+            <select id="studioCategory" class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70">
               <option value="masterclasses">Masterclasses</option>
               <option value="mains">Mains</option>
               <option value="pastry">Pastry</option>
@@ -1522,11 +1719,11 @@
           <div class="grid grid-cols-2 sm:contents gap-4">
             <div>
               <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldPrep">Prep Time (min)</label>
-              <input id="studioPrepMin" type="number" min="5" max="1440" value="45" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70" />
+              <input id="studioPrepMin" type="number" min="5" max="1440" value="45" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70" />
             </div>
             <div>
               <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldServings">Servings</label>
-              <input id="studioServings" type="number" min="1" max="24" value="2" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70" />
+              <input id="studioServings" type="number" min="1" max="24" value="2" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70" />
             </div>
           </div>
         </div>
@@ -1534,7 +1731,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldDifficulty">Difficulty</label>
-            <select id="studioDifficulty" class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70">
+            <select id="studioDifficulty" class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70">
               <option value="essential">Essential</option>
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
@@ -1542,7 +1739,7 @@
           </div>
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldImage">Cover Image URL (Optional)</label>
-            <input id="studioImage" type="url" placeholder="https://images.unsplash.com/..." class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder:text-stone/50 focus:outline-none focus:border-white/70" />
+            <input id="studioImage" type="url" placeholder="https://images.unsplash.com/..." class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder:text-stone/50 focus:outline-none focus:border-ivory/70" />
           </div>
         </div>
 
@@ -1552,22 +1749,22 @@
               <span data-i18n="studioFieldTitle">Title</span>
               <span id="studioActiveLocaleBadge" data-no-translate="true" class="text-white ml-1">[EN]</span>
             </label>
-            <input id="studioTitleInput" type="text" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70" />
+            <input id="studioTitleInput" type="text" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70" />
           </div>
 
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldDesc">Editorial Summary</label>
-            <textarea id="studioDescInput" rows="2" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70"></textarea>
+            <textarea id="studioDescInput" rows="2" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70"></textarea>
           </div>
 
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldIngredients">Ingredients (one per line: Amount | Unit(g/ml/tbsp/tsp/pcs) | Name)</label>
-            <textarea id="studioIngredientsInput" rows="4" placeholder="250 | g | Duck Breast&#10;30 | ml | Olive Oil&#10;2 | pcs | Shallots" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder:text-stone/50 font-mono focus:outline-none focus:border-white/70"></textarea>
+            <textarea id="studioIngredientsInput" rows="4" placeholder="250 | g | Duck Breast&#10;30 | ml | Olive Oil&#10;2 | pcs | Shallots" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder:text-stone/50 font-mono focus:outline-none focus:border-ivory/70"></textarea>
           </div>
 
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2" data-i18n="studioFieldSteps">Method Steps (one step per line)</label>
-            <textarea id="studioStepsInput" rows="4" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70"></textarea>
+            <textarea id="studioStepsInput" rows="4" required class="w-full bg-black/70 hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-ivory/70"></textarea>
           </div>
         </div>
 
@@ -1582,7 +1779,7 @@
   <!-- ======================================================================= -->
   <!-- 11. MINIMALIST TOAST NOTIFICATION                                       -->
   <!-- ======================================================================= -->
-  <div id="toast" class="hidden fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-6 sm:right-6 z-[60] glass-surface border-white/30 px-5 py-3.5 rounded-full shadow-2xl items-center justify-center sm:justify-start gap-3 text-xs text-white tracking-wide">
+  <div id="toast" class="hidden fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-6 sm:right-6 z-[60] glass-surface border-[#696969]/50 px-5 py-3.5 rounded-full shadow-2xl items-center justify-center sm:justify-start gap-3 text-xs text-white tracking-wide">
     <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
@@ -1600,6 +1797,18 @@
         { code: 'en', iso: 'EN', flag: '🇬🇧', native: 'English', intl: 'International', dir: 'ltr' },
         { code: 'de', iso: 'DE', flag: '🇩🇪', native: 'Deutsch', intl: 'German', dir: 'ltr' },
         { code: 'fa', iso: 'FA', flag: '🇮🇷', native: 'فارسی', intl: 'Persian', dir: 'rtl' },
+        { code: 'it', iso: 'IT', flag: '🇮🇹', native: 'Italiano', intl: 'Italian', dir: 'ltr' },
+        { code: 'fr', iso: 'FR', flag: '🇫🇷', native: 'Français', intl: 'French', dir: 'ltr' },
+        { code: 'es', iso: 'ES', flag: '🇪🇸', native: 'Español', intl: 'Spanish', dir: 'ltr' },
+        { code: 'ja', iso: 'JA', flag: '🇯🇵', native: '日本語', intl: 'Japanese', dir: 'ltr' },
+        { code: 'tr', iso: 'TR', flag: '🇹🇷', native: 'Türkçe', intl: 'Turkish', dir: 'ltr' },
+        { code: 'zh-CN', iso: 'ZH', flag: '🇨🇳', native: '简体中文', intl: 'Chinese (Simplified)', dir: 'ltr' },
+        { code: 'ko', iso: 'KO', flag: '🇰🇷', native: '한국어', intl: 'Korean', dir: 'ltr' },
+        { code: 'ar', iso: 'AR', flag: '🇸🇦', native: 'العربية', intl: 'Arabic', dir: 'rtl' },
+        { code: 'hi', iso: 'HI', flag: '🇮🇳', native: 'हिन्दी', intl: 'Hindi', dir: 'ltr' },
+        { code: 'th', iso: 'TH', flag: '🇹🇭', native: 'ไทย', intl: 'Thai', dir: 'ltr' },
+        { code: 'pt', iso: 'PT', flag: '🇵🇹', native: 'Português', intl: 'Portuguese', dir: 'ltr' },
+        { code: 'el', iso: 'EL', flag: '🇬🇷', native: 'Ελληνικά', intl: 'Greek', dir: 'ltr' },
       ];
 
       const UI_TRANSLATIONS = {
@@ -3026,10 +3235,10 @@
         grid.innerHTML = filtered.map((r) => {
           const loc = getLocalizedRecipe(r);
           return `
-            <article data-recipe-id="${r.id}" class="recipe-card group cursor-pointer flex flex-col rounded-2xl p-3 bg-charcoal/40 hairline-border hover:border-white/65 hover:bg-charcoal/80 transition-all duration-300">
-              <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian mb-3.5 sm:mb-4">
+            <article data-recipe-id="${r.id}" class="recipe-card card-melt group cursor-pointer flex flex-col rounded-2xl p-3">
+              <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-black mb-3.5 sm:mb-4">
                 <img src="${r.image}" alt="${loc.title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent"></div>
                 <div class="absolute top-3 end-3 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
                   <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>
                   <span>${r.duration}</span>
@@ -3040,7 +3249,7 @@
                 </div>
               </div>
               <div class="px-1.5 pb-1.5 space-y-2 flex-1 flex flex-col">
-                <div class="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/75 font-medium">
+                <div class="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ivory/75 font-medium">
                   <span>${getDiffLabel(r.difficulty)}</span>
                   <span class="text-stone">${r.baseServings} ${t('servingsLabel')}</span>
                 </div>
@@ -3065,14 +3274,14 @@
         grid.innerHTML = JOURNAL_ARTICLES.map((art) => {
           const loc = getLocalizedArticle(art);
           return `
-            <article data-article-id="${art.id}" class="journal-card group cursor-pointer bg-obsidian/60 hairline-border rounded-2xl overflow-hidden flex flex-col hover:border-white/65 transition-all duration-300">
-              <div class="relative aspect-[16/9] overflow-hidden bg-charcoal">
+            <article data-article-id="${art.id}" class="journal-card card-melt group cursor-pointer rounded-2xl overflow-hidden flex flex-col">
+              <div class="relative aspect-[16/9] overflow-hidden bg-black">
                 <img src="${art.image}" alt="${loc.title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
-                <div class="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent"></div>
               </div>
               <div class="p-5 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
                 <div class="space-y-2.5 sm:space-y-3">
-                  <span class="text-[10px] uppercase tracking-[0.22em] text-white/75 font-medium block">${loc.tag}</span>
+                  <span class="text-[10px] uppercase tracking-[0.22em] text-ivory/75 font-medium block">${loc.tag}</span>
                   <h3 class="editorial-serif text-2xl sm:text-3xl text-ivory group-hover:text-white transition-colors leading-snug">${loc.title}</h3>
                   <p class="text-[13px] sm:text-sm text-stone font-light leading-relaxed">${loc.excerpt}</p>
                 </div>
@@ -3170,8 +3379,8 @@
           const isChecked = checkedSet.has(idx);
           const scaled = formatQty(ing.amount * ratio);
           return `
-            <li data-idx="${idx}" class="ing-row flex items-center gap-3.5 py-3 px-3.5 rounded-xl cursor-pointer transition-colors select-none ${isChecked ? 'bg-white/[0.02] text-stone' : 'hover:bg-white/[0.05] text-ivory'}">
-              <span class="w-5 h-5 sm:w-4 sm:h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${isChecked ? 'border-white bg-white text-obsidian' : 'border-white/30'}">
+            <li data-idx="${idx}" class="ing-row flex items-center gap-3.5 py-3 px-3.5 rounded-xl cursor-pointer transition-colors select-none ${isChecked ? 'bg-white/[0.02] text-stone' : 'hover:bg-[#2F4F4F]/25 text-ivory'}">
+              <span class="w-5 h-5 sm:w-4 sm:h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${isChecked ? 'border-ivory bg-ivory text-black' : 'border-[#696969]/70'}">
                 ${isChecked ? '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>' : ''}
               </span>
               <span class="text-sm font-light cook-enlarge ${isChecked ? 'line-through opacity-50' : ''}">
@@ -3198,7 +3407,7 @@
         const loc = getLocalizedRecipe(activeRecipe);
         document.getElementById('stepsList').innerHTML = loc.steps.map((step, idx) => `
           <li class="flex items-start gap-4">
-            <span data-no-translate="true" class="editorial-serif text-xl text-white/80 leading-none pt-1 min-w-[26px]">${String(idx + 1).padStart(2, '0')}</span>
+            <span data-no-translate="true" class="editorial-serif text-xl text-ivory/80 leading-none pt-1 min-w-[26px]">${String(idx + 1).padStart(2, '0')}</span>
             <p class="text-sm text-ivory/90 font-light leading-7 cook-enlarge">${step}</p>
           </li>
         `).join('');
@@ -3304,7 +3513,7 @@
           const isActive = l.code === studioActiveLocale;
           const hasData = studioDraftLocales[l.code] && studioDraftLocales[l.code].title.trim().length > 0;
           return `
-            <button type="button" data-studio-lang="${l.code}" class="studio-lang-tab px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-colors ${isActive ? 'bg-white text-obsidian font-semibold' : hasData ? 'bg-white/20 text-white border border-white/40' : 'bg-charcoal text-stone hairline-border hover:text-white hover:border-white/50'}">
+            <button type="button" data-studio-lang="${l.code}" class="studio-lang-tab px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-colors ${isActive ? 'bg-ivory text-black font-semibold' : hasData ? 'bg-[#2F4F4F]/60 text-white border border-[#696969]/60' : 'bg-[#121212] text-stone hairline-border hover:text-white hover:border-ivory/50'}">
               ${l.iso}
             </button>
           `;
