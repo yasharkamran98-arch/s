@@ -215,6 +215,162 @@
       }
     }
 
+    /* ===================================================================== */
+    /* MINIMALIST ANIMATED LANGUAGE DROPDOWN (ATELIER THEME)                 */
+    /* ===================================================================== */
+    .atelier-lang-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .atelier-lang-chevron {
+      transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms ease;
+    }
+
+    .atelier-lang-wrapper.is-open .atelier-lang-chevron {
+      transform: rotate(180deg);
+      color: #FFFFFF;
+    }
+
+    .atelier-lang-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      inset-inline-end: 0;
+      min-width: 172px;
+      padding: 6px;
+      border-radius: 14px;
+      background: rgba(19, 21, 25, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.07);
+      z-index: 60;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition:
+        max-height 350ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 350ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .atelier-lang-menu.is-expanded {
+      max-height: 220px;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .atelier-lang-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .atelier-lang-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(244, 243, 239, 0.82);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.2;
+      cursor: pointer;
+      text-align: start;
+      outline: none;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition:
+        opacity 350ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 180ms ease,
+        color 180ms ease;
+    }
+
+    .atelier-lang-menu.is-expanded .atelier-lang-option {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .atelier-lang-menu.is-closing .atelier-lang-option {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    .atelier-lang-option:hover,
+    .atelier-lang-option:focus-visible {
+      background: rgba(255, 255, 255, 0.07);
+      color: #FFFFFF;
+    }
+
+    .atelier-lang-option.is-selected {
+      background: rgba(244, 243, 239, 0.13);
+      color: #FFFFFF;
+      font-weight: 500;
+    }
+
+    .atelier-lang-option.is-selected:hover,
+    .atelier-lang-option.is-selected:focus-visible {
+      background: rgba(244, 243, 239, 0.17);
+    }
+
+    .atelier-lang-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      white-space: nowrap;
+    }
+
+    .atelier-lang-flag {
+      font-size: 15px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .atelier-lang-check {
+      width: 14px;
+      height: 14px;
+      color: #F4F3EF;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 200ms ease, transform 200ms ease;
+      flex-shrink: 0;
+    }
+
+    .atelier-lang-option.is-selected .atelier-lang-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .atelier-lang-option[data-lang-code="fa"] .atelier-lang-name {
+      font-family: 'Vazirmatn', sans-serif;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .atelier-lang-chevron,
+      .atelier-lang-menu,
+      .atelier-lang-option,
+      .atelier-lang-check {
+        transition: none !important;
+        transition-delay: 0ms !important;
+      }
+      .atelier-lang-menu,
+      .atelier-lang-option {
+        transform: none !important;
+      }
+    }
+
     /* Mega Menu Sidebar Active Item */
     .mega-cat-item {
       color: var(--text-stone);
@@ -541,54 +697,7 @@
   }
 }
 
-
-    /* Compact language selector — matched to ATELIER's charcoal / ivory palette */
-    .language-dropdown { position: relative; z-index: 80; }
-    .language-trigger { white-space: nowrap; }
-    .language-chevron { transition: transform 250ms ease, color 250ms ease; }
-    .language-dropdown.is-open .language-chevron { transform: rotate(180deg); color: #F4F3EF; }
-    .language-menu {
-      position: absolute; top: calc(100% + 10px); right: 0; width: 188px;
-      padding: 7px; border-radius: 14px; background: rgba(19,21,25,.97);
-      border: 1px solid rgba(255,255,255,.075); box-shadow: 0 18px 42px rgba(0,0,0,.48);
-      opacity: 0; visibility: hidden; pointer-events: none;
-      transform: translateY(-7px) scale(.985); transform-origin: top right;
-      transition: opacity 350ms ease, transform 350ms cubic-bezier(.2,.75,.25,1), visibility 350ms;
-    }
-    .language-dropdown.is-open .language-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); }
-    .language-option {
-      width: 100%; min-height: 42px; display: flex; align-items: center; gap: 10px;
-      padding: 0 11px; border: 0; border-radius: 9px; background: transparent;
-      color: #D7D8DC; text-align: left; font: 400 12px/1.2 Inter, sans-serif;
-      opacity: 0; transform: translateY(-7px);
-      transition: opacity 350ms ease, transform 350ms cubic-bezier(.2,.75,.25,1), background 180ms ease, color 180ms ease;
-      transition-delay: 0ms;
-    }
-    .language-dropdown.is-open .language-option { opacity: 1; transform: translateY(0); }
-    .language-dropdown.is-open .language-option:nth-child(1) { transition-delay: 0ms; }
-    .language-dropdown.is-open .language-option:nth-child(2) { transition-delay: 60ms; }
-    .language-dropdown.is-open .language-option:nth-child(3) { transition-delay: 120ms; }
-    .language-dropdown.is-closing .language-option:nth-child(1) { transition-delay: 120ms; }
-    .language-dropdown.is-closing .language-option:nth-child(2) { transition-delay: 60ms; }
-    .language-dropdown.is-closing .language-option:nth-child(3) { transition-delay: 0ms; }
-    .language-dropdown.is-closing .language-menu { opacity: 1; visibility: visible; pointer-events: none; transform: translateY(0) scale(1); }
-    .language-dropdown.is-closing .language-option { opacity: 0; transform: translateY(-7px); }
-    .language-option:hover, .language-option:focus-visible { outline: none; color: #fff; background: rgba(255,255,255,.075); }
-    .language-option[aria-checked="true"] { color: #fff; background: rgba(205,119,63,.17); }
-    .language-option-label { display: inline-flex; align-items: center; gap: 9px; flex: 1; }
-    .language-flag { font-size: 15px; line-height: 1; }
-    .language-option-meta { color: #858991; font: 500 10px/1 Inter, sans-serif; letter-spacing: .08em; }
-    .language-check { width: 12px; color: #D58B5B; font-size: 12px; opacity: 0; }
-    .language-option[aria-checked="true"] .language-check { opacity: 1; }
-    html[dir="rtl"] .language-menu { right: auto; left: 0; transform-origin: top left; }
-    html[dir="rtl"] .language-option { text-align: right; font-family: 'Vazirmatn', sans-serif; }
-    #google_translate_element { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
-    .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }
-    body { top: 0 !important; }
-    @media (max-width: 480px) { .language-menu { width: 176px; } .language-trigger { padding-inline: 10px; gap: 7px; } }
-    @media (prefers-reduced-motion: reduce) { .language-menu, .language-option, .language-chevron { transition-duration: .01ms !important; transition-delay: 0ms !important; } }
-
-  </style>
+</style>
 </head>
 <body class="bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
 
@@ -609,7 +718,7 @@
             />
           </div>
           <div class="flex items-baseline gap-2.5">
-            <span class="editorial-serif text-xl sm:text-2xl lg:text-3xl font-medium tracking-[0.16em] sm:tracking-[0.22em] text-ivory uppercase">ATELIER</span>
+            <span data-no-translate="true" class="editorial-serif text-xl sm:text-2xl lg:text-3xl font-medium tracking-[0.16em] sm:tracking-[0.22em] text-ivory uppercase">ATELIER</span>
             <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.26em] text-stone group-hover:text-white transition-colors" data-i18n="brandSubtitle">CULINAIRE</span>
           </div>
         </a>
@@ -646,7 +755,7 @@
                   <div class="col-span-3 p-4 lg:p-5 border-e border-white/10 bg-white/[0.015]">
                     <div class="px-2.5 pb-3 mb-2 hairline-b flex items-center justify-between">
                       <span class="text-[10px] uppercase tracking-[0.22em] text-stone font-medium" data-i18n="megaSidebarTitle">Categories</span>
-                      <span class="text-[10px] font-mono text-stone/70">10</span>
+                      <span class="text-[10px] font-mono text-stone/70" data-no-translate="true">10</span>
                     </div>
                     <ul id="megaCategoryList" class="space-y-1" role="menu">
                       <li><button type="button" data-mega-cat="all" class="mega-cat-item active w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-start focus:outline-none focus-visible:ring-1 focus-visible:ring-white"><i data-lucide="utensils-crossed" class="w-3.5 h-3.5 shrink-0"></i><span data-i18n="megaCatAll">All Recipes</span></button></li>
@@ -789,7 +898,7 @@
           <a href="#philosophy" data-nav-target="philosophy" class="nav-link" data-i18n="navPhilosophy">Philosophy</a>
         </nav>
 
-        <!-- Right Controls: Chef Studio + Language Selector -->
+        <!-- Right Controls: Chef Studio + Compact Animated Language Dropdown -->
         <div class="flex items-center gap-2 sm:gap-2.5">
           <button
             id="openStudioBtn"
@@ -802,19 +911,25 @@
             <span class="hidden sm:inline" data-i18n="navAddEntry">Add Entry</span>
           </button>
 
-          <div id="languageDropdown" class="language-dropdown relative">
-            <button id="languageDropdownTrigger" type="button" aria-label="Select language" aria-expanded="false" aria-controls="languageDropdownMenu" class="language-trigger btn-glass inline-flex items-center justify-center gap-2 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.12em] font-medium">
+          <!-- Compact Animated Language Selector -->
+          <div id="langDropdownWrapper" class="atelier-lang-wrapper" data-no-translate="true">
+            <button
+              id="langDropdownTrigger"
+              type="button"
+              aria-label="Select Language"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              class="btn-glass inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-white/80"
+            >
               <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" d="M3.6 9h16.8M3.6 15h16.8M12 3c2.2 2.4 3.3 5.4 3.3 9s-1.1 6.6-3.3 9c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a13.5 13.5 0 013.6 9 13.5 13.5 0 01-3.6 9 13.5 13.5 0 01-3.6-9A13.5 13.5 0 0112 3z" />
               </svg>
               <span id="activeLangCode" class="font-semibold text-white">EN</span>
-              <svg class="language-chevron w-3 h-3 text-stone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="atelier-lang-chevron w-3.5 h-3.5 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
             </button>
-            <div id="languageDropdownMenu" class="language-menu" role="menu" aria-label="Choose language" aria-hidden="true">
-              <button type="button" class="language-option" role="menuitemradio" aria-checked="true" data-lang-pick="en"><span class="language-option-label"><span class="language-flag">🇬🇧</span>English</span><span class="language-option-meta">EN</span><span class="language-check" aria-hidden="true">✓</span></button>
-              <button type="button" class="language-option" role="menuitemradio" aria-checked="false" data-lang-pick="de"><span class="language-option-label"><span class="language-flag">🇩🇪</span>Deutsch</span><span class="language-option-meta">DE</span><span class="language-check" aria-hidden="true">✓</span></button>
-              <button type="button" class="language-option" role="menuitemradio" aria-checked="false" data-lang-pick="fa"><span class="language-flag">🇮🇷</span>فارسی</span><span class="language-option-meta">FA</span><span class="language-check" aria-hidden="true">✓</span></button>
-            </div>
           </div>
 
           <button
@@ -1178,15 +1293,15 @@
 
           <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-6 hairline-t">
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block">15</span>
+              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">15</span>
               <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statYears">Years in Kitchens</span>
             </div>
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block">12</span>
+              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">12</span>
               <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statLanguages">Languages Supported</span>
             </div>
             <div>
-              <span class="editorial-serif text-3xl sm:text-4xl text-white block">64</span>
+              <span class="editorial-serif text-3xl sm:text-4xl text-white block" data-no-translate="true">64</span>
               <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-stone mt-1 block" data-i18n="statFilms">Masterclass Films</span>
             </div>
           </div>
@@ -1209,7 +1324,7 @@
               <img src="photos/logo.jpg" alt="Signature Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
             </div>
             <div>
-              <span class="editorial-serif text-2xl tracking-[0.22em] text-white uppercase block leading-none">ATELIER</span>
+              <span data-no-translate="true" class="editorial-serif text-2xl tracking-[0.22em] text-white uppercase block leading-none">ATELIER</span>
               <span class="text-[11px] text-stone tracking-wide mt-1 block" data-i18n="footerCopy">International Culinary Platform</span>
             </div>
           </div>
@@ -1237,7 +1352,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </span>
-            <span>chef@atelier-culinaire.com</span>
+            <span data-no-translate="true">chef@atelier-culinaire.com</span>
           </a>
 
           <div class="flex items-center gap-3 pt-1">
@@ -1273,7 +1388,7 @@
   </footer>
 
   <!-- ======================================================================= -->
-  <!-- 9. INTERACTIVE RECIPE & VIDEO MASTERCLASS MODAL                         -->
+  <!-- 8. INTERACTIVE RECIPE & VIDEO MASTERCLASS MODAL                         -->
   <!-- ======================================================================= -->
   <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto">
     <div id="recipeModalWrapper" class="animate-reveal max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
@@ -1345,7 +1460,7 @@
                   <button id="videoToggleBtn" class="inline-flex items-center gap-2 hover:text-white transition-colors uppercase tracking-wider text-[11px] py-1">
                     <span id="videoToggleText">Play</span>
                   </button>
-                  <span id="videoClock" dir="ltr" class="font-mono text-[11px] text-stone">00:00 / 12:00</span>
+                  <span id="videoClock" dir="ltr" data-no-translate="true" class="font-mono text-[11px] text-stone">00:00 / 12:00</span>
                 </div>
                 <span class="hidden sm:inline text-[10px] uppercase tracking-[0.2em] text-stone">4K STUDIO MASTER</span>
               </div>
@@ -1368,7 +1483,7 @@
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15"/></svg>
                 </button>
                 <div class="text-center min-w-[44px]">
-                  <span id="servingsNumber" class="block text-sm font-semibold text-white leading-none">2</span>
+                  <span id="servingsNumber" data-no-translate="true" class="block text-sm font-semibold text-white leading-none">2</span>
                   <span class="text-[10px] uppercase tracking-wider text-stone" data-i18n="servingsLabel">Yield</span>
                 </div>
                 <button id="incServingsBtn" aria-label="Increase servings" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center">
@@ -1398,7 +1513,7 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 10. EDITORIAL JOURNAL READER MODAL                                      -->
+  <!-- 9. EDITORIAL JOURNAL READER MODAL                                       -->
   <!-- ======================================================================= -->
   <div id="journalModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-0 sm:p-6 lg:p-8">
     <div class="animate-reveal max-w-2xl mx-auto my-0 sm:my-6 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
@@ -1418,7 +1533,7 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 11. CHEF STUDIO / PUBLISH CONTENT MODAL                                 -->
+  <!-- 10. CHEF STUDIO / PUBLISH CONTENT MODAL                                 -->
   <!-- ======================================================================= -->
   <div id="studioModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-0 sm:p-6 lg:p-8">
     <div class="animate-reveal max-w-3xl mx-auto my-0 sm:my-4 min-h-screen sm:min-h-0 bg-charcoal sm:hairline-border rounded-none sm:rounded-2xl overflow-hidden shadow-2xl">
@@ -1437,7 +1552,7 @@
           <div class="flex items-start sm:items-center justify-between gap-3">
             <div>
               <span class="block text-xs font-medium text-white" data-i18n="studioAutoTitle">Auto-Localize Structure</span>
-              <span class="block text-[11px] text-stone mt-0.5 leading-relaxed" data-i18n="studioAutoDesc">Automatically adapts categories, units, metadata, and culinary terms across all 12 languages.</span>
+              <span class="block text-[11px] text-stone mt-0.5 leading-relaxed" data-i18n="studioAutoDesc">Automatically adapts categories, units, metadata, and culinary terms across all supported languages.</span>
             </div>
             <label class="inline-flex items-center gap-2.5 cursor-pointer shrink-0 pt-0.5 sm:pt-0">
               <input id="autoLocalizeToggle" type="checkbox" checked class="sr-only peer" />
@@ -1447,7 +1562,7 @@
 
           <div class="pt-3 hairline-t">
             <span class="block text-[10px] uppercase tracking-[0.2em] text-stone mb-2.5" data-i18n="studioLocaleTabsLabel">Editing Locale (Switch to add custom translations per language)</span>
-            <div id="studioLocaleTabs" class="flex flex-wrap gap-1.5"></div>
+            <div id="studioLocaleTabs" class="flex flex-wrap gap-1.5" data-no-translate="true"></div>
           </div>
         </div>
 
@@ -1492,7 +1607,7 @@
           <div>
             <label class="block text-[11px] uppercase tracking-[0.14em] text-stone mb-2">
               <span data-i18n="studioFieldTitle">Title</span>
-              <span id="studioActiveLocaleBadge" class="text-white ml-1">[EN]</span>
+              <span id="studioActiveLocaleBadge" data-no-translate="true" class="text-white ml-1">[EN]</span>
             </label>
             <input id="studioTitleInput" type="text" required class="w-full bg-obsidian hairline-border rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white focus:outline-none focus:border-white/70" />
           </div>
@@ -1522,7 +1637,7 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 12. MINIMALIST TOAST NOTIFICATION                                       -->
+  <!-- 11. MINIMALIST TOAST NOTIFICATION                                       -->
   <!-- ======================================================================= -->
   <div id="toast" class="hidden fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-6 sm:right-6 z-[60] glass-surface border-white/30 px-5 py-3.5 rounded-full shadow-2xl items-center justify-center sm:justify-start gap-3 text-xs text-white tracking-wide">
     <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -1532,18 +1647,16 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 13. APPLICATION ENGINE & 12-LANGUAGE i18n ARCHITECTURE                  -->
+  <!-- 12. APPLICATION ENGINE, ANIMATED LANGUAGE DROPDOWN & AUTO TRANSLATOR    -->
   <!-- ======================================================================= -->
-  <div id="google_translate_element" aria-hidden="true"></div>
-
   <script>
     (function () {
       'use strict';
 
       const LANGUAGES = [
-        { code: 'en', iso: 'EN', native: 'English', intl: 'English', dir: 'ltr', flag: '🇬🇧' },
-        { code: 'de', iso: 'DE', native: 'Deutsch', intl: 'German', dir: 'ltr', flag: '🇩🇪' },
-        { code: 'fa', iso: 'FA', native: 'فارسی', intl: 'Persian', dir: 'rtl', flag: '🇮🇷' },
+        { code: 'en', iso: 'EN', flag: '🇬🇧', native: 'English', intl: 'International', dir: 'ltr' },
+        { code: 'de', iso: 'DE', flag: '🇩🇪', native: 'Deutsch', intl: 'German', dir: 'ltr' },
+        { code: 'fa', iso: 'FA', flag: '🇮🇷', native: 'فارسی', intl: 'Persian', dir: 'rtl' },
       ];
 
       const UI_TRANSLATIONS = {
@@ -1614,8 +1727,6 @@
           footerConnect: 'CONNECT & CHANNELS',
           footerChangeLang: 'Language',
           footerTop: 'Top ↑',
-          langModalEyebrow: 'GLOBAL EDITION',
-          langModalTitle: 'Select Language',
           jumpToMethod: 'Jump to Method',
           cookMode: 'Cook Mode',
           cookModeActive: 'Cook Mode Active — Screen Wake Lock requested and typography enlarged for kitchen readability.',
@@ -1630,7 +1741,7 @@
           studioEyebrow: 'CHEF STUDIO',
           studioTitle: 'Publish Culinary Entry',
           studioAutoTitle: 'Auto-Localize Structure',
-          studioAutoDesc: 'Automatically adapts categories, units, metadata, and culinary terms across all 12 languages.',
+          studioAutoDesc: 'Automatically adapts categories, units, metadata, and culinary terms across all supported languages.',
           studioLocaleTabsLabel: 'Editing Locale (Switch to add custom translations per language)',
           studioFieldCategory: 'Category',
           studioFieldPrep: 'Prep Time (min)',
@@ -1643,7 +1754,7 @@
           studioFieldSteps: 'Method Steps (one step per line)',
           studioCancel: 'Cancel',
           studioPublish: 'Publish to Archive',
-          toastPublished: 'Entry published and localized across all 12 languages.',
+          toastPublished: 'Entry published and automatically localized.',
           toastLangChanged: 'Language switched to English.',
           cats: { all: 'All', masterclasses: 'Masterclasses', mains: 'Mains', pastry: 'Pastry', techniques: 'Techniques' },
           diff: { essential: 'Essential', intermediate: 'Intermediate', advanced: 'Advanced' },
@@ -1716,8 +1827,6 @@
           footerConnect: 'راه‌های ارتباطی و شبکه‌های اجتماعی',
           footerChangeLang: 'تغییر زبان',
           footerTop: 'بازگشت به بالا ↑',
-          langModalEyebrow: 'نسخه بین‌المللی',
-          langModalTitle: 'انتخاب زبان',
           jumpToMethod: 'پرش به مراحل پخت',
           cookMode: 'حالت آشپزی',
           cookModeActive: 'حالت آشپزی فعال شد — صفحه نمایش روشن می‌ماند و خوانایی متن افزایش یافت.',
@@ -1732,7 +1841,7 @@
           studioEyebrow: 'استودیو سرآشپز',
           studioTitle: 'انتشار محتوای جدید',
           studioAutoTitle: 'بومی‌سازی خودکار ساختار',
-          studioAutoDesc: 'دسته‌بندی‌ها، واحدهای اندازه‌گیری، زمان و اصطلاحات آشپزی به‌صورت خودکار در تمام ۱۲ زبان تطبیق می‌یابند.',
+          studioAutoDesc: 'دسته‌بندی‌ها، واحدهای اندازه‌گیری، زمان و اصطلاحات آشپزی به‌صورت خودکار در تمام زبان‌ها ترجمه و تطبیق می‌یابند.',
           studioLocaleTabsLabel: 'زبان در حال ویرایش (برای ثبت ترجمه اختصاصی، زبان دیگری انتخاب کنید)',
           studioFieldCategory: 'دسته‌بندی',
           studioFieldPrep: 'زمان آماده‌سازی (دقیقه)',
@@ -1745,7 +1854,7 @@
           studioFieldSteps: 'مراحل پخت (هر مرحله در یک خط)',
           studioCancel: 'انصراف',
           studioPublish: 'انتشار در آرشیو',
-          toastPublished: 'مطلب جدید منتشر شد و با سیستم ۱۲ زبانه همگام گردید.',
+          toastPublished: 'مطلب جدید منتشر شد و به‌صورت خودکار ترجمه گردید.',
           toastLangChanged: 'زبان سایت به فارسی تغییر یافت.',
           cats: { all: 'همه', masterclasses: 'مسترکلاس‌ها', mains: 'غذاهای اصلی', pastry: 'شیرینی‌پزی', techniques: 'تکنیک‌ها' },
           diff: { essential: 'پایه', intermediate: 'متوسط', advanced: 'پیشرفته' },
@@ -1768,44 +1877,71 @@
           navJournal: 'Journal', navPhilosophy: 'Philosophie', navAddEntry: 'Neuer Eintrag',
           heroEyebrow: 'PRIVATES KULINARISCHES ARCHIV',
           heroTitle: 'Präzision, Zurückhaltung und die Architektur des Geschmacks.',
-          heroSubtitle: 'Eine internationale Sammlung gefilmter Meisterklassen, grundlegender Techniken und saisonaler Kompositionen.',
+          heroSubtitle: 'Eine internationale Sammlung gefilmter Meisterklassen, grundlegender Techniken und saisonaler Kompositionen aus der Studioküche.',
           searchPlaceholder: 'Gerichte, Zutaten oder Techniken suchen...', heroCta: 'Meisterklasse ansehen',
           collectionEyebrow: 'KURATIERTES REPERTOIRE', collectionTitle: 'Meisterklassen & Rezepte',
+          collectionHint: 'Wählen Sie einen Eintrag für vollständiges Video, skalierbare Formel und Kochmodus',
+          emptyTitle: 'Keine passenden Einträge gefunden',
+          emptySubtitle: 'Passen Sie Ihre Suchanfrage an oder wählen Sie eine andere Kategorie.',
+          emptyReset: 'Filter zurücksetzen',
           interludeEyebrow: 'HINTER DEM PASS', interludeTitle: 'Feuer, Dampf und der ruhige Rhythmus des Handwerks.',
+          interludeSubtitle: 'Jede Bewegung in der Küche trägt Absicht — vom Zischen einer kalten Pfanne bis zum Ruhen vor dem letzten Schnitt.',
           interludeCtaPrimary: 'Journal entdecken', interludeCtaSecondary: 'Unsere Philosophie',
+          journalEyebrow: 'KULINARISCHE NOTIZEN', journalTitle: 'Das Journal',
+          journalSubtitle: 'Essays über Temperaturkontrolle, Fermentation und Herkunft der Zutaten für Köche, die den Grund hinter jeder Bewegung schätzen.',
+          readEssay: 'Essay lesen',
+          philosophyEyebrow: 'PHILOSOPHIE',
+          philosophyTitle: 'Große Küche ist niemals laut. Sie ist die ruhige Disziplin aus Hitze, Zeit und Respekt vor rohen Zutaten.',
+          philosophyBody: 'Nach fünfzehn Jahren an der Spitze von Degustationsküchen in Paris, Kyoto und Kopenhagen entstand ATELIER als ungefilterte digitale Monografie.',
+          chefRole: 'GRÜNDER & EXECUTIVE CHEF',
+          chefName: 'Chef Julian Vance',
+          statYears: 'Jahre in Küchen',
+          statLanguages: 'Unterstützte Sprachen',
+          statFilms: 'Meisterklassen-Filme',
+          footerCopy: 'Internationale Kulinarik-Plattform',
+          footerTagline: 'Gefilmte Meisterklassen, regionale kulinarische Archive und ruhige Küchendisziplin — für Köche überall.',
           footerExplore: 'ENTDECKEN', footerConnect: 'KONTAKT & KANÄLE', footerChangeLang: 'Sprache', footerTop: 'Nach oben ↑',
-          langModalEyebrow: 'GLOBALE AUSGABE', langModalTitle: 'Sprache wählen',
+          jumpToMethod: 'Zur Zubereitung',
+          cookMode: 'Kochmodus',
+          cookModeActive: 'Kochmodus aktiv — Bildschirm bleibt wach und Typografie ist vergrößert.',
+          ingredientsHeading: 'Zutaten',
+          servingsLabel: 'Portionen',
+          methodHeading: 'Zubereitung',
+          chefNoteLabel: 'HINWEIS DES CHEFS',
+          play: 'Abspielen',
+          pause: 'Pause',
+          entriesCount: 'Einträge',
+          checkedOf: 'vorbereitet',
+          studioEyebrow: 'CHEF STUDIO',
+          studioTitle: 'Kulinarischen Eintrag veröffentlichen',
+          studioAutoTitle: 'Struktur automatisch lokalisieren',
+          studioAutoDesc: 'Passt Kategorien, Einheiten, Metadaten und kulinarische Begriffe automatisch an alle Sprachen an.',
+          studioLocaleTabsLabel: 'Bearbeitungssprache (Wechseln für eigene Übersetzungen)',
+          studioFieldCategory: 'Kategorie',
+          studioFieldPrep: 'Vorbereitungszeit (Min.)',
+          studioFieldServings: 'Portionen',
+          studioFieldDifficulty: 'Schwierigkeit',
+          studioFieldImage: 'Titelbild-URL (Optional)',
+          studioFieldTitle: 'Titel',
+          studioFieldDesc: 'Redaktionelle Zusammenfassung',
+          studioFieldIngredients: 'Zutaten (eine pro Zeile: Menge | Einheit | Name)',
+          studioFieldSteps: 'Zubereitungsschritte (ein Schritt pro Zeile)',
+          studioCancel: 'Abbrechen',
+          studioPublish: 'Im Archiv veröffentlichen',
+          toastPublished: 'Eintrag veröffentlicht und automatisch lokalisiert.',
           toastLangChanged: 'Sprache auf Deutsch umgestellt.',
           cats: { all: 'Alle', masterclasses: 'Meisterklassen', mains: 'Hauptgerichte', pastry: 'Patisserie', techniques: 'Techniken' },
           diff: { essential: 'Basis', intermediate: 'Mittel', advanced: 'Anspruchsvoll' },
           units: { g: 'g', ml: 'ml', tbsp: 'EL', tsp: 'TL', pcs: 'Stk.', cup: 'Tasse', pinch: 'Prise', min: 'Min.' },
         },
-        fr: {
-          brandSubtitle: 'CULINAIRE', navMasterclasses: 'Masterclasses', navCuisines: 'Cuisines',
-          megaSidebarTitle: 'Catégories', megaCatAll: 'Toutes les recettes', megaCatMains: 'Plats principaux',
-          megaBannerTitle: 'Découvrir des recettes', megaBannerCta: 'Tout explorer',
-          countryIran: 'Iran', countryItaly: 'Italie', countryFrance: 'France', countryJapan: 'Japon', countryTurkey: 'Turquie', countryMexico: 'Mexique',
-          navJournal: 'Journal', navPhilosophy: 'Philosophie', navAddEntry: 'Publier',
-          toastLangChanged: 'Langue définie sur Français.',
-          cats: { all: 'Tout', masterclasses: 'Masterclasses', mains: 'Plats', pastry: 'Pâtisserie', techniques: 'Techniques' },
-        },
-        ar: {
-          brandSubtitle: 'أتيليه الطهي', navMasterclasses: 'الدروس الاحترافية', navCuisines: 'مطابخ العالم',
-          megaSidebarTitle: 'التصنيفات', megaCatAll: 'جميع الوصفات', megaCatMains: 'الأطباق الرئيسية',
-          megaBannerTitle: 'اكتشف أشهى الوصفات', megaBannerCta: 'استكشف الكل',
-          countryIran: 'إيران', countryItaly: 'إيطاليا', countryFrance: 'فرنسا', countryJapan: 'اليابان', countryTurkey: 'تركيا', countryMexico: 'المكسيك',
-          navJournal: 'المجلة', navPhilosophy: 'الفلسفة', navAddEntry: 'إضافة محتوى',
-          toastLangChanged: 'تم تغيير اللغة إلى العربية.',
-          cats: { all: 'الكل', masterclasses: 'الدروس', mains: 'الأطباق الرئيسية', pastry: 'الحلويات', techniques: 'التقنيات' },
-        },
       };
 
       const CULINARY_GLOSSARY = {
-        'duck breast': { fa: 'سینه اردک', de: 'Entenbrust', fr: 'Magret de canard', ar: 'صدر البط' },
-        'olive oil': { fa: 'روغن زیتون', de: 'Olivenöl', fr: "Huile d'olive", ar: 'زيت زيتون' },
-        'butter': { fa: 'کره', de: 'Butter', fr: 'Beurre', ar: 'زبدة' },
-        'saffron': { fa: 'زعفران', de: 'Safran', fr: 'Safran', ar: 'زعفران' },
-        'sea salt': { fa: 'نمک دریا', de: 'Meersalz', fr: 'Fleur de sel', ar: 'ملح بحري' },
+        'duck breast': { fa: 'سینه اردک', de: 'Entenbrust' },
+        'olive oil': { fa: 'روغن زیتون', de: 'Olivenöl' },
+        'butter': { fa: 'کره', de: 'Butter' },
+        'saffron': { fa: 'زعفران', de: 'Safran' },
+        'sea salt': { fa: 'نمک دریا', de: 'Meersalz' },
       };
 
       const DEFAULT_RECIPES = [
@@ -2161,13 +2297,609 @@
         },
       ];
 
-      const STORAGE_KEY = 'atelier_custom_recipes_v1';
-      let currentLang = (() => {
+      /* ===================================================================== */
+      /* FREE ZERO-API-KEY AUTOMATIC WHOLE-SITE TRANSLATION ENGINE             */
+      /* Translates entire DOM + dynamically added future content via Observer */
+      /* ===================================================================== */
+      const AutoTranslator = (() => {
+        const CACHE_KEY = 'atelier_free_tx_cache_v1';
+        const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG', 'PATH', 'CODE', 'PRE', 'TEXTAREA', 'INPUT']);
+        const TRANSLATABLE_ATTRS = ['placeholder', 'title'];
+        const DELIMITER = '\n§§§\n';
+
+        const originalTextMap = new WeakMap();
+        const originalAttrMap = new WeakMap();
+        let cache = {};
+        let observer = null;
+        let activeLang = 'en';
+        let isApplying = false;
+        let runToken = 0;
+        let pendingRoots = new Set();
+        let mutationTimer = null;
+
         try {
-          const saved = localStorage.getItem('atelier_language_v1');
-          return ['en', 'de', 'fa'].includes(saved) ? saved : 'en';
-        } catch (_) { return 'en'; }
+          const saved = localStorage.getItem(CACHE_KEY);
+          if (saved) cache = JSON.parse(saved);
+        } catch (err) {
+          cache = {};
+        }
+
+        function saveCache() {
+          try {
+            const keys = Object.keys(cache);
+            if (keys.length > 1500) {
+              const trimmed = {};
+              keys.slice(-1200).forEach((k) => { trimmed[k] = cache[k]; });
+              cache = trimmed;
+            }
+            localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+          } catch (err) {}
+        }
+
+        function hasTranslatableLetters(str) {
+          if (!str) return false;
+          const trimmed = str.trim();
+          if (trimmed.length < 2) return false;
+          return /[\p{L}]/u.test(trimmed);
+        }
+
+        function isExcludedElement(el) {
+          if (!el || el.nodeType !== 1) return false;
+          if (SKIP_TAGS.has(el.tagName)) return true;
+          if (el.closest('[data-no-translate="true"]')) return true;
+          return false;
+        }
+
+        function shouldSkipTextNode(node) {
+          if (!node || node.nodeType !== 3) return true;
+          const parent = node.parentElement;
+          if (!parent || isExcludedElement(parent)) return true;
+          // Skip elements that already have an exact hand-crafted UI translation for activeLang
+          const i18nKey = parent.getAttribute('data-i18n');
+          if (i18nKey && UI_TRANSLATIONS[activeLang] && UI_TRANSLATIONS[activeLang][i18nKey] !== undefined) {
+            return true;
+          }
+          return false;
+        }
+
+        function getOriginalText(node) {
+          if (!originalTextMap.has(node)) {
+            originalTextMap.set(node, node.nodeValue);
+          }
+          return originalTextMap.get(node);
+        }
+
+        function getOriginalAttr(el, attr) {
+          let map = originalAttrMap.get(el);
+          if (!map) {
+            map = {};
+            originalAttrMap.set(el, map);
+          }
+          if (!(attr in map)) {
+            map[attr] = el.getAttribute(attr) || '';
+          }
+          return map[attr];
+        }
+
+        async function fetchSingleTranslation(text, targetLang) {
+          const cacheKey = `${targetLang}::${text}`;
+          if (cache[cacheKey]) return cache[cacheKey];
+
+          // Primary free endpoint (Google Translate public gtx — no API key)
+          try {
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              if (Array.isArray(data) && Array.isArray(data[0])) {
+                const translated = data[0].map((part) => (part && part[0] ? part[0] : '')).join('');
+                if (translated) {
+                  cache[cacheKey] = translated;
+                  return translated;
+                }
+              }
+            }
+          } catch (err) {}
+
+          // Secondary free fallback (MyMemory — no API key)
+          try {
+            const fallbackUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${encodeURIComponent(targetLang)}`;
+            const res = await fetch(fallbackUrl);
+            if (res.ok) {
+              const data = await res.json();
+              const translated = data && data.responseData && data.responseData.translatedText;
+              if (translated) {
+                cache[cacheKey] = translated;
+                return translated;
+              }
+            }
+          } catch (err) {}
+
+          return text;
+        }
+
+        async function translateBatch(uniqueStrings, targetLang) {
+          const results = new Map();
+          const missing = [];
+
+          uniqueStrings.forEach((str) => {
+            const key = `${targetLang}::${str}`;
+            if (cache[key]) results.set(str, cache[key]);
+            else missing.push(str);
+          });
+
+          if (missing.length === 0) return results;
+
+          // Group into compact chunks to minimize network calls
+          const chunks = [];
+          let currentChunk = [];
+          let currentLen = 0;
+
+          missing.forEach((str) => {
+            if (currentChunk.length > 0 && (currentLen + str.length > 850 || currentChunk.length >= 12)) {
+              chunks.push(currentChunk);
+              currentChunk = [];
+              currentLen = 0;
+            }
+            currentChunk.push(str);
+            currentLen += str.length + DELIMITER.length;
+          });
+          if (currentChunk.length > 0) chunks.push(currentChunk);
+
+          await Promise.all(chunks.map(async (chunk) => {
+            if (chunk.length === 1) {
+              const tr = await fetchSingleTranslation(chunk[0], targetLang);
+              results.set(chunk[0], tr);
+              return;
+            }
+
+            const joined = chunk.join(DELIMITER);
+            try {
+              const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(joined)}`;
+              const res = await fetch(url);
+              if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && Array.isArray(data[0])) {
+                  const fullTranslated = data[0].map((part) => (part && part[0] ? part[0] : '')).join('');
+                  const parts = fullTranslated.split(/\s*§{2,3}\s*/);
+                  if (parts.length === chunk.length) {
+                    chunk.forEach((orig, idx) => {
+                      const clean = parts[idx].trim() || orig;
+                      cache[`${targetLang}::${orig}`] = clean;
+                      results.set(orig, clean);
+                    });
+                    return;
+                  }
+                }
+              }
+            } catch (err) {}
+
+            // Fallback to individual translation if delimiter split didn't match
+            await Promise.all(chunk.map(async (orig) => {
+              const tr = await fetchSingleTranslation(orig, targetLang);
+              results.set(orig, tr);
+            }));
+          }));
+
+          saveCache();
+          return results;
+        }
+
+        function collectTargets(root) {
+          const textNodes = [];
+          const attrItems = [];
+          if (!root) return { textNodes, attrItems };
+
+          const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+          let node;
+          while ((node = walker.nextNode())) {
+            if (shouldSkipTextNode(node)) continue;
+            const orig = getOriginalText(node);
+            if (hasTranslatableLetters(orig)) {
+              textNodes.push({ node, orig });
+            }
+          }
+
+          if (root.nodeType === 1) {
+            const elements = [root, ...root.querySelectorAll('[placeholder], [title]')];
+            elements.forEach((el) => {
+              if (isExcludedElement(el)) return;
+              TRANSLATABLE_ATTRS.forEach((attr) => {
+                if (!el.hasAttribute(attr)) return;
+                if (attr === 'placeholder') {
+                  const phKey = el.getAttribute('data-i18n-placeholder');
+                  if (phKey && UI_TRANSLATIONS[activeLang] && UI_TRANSLATIONS[activeLang][phKey] !== undefined) {
+                    return;
+                  }
+                }
+                const orig = getOriginalAttr(el, attr);
+                if (hasTranslatableLetters(orig)) {
+                  attrItems.push({ el, attr, orig });
+                }
+              });
+            });
+          }
+
+          return { textNodes, attrItems };
+        }
+
+        async function translateTree(root, targetLang) {
+          const myToken = runToken;
+          const { textNodes, attrItems } = collectTargets(root);
+
+          // If switching back to English, restore original texts cleanly
+          if (targetLang === 'en') {
+            isApplying = true;
+            try {
+              textNodes.forEach(({ node, orig }) => {
+                if (node.nodeValue !== orig && !/[\u0600-\u06FF]/.test(orig)) {
+                  node.nodeValue = orig;
+                }
+              });
+              attrItems.forEach(({ el, attr, orig }) => {
+                if (el.getAttribute(attr) !== orig && !/[\u0600-\u06FF]/.test(orig)) {
+                  el.setAttribute(attr, orig);
+                }
+              });
+            } finally {
+              isApplying = false;
+            }
+            // Also translate any non-English future content (e.g. Persian/German) to English
+            const nonEnStrings = new Set();
+            textNodes.forEach(({ orig }) => {
+              if (/[\u0600-\u06FFäöüßÄÖÜ]/.test(orig)) nonEnStrings.add(orig.trim());
+            });
+            if (nonEnStrings.size === 0) return;
+
+            const trMap = await translateBatch([...nonEnStrings], 'en');
+            if (myToken !== runToken) return;
+            isApplying = true;
+            try {
+              textNodes.forEach(({ node, orig }) => {
+                const trimmed = orig.trim();
+                if (trMap.has(trimmed)) {
+                  node.nodeValue = orig.replace(trimmed, trMap.get(trimmed));
+                }
+              });
+            } finally {
+              isApplying = false;
+            }
+            return;
+          }
+
+          const uniqueStrings = new Set();
+          textNodes.forEach(({ orig }) => uniqueStrings.add(orig.trim()));
+          attrItems.forEach(({ orig }) => uniqueStrings.add(orig.trim()));
+          if (uniqueStrings.size === 0) return;
+
+          const translatedMap = await translateBatch([...uniqueStrings], targetLang);
+          if (myToken !== runToken) return;
+
+          isApplying = true;
+          try {
+            textNodes.forEach(({ node, orig }) => {
+              const trimmed = orig.trim();
+              const translated = translatedMap.get(trimmed);
+              if (translated && translated !== trimmed) {
+                node.nodeValue = orig.replace(trimmed, translated);
+              }
+            });
+            attrItems.forEach(({ el, attr, orig }) => {
+              const trimmed = orig.trim();
+              const translated = translatedMap.get(trimmed);
+              if (translated && translated !== trimmed) {
+                el.setAttribute(attr, translated);
+              }
+            });
+          } finally {
+            isApplying = false;
+          }
+        }
+
+        function scheduleMutationTranslate() {
+          clearTimeout(mutationTimer);
+          mutationTimer = setTimeout(() => {
+            const roots = [...pendingRoots];
+            pendingRoots.clear();
+            roots.forEach((r) => {
+              if (document.body.contains(r)) translateTree(r, activeLang);
+            });
+          }, 90);
+        }
+
+        function startObserver() {
+          if (observer) return;
+          observer = new MutationObserver((mutations) => {
+            if (isApplying) return;
+            mutations.forEach((m) => {
+              if (m.type === 'childList') {
+                m.addedNodes.forEach((n) => {
+                  if (n.nodeType === 1 && !isExcludedElement(n)) {
+                    pendingRoots.add(n);
+                  } else if (n.nodeType === 3 && n.parentElement && !isExcludedElement(n.parentElement)) {
+                    pendingRoots.add(n.parentElement);
+                  }
+                });
+              } else if (m.type === 'characterData' && m.target && m.target.parentElement) {
+                if (!isExcludedElement(m.target.parentElement)) {
+                  originalTextMap.set(m.target, m.target.nodeValue);
+                  pendingRoots.add(m.target.parentElement);
+                }
+              }
+            });
+            if (pendingRoots.size > 0) scheduleMutationTranslate();
+          });
+
+          observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+          });
+        }
+
+        return {
+          setLanguage(langCode) {
+            activeLang = langCode;
+            runToken += 1;
+            startObserver();
+            translateTree(document.body, langCode);
+          },
+          translateNode(el) {
+            if (el) translateTree(el, activeLang);
+          },
+          setApplying(flag) {
+            isApplying = flag;
+          },
+        };
       })();
+
+      /* ===================================================================== */
+      /* REUSABLE ANIMATED LANGUAGE DROPDOWN COMPONENT                         */
+      /* ===================================================================== */
+      class LanguageDropdown {
+        constructor({ wrapper, trigger, codeBadge, languages, getActiveCode, onSelect }) {
+          this.wrapper = wrapper;
+          this.trigger = trigger;
+          this.codeBadge = codeBadge;
+          this.languages = languages;
+          this.getActiveCode = getActiveCode;
+          this.onSelect = onSelect;
+
+          this.menuEl = null;
+          this.optionEls = [];
+          this.isOpen = false;
+          this.isClosing = false;
+          this.closeTimers = [];
+
+          this.STAGGER_MS = 60;
+          this.ITEM_DURATION_MS = 350;
+          this.CONTAINER_DURATION_MS = 350;
+
+          this.handleTriggerClick = this.handleTriggerClick.bind(this);
+          this.handleDocumentClick = this.handleDocumentClick.bind(this);
+          this.handleKeydown = this.handleKeydown.bind(this);
+
+          this.bindEvents();
+        }
+
+        prefersReducedMotion() {
+          return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        bindEvents() {
+          this.trigger.addEventListener('click', this.handleTriggerClick);
+          this.trigger.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+              if (!this.isOpen) {
+                e.preventDefault();
+                this.open(true);
+              }
+            }
+          });
+          document.addEventListener('click', this.handleDocumentClick);
+          document.addEventListener('keydown', this.handleKeydown);
+        }
+
+        clearCloseTimers() {
+          this.closeTimers.forEach((id) => clearTimeout(id));
+          this.closeTimers = [];
+        }
+
+        buildMenuDOM() {
+          const activeCode = this.getActiveCode();
+          const menu = document.createElement('div');
+          menu.id = 'langDropdownMenu';
+          menu.className = 'atelier-lang-menu';
+          menu.setAttribute('role', 'listbox');
+          menu.setAttribute('aria-label', 'Select Language');
+          menu.setAttribute('data-no-translate', 'true');
+
+          const list = document.createElement('ul');
+          list.className = 'atelier-lang-list';
+
+          this.optionEls = this.languages.map((lang, idx) => {
+            const li = document.createElement('li');
+            li.setAttribute('role', 'presentation');
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `atelier-lang-option${lang.code === activeCode ? ' is-selected' : ''}`;
+            btn.setAttribute('role', 'option');
+            btn.setAttribute('aria-selected', String(lang.code === activeCode));
+            btn.setAttribute('data-lang-code', lang.code);
+            btn.style.transitionDelay = this.prefersReducedMotion() ? '0ms' : `${idx * this.STAGGER_MS}ms`;
+
+            btn.innerHTML = `
+              <span class="atelier-lang-label">
+                <span class="atelier-lang-flag" aria-hidden="true">${lang.flag}</span>
+                <span class="atelier-lang-name">${lang.native}</span>
+              </span>
+              <svg class="atelier-lang-check" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            `;
+
+            btn.addEventListener('click', () => {
+              this.selectLanguage(lang.code);
+            });
+
+            li.appendChild(btn);
+            list.appendChild(li);
+            return btn;
+          });
+
+          menu.appendChild(list);
+          return menu;
+        }
+
+        open(focusSelected = false) {
+          this.clearCloseTimers();
+
+          if (this.menuEl) {
+            this.menuEl.remove();
+            this.menuEl = null;
+          }
+
+          this.isOpen = true;
+          this.isClosing = false;
+
+          this.menuEl = this.buildMenuDOM();
+          this.wrapper.appendChild(this.menuEl);
+          this.wrapper.classList.add('is-open');
+          this.trigger.setAttribute('aria-expanded', 'true');
+
+          // Force layout so transitions run cleanly from initial state
+          void this.menuEl.offsetHeight;
+
+          requestAnimationFrame(() => {
+            if (!this.menuEl || !this.isOpen) return;
+            this.menuEl.classList.add('is-expanded');
+
+            if (focusSelected) {
+              const selectedBtn = this.optionEls.find((el) => el.classList.contains('is-selected')) || this.optionEls[0];
+              selectedBtn?.focus();
+            }
+          });
+        }
+
+        close(restoreFocus = false) {
+          if (!this.isOpen || this.isClosing || !this.menuEl) return;
+
+          this.isClosing = true;
+          this.isOpen = false;
+          this.wrapper.classList.remove('is-open');
+          this.trigger.setAttribute('aria-expanded', 'false');
+
+          if (restoreFocus) {
+            this.trigger.focus();
+          }
+
+          if (this.prefersReducedMotion()) {
+            this.menuEl.remove();
+            this.menuEl = null;
+            this.optionEls = [];
+            this.isClosing = false;
+            return;
+          }
+
+          // Reverse cascading exit for options
+          const totalItems = this.optionEls.length;
+          this.optionEls.forEach((btn, idx) => {
+            const reverseIdx = totalItems - 1 - idx;
+            btn.style.transitionDelay = `${reverseIdx * this.STAGGER_MS}ms`;
+          });
+
+          this.menuEl.classList.add('is-closing');
+
+          // Wait for options to disappear, then collapse container smoothly
+          const itemsFinishMs = (totalItems - 1) * this.STAGGER_MS + this.ITEM_DURATION_MS;
+          const collapseTimer = setTimeout(() => {
+            if (!this.menuEl) return;
+            this.menuEl.classList.remove('is-expanded');
+
+            const removeTimer = setTimeout(() => {
+              if (this.menuEl) {
+                this.menuEl.remove();
+                this.menuEl = null;
+              }
+              this.optionEls = [];
+              this.isClosing = false;
+            }, this.CONTAINER_DURATION_MS);
+
+            this.closeTimers.push(removeTimer);
+          }, Math.max(0, itemsFinishMs - 60));
+
+          this.closeTimers.push(collapseTimer);
+        }
+
+        toggle() {
+          if (this.isOpen) this.close(false);
+          else this.open(false);
+        }
+
+        selectLanguage(langCode) {
+          const langObj = this.languages.find((l) => l.code === langCode);
+          if (!langObj) return;
+
+          // Update header abbreviation immediately
+          if (this.codeBadge) {
+            this.codeBadge.textContent = langObj.iso;
+          }
+
+          // Reflect selected state immediately before closing animation starts
+          this.optionEls.forEach((btn) => {
+            const selected = btn.getAttribute('data-lang-code') === langCode;
+            btn.classList.toggle('is-selected', selected);
+            btn.setAttribute('aria-selected', String(selected));
+          });
+
+          this.onSelect(langCode);
+          this.close(false);
+        }
+
+        handleTriggerClick(e) {
+          e.stopPropagation();
+          this.toggle();
+        }
+
+        handleDocumentClick(e) {
+          if (this.isOpen && !this.wrapper.contains(e.target)) {
+            this.close(false);
+          }
+        }
+
+        handleKeydown(e) {
+          if (!this.isOpen || !this.menuEl) return;
+
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            this.close(true);
+            return;
+          }
+
+          if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) {
+            e.preventDefault();
+            const currentIndex = this.optionEls.indexOf(document.activeElement);
+            let nextIndex = 0;
+
+            if (e.key === 'ArrowDown') {
+              nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % this.optionEls.length;
+            } else if (e.key === 'ArrowUp') {
+              nextIndex = currentIndex <= 0 ? this.optionEls.length - 1 : currentIndex - 1;
+            } else if (e.key === 'Home') {
+              nextIndex = 0;
+            } else if (e.key === 'End') {
+              nextIndex = this.optionEls.length - 1;
+            }
+
+            this.optionEls[nextIndex]?.focus();
+          }
+        }
+      }
+
+      const STORAGE_KEY = 'atelier_custom_recipes_v1';
+      const LANG_STORAGE_KEY = 'atelier_active_lang_v1';
+      let currentLang = 'en';
       let activeCategory = 'all';
       let searchQuery = '';
       let recipes = [...DEFAULT_RECIPES];
@@ -2180,6 +2912,7 @@
       let wakeLockSentinel = null;
       let studioActiveLocale = 'en';
       let studioDraftLocales = {};
+      let langDropdown = null;
 
       function loadCustomRecipes() {
         try {
@@ -2285,148 +3018,39 @@
       function setLanguage(langCode, announce = true) {
         const langObj = LANGUAGES.find((l) => l.code === langCode) || LANGUAGES[0];
         currentLang = langObj.code;
-        try { localStorage.setItem('atelier_language_v1', langObj.code); } catch (_) {}
+
+        try { localStorage.setItem(LANG_STORAGE_KEY, currentLang); } catch (err) {}
+
         document.documentElement.lang = langObj.code;
         document.documentElement.dir = langObj.dir;
         document.documentElement.setAttribute('data-lang', langObj.code);
         document.getElementById('activeLangCode').textContent = langObj.iso;
-        document.querySelectorAll('#languageDropdownMenu [data-lang-pick]').forEach((option) => {
-          option.setAttribute('aria-checked', String(option.getAttribute('data-lang-pick') === langObj.code));
-        });
 
-        document.querySelectorAll('[data-i18n]').forEach((el) => {
-          el.textContent = t(el.getAttribute('data-i18n'));
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
-          el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
-        });
+        AutoTranslator.setApplying(true);
+        try {
+          document.querySelectorAll('[data-i18n]').forEach((el) => {
+            el.textContent = t(el.getAttribute('data-i18n'));
+          });
+          document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+            el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
+          });
 
-        renderLangGrid();
-        renderCategoryTabs();
-        renderRecipeGrid();
-        renderJournalGrid();
+          renderCategoryTabs();
+          renderRecipeGrid();
+          renderJournalGrid();
 
-        if (activeRecipe && !document.getElementById('recipeModal').classList.contains('hidden')) {
-          populateRecipeModal(activeRecipe, false);
+          if (activeRecipe && !document.getElementById('recipeModal').classList.contains('hidden')) {
+            populateRecipeModal(activeRecipe, false);
+          }
+        } finally {
+          AutoTranslator.setApplying(false);
         }
+
+        // Automatically translate entire site + any dynamic or future content
+        AutoTranslator.setLanguage(currentLang);
+
         if (announce) showToast(t('toastLangChanged'));
       }
-
-      function renderLangGrid() {
-        const grid = document.getElementById('langGrid');
-        if (!grid) return;
-        grid.innerHTML = LANGUAGES.map((l) => {
-          const active = l.code === currentLang;
-          return `
-            <button
-              type="button"
-              data-lang-pick="${l.code}"
-              class="lang-pick-btn group p-4 rounded-xl text-start transition-all flex flex-col justify-between gap-2.5 ${
-                active
-                  ? 'bg-white text-obsidian border border-white shadow-lg'
-                  : 'bg-white/[0.03] border border-white/10 text-ivory hover:bg-white/[0.09] hover:border-white/70'
-              }"
-            >
-              <div class="w-full flex items-center justify-between gap-2">
-                <span class="text-sm sm:text-base font-medium truncate">${l.native}</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
-                  active
-                    ? 'bg-obsidian text-white'
-                    : 'bg-white/[0.07] text-stone group-hover:bg-white group-hover:text-obsidian transition-colors'
-                }">${l.iso}</span>
-              </div>
-              <span class="text-[11px] ${active ? 'text-obsidian/70' : 'text-stone'}">${l.intl}</span>
-            </button>
-          `;
-        }).join('');
-
-        grid.querySelectorAll('.lang-pick-btn').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            setLanguage(btn.getAttribute('data-lang-pick'), true);
-            closeLanguageDropdown();
-          });
-        });
-      }
-
-      let languageCloseTimer = null;
-      let googleTranslateRefreshTimer = null;
-
-      function openLanguageDropdown() {
-        const wrap = document.getElementById('languageDropdown');
-        const trigger = document.getElementById('languageDropdownTrigger');
-        const menu = document.getElementById('languageDropdownMenu');
-        if (!wrap || !trigger || !menu) return;
-        clearTimeout(languageCloseTimer);
-        wrap.classList.remove('is-closing');
-        wrap.classList.add('is-open');
-        trigger.setAttribute('aria-expanded', 'true');
-        menu.setAttribute('aria-hidden', 'false');
-        (menu.querySelector('[aria-checked="true"]') || menu.querySelector('[data-lang-pick]'))?.focus();
-      }
-
-      function closeLanguageDropdown(returnFocus = false) {
-        const wrap = document.getElementById('languageDropdown');
-        const trigger = document.getElementById('languageDropdownTrigger');
-        const menu = document.getElementById('languageDropdownMenu');
-        if (!wrap || !trigger || !menu || !wrap.classList.contains('is-open')) return;
-        wrap.classList.remove('is-open');
-        wrap.classList.add('is-closing');
-        trigger.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        clearTimeout(languageCloseTimer);
-        languageCloseTimer = setTimeout(() => {
-          wrap.classList.remove('is-closing');
-          if (returnFocus) trigger.focus();
-        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 20 : 430);
-      }
-
-      function applyGoogleTranslation(lang) {
-        const apply = () => {
-          const combo = document.querySelector('.goog-te-combo');
-          if (!combo) return false;
-          combo.value = lang === 'en' ? '' : lang;
-          combo.dispatchEvent(new Event('change', { bubbles: true }));
-          return true;
-        };
-        if (apply()) return;
-        let attempts = 0;
-        const wait = setInterval(() => {
-          attempts += 1;
-          if (apply() || attempts >= 20) clearInterval(wait);
-        }, 250);
-      }
-
-      window.googleTranslateElementInit = function () {
-        if (!window.google?.translate?.TranslateElement) return;
-        new google.translate.TranslateElement({
-          pageLanguage: 'en',
-          includedLanguages: 'de,fa',
-          autoDisplay: false
-        }, 'google_translate_element');
-        if (currentLang !== 'en') applyGoogleTranslation(currentLang);
-      };
-
-      // Re-apply translation when the site's own renderers add new cards or modal content.
-      let translationObserver = null;
-      function watchDynamicContent() {
-        const targets = ['recipeGrid', 'journalGrid', 'recipeModalWrapper', 'journalModalBody']
-          .map((id) => document.getElementById(id)).filter(Boolean);
-        if (!targets.length || !window.MutationObserver) return;
-        translationObserver = new MutationObserver((records) => {
-          if (currentLang === 'en' || records.every((record) => [...record.addedNodes].every((node) =>
-            node.nodeType === 1 && (node.closest?.('#google_translate_element, .skiptranslate, .goog-te-menu-frame'))
-          ))) return;
-          clearTimeout(googleTranslateRefreshTimer);
-          translationObserver.disconnect();
-          googleTranslateRefreshTimer = setTimeout(() => {
-            applyGoogleTranslation(currentLang);
-            setTimeout(() => targets.forEach((target) => translationObserver?.observe(target, { childList: true, subtree: true })), 1000);
-          }, 250);
-        });
-        targets.forEach((target) => translationObserver.observe(target, { childList: true, subtree: true }));
-      }
-
-      function closeLangModal() { closeLanguageDropdown(); }
 
       function renderCategoryTabs() {
         const container = document.getElementById('categoryTabs');
@@ -2443,6 +3067,7 @@
             activeCategory = btn.getAttribute('data-cat');
             renderCategoryTabs();
             renderRecipeGrid();
+            AutoTranslator.translateNode(document.getElementById('recipeGrid'));
           });
         });
       }
@@ -2476,7 +3101,7 @@
               <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-obsidian mb-4">
                 <img src="${r.image}" alt="${loc.title}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100" />
                 <div class="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent"></div>
-                <div class="absolute top-3 end-3 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5">
+                <div class="absolute top-3 end-3 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
                   <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>
                   <span>${r.duration}</span>
                 </div>
@@ -2545,8 +3170,10 @@
         document.getElementById('journalModalTag').textContent = loc.tag;
         document.getElementById('journalModalTitle').textContent = loc.title;
         document.getElementById('journalModalBody').innerHTML = loc.body.map((p) => `<p>${p}</p>`).join('');
-        document.getElementById('journalModal').classList.remove('hidden');
+        const modal = document.getElementById('journalModal');
+        modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+        AutoTranslator.translateNode(modal);
       }
 
       function closeJournalModal() {
@@ -2565,6 +3192,7 @@
         modal.classList.remove('hidden');
         modal.scrollTop = 0;
         document.body.style.overflow = 'hidden';
+        AutoTranslator.translateNode(modal);
       }
 
       function populateRecipeModal(recipe, resetVideo = false) {
@@ -2631,6 +3259,7 @@
             const idx = Number(row.getAttribute('data-idx'));
             if (checkedSet.has(idx)) checkedSet.delete(idx); else checkedSet.add(idx);
             renderModalIngredients();
+            AutoTranslator.translateNode(list);
           });
         });
       }
@@ -2640,7 +3269,7 @@
         const loc = getLocalizedRecipe(activeRecipe);
         document.getElementById('stepsList').innerHTML = loc.steps.map((step, idx) => `
           <li class="flex items-start gap-4">
-            <span class="editorial-serif text-xl text-white/80 leading-none pt-1 min-w-[26px]">${String(idx + 1).padStart(2, '0')}</span>
+            <span data-no-translate="true" class="editorial-serif text-xl text-white/80 leading-none pt-1 min-w-[26px]">${String(idx + 1).padStart(2, '0')}</span>
             <p class="text-sm text-ivory/90 font-light leading-7 cook-enlarge">${step}</p>
           </li>
         `).join('');
@@ -2710,8 +3339,10 @@
         document.getElementById('autoLocalizeToggle').checked = true;
         renderStudioLocaleTabs();
         syncStudioFieldsFromDraft();
-        document.getElementById('studioModal').classList.remove('hidden');
+        const modal = document.getElementById('studioModal');
+        modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+        AutoTranslator.translateNode(modal);
       }
 
       function closeStudioModal() {
@@ -2801,6 +3432,7 @@
         activeCategory = 'all';
         renderCategoryTabs();
         renderRecipeGrid();
+        AutoTranslator.translateNode(document.getElementById('recipeGrid'));
         closeStudioModal();
         showToast(t('toastPublished'));
       }
@@ -2920,6 +3552,7 @@
             document.getElementById('clearSearchBtn')?.classList.add('hidden');
             renderCategoryTabs();
             renderRecipeGrid();
+            AutoTranslator.translateNode(document.getElementById('recipeGrid'));
             closeMega(0);
             mobileMenu?.classList.add('hidden');
             mobileMenuBtn?.setAttribute('aria-expanded', 'false');
@@ -2936,6 +3569,7 @@
             document.getElementById('clearSearchBtn')?.classList.add('hidden');
             renderCategoryTabs();
             renderRecipeGrid();
+            AutoTranslator.translateNode(document.getElementById('recipeGrid'));
             closeMega(0);
             mobileMenu?.classList.add('hidden');
             mobileMenuBtn?.setAttribute('aria-expanded', 'false');
@@ -2950,6 +3584,7 @@
           document.getElementById('clearSearchBtn')?.classList.add('hidden');
           renderCategoryTabs();
           renderRecipeGrid();
+          AutoTranslator.translateNode(document.getElementById('recipeGrid'));
           closeMega(0);
         });
 
@@ -2960,8 +3595,26 @@
         if (window.lucide) window.lucide.createIcons();
 
         loadCustomRecipes();
-        setLanguage(currentLang, false);
-        watchDynamicContent();
+
+        // Initialize compact animated language dropdown in header
+        langDropdown = new LanguageDropdown({
+          wrapper: document.getElementById('langDropdownWrapper'),
+          trigger: document.getElementById('langDropdownTrigger'),
+          codeBadge: document.getElementById('activeLangCode'),
+          languages: LANGUAGES,
+          getActiveCode: () => currentLang,
+          onSelect: (code) => setLanguage(code, true),
+        });
+
+        // Restore saved language or default to EN
+        let initialLang = 'en';
+        try {
+          const savedLang = localStorage.getItem(LANG_STORAGE_KEY);
+          if (savedLang && LANGUAGES.some((l) => l.code === savedLang)) {
+            initialLang = savedLang;
+          }
+        } catch (err) {}
+        setLanguage(initialLang, false);
 
         initHeaderActiveNav();
         const closeMegaMenu = initCuisinesMegaMenu();
@@ -2989,42 +3642,10 @@
           mobileCuisinesChevron?.classList.toggle('rotate-180', !isHidden);
         });
 
-        const languageWrap = document.getElementById('languageDropdown');
-        const languageTrigger = document.getElementById('languageDropdownTrigger');
-        const languageMenu = document.getElementById('languageDropdownMenu');
-        languageTrigger?.addEventListener('click', () => {
-          if (languageWrap.classList.contains('is-open')) closeLanguageDropdown();
-          else openLanguageDropdown();
-        });
-        languageMenu?.addEventListener('click', (event) => {
-          const option = event.target.closest('[data-lang-pick]');
-          if (!option) return;
-          const chosen = option.getAttribute('data-lang-pick');
-          setLanguage(chosen, true);
-          closeLanguageDropdown();
-          applyGoogleTranslation(chosen);
-        });
-        languageWrap?.addEventListener('keydown', (event) => {
-          const options = [...languageMenu.querySelectorAll('[data-lang-pick]')];
-          const index = options.indexOf(document.activeElement);
-          if (event.key === 'Escape') { event.preventDefault(); closeLanguageDropdown(true); }
-          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-            event.preventDefault();
-            if (!languageWrap.classList.contains('is-open')) openLanguageDropdown();
-            const next = event.key === 'ArrowDown'
-              ? (index + 1 + options.length) % options.length
-              : (index <= 0 ? options.length - 1 : index - 1);
-            options[next]?.focus();
-          }
-          if (event.key === 'Home') { event.preventDefault(); options[0]?.focus(); }
-          if (event.key === 'End') { event.preventDefault(); options[options.length - 1]?.focus(); }
-        });
-        document.addEventListener('click', (event) => {
-          if (languageWrap && !languageWrap.contains(event.target)) closeLanguageDropdown();
-        });
+        // Footer Language button scrolls smoothly to top and opens header language dropdown
         document.getElementById('footerLangBtn')?.addEventListener('click', () => {
-          languageTrigger?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          openLanguageDropdown();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => { langDropdown?.open(true); }, 380);
         });
 
         document.getElementById('openStudioBtn')?.addEventListener('click', openStudioModal);
@@ -3041,13 +3662,16 @@
           searchQuery = e.target.value;
           clearSearchBtn.classList.toggle('hidden', searchQuery.trim().length === 0);
           renderRecipeGrid();
+          AutoTranslator.translateNode(document.getElementById('recipeGrid'));
         });
         clearSearchBtn?.addEventListener('click', () => {
           searchInput.value = ''; searchQuery = ''; clearSearchBtn.classList.add('hidden'); renderRecipeGrid();
+          AutoTranslator.translateNode(document.getElementById('recipeGrid'));
         });
         document.getElementById('resetFilterBtn')?.addEventListener('click', () => {
           activeCategory = 'all'; searchQuery = ''; if (searchInput) searchInput.value = '';
           clearSearchBtn.classList.add('hidden'); renderCategoryTabs(); renderRecipeGrid();
+          AutoTranslator.translateNode(document.getElementById('recipeGrid'));
         });
 
         document.getElementById('watchFeaturedBtn')?.addEventListener('click', () => { if (recipes.length > 0) openRecipeModal(recipes[0]); });
@@ -3055,8 +3679,8 @@
         document.getElementById('recipeModal')?.addEventListener('click', (e) => { if (e.target.id === 'recipeModal') closeRecipeModal(); });
         document.getElementById('jumpToMethodBtn')?.addEventListener('click', () => { document.getElementById('methodAnchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
         document.getElementById('cookModeCheckbox')?.addEventListener('change', (e) => setCookMode(e.target.checked));
-        document.getElementById('incServingsBtn')?.addEventListener('click', () => { if (currentServings < 24) { currentServings += 1; renderModalIngredients(); } });
-        document.getElementById('decServingsBtn')?.addEventListener('click', () => { if (currentServings > 1) { currentServings -= 1; renderModalIngredients(); } });
+        document.getElementById('incServingsBtn')?.addEventListener('click', () => { if (currentServings < 24) { currentServings += 1; renderModalIngredients(); AutoTranslator.translateNode(document.getElementById('ingredientsList')); } });
+        document.getElementById('decServingsBtn')?.addEventListener('click', () => { if (currentServings > 1) { currentServings -= 1; renderModalIngredients(); AutoTranslator.translateNode(document.getElementById('ingredientsList')); } });
 
         document.getElementById('videoCenterPlayBtn')?.addEventListener('click', toggleVideo);
         document.getElementById('videoToggleBtn')?.addEventListener('click', toggleVideo);
@@ -3072,7 +3696,7 @@
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
             if (closeMegaMenu) closeMegaMenu(0);
-            closeLanguageDropdown();
+            langDropdown?.close(true);
             closeRecipeModal();
             closeJournalModal();
             closeStudioModal();
@@ -3081,6 +3705,5 @@
       });
     })();
   </script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body>
 </html>
