@@ -294,6 +294,80 @@
       #langDropdownWrapper .atelier-lang-option { min-height: 46px; padding: 12px 14px; }
     }
 
+    /* ===================================================================== */
+    /* MOBILE-ONLY 3x2 GRID FOR MASTERCLASSES (DESKTOP & TABLET UNTOUCHED)   */
+    /* ===================================================================== */
+    @media (max-width: 639px) {
+      #collection > .max-w-7xl {
+        padding-inline: 12px;
+      }
+      #recipeGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 10px 8px !important;
+      }
+      #recipeGrid .recipe-card {
+        padding: 5px !important;
+        border-radius: 12px !important;
+        min-width: 0;
+      }
+      #recipeGrid .recipe-card:hover {
+        transform: none !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-media {
+        aspect-ratio: 4 / 5 !important;
+        border-radius: 8px !important;
+        margin-bottom: 6px !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-duration {
+        top: 5px !important;
+        inset-inline-end: 5px !important;
+        padding: 2px 5px !important;
+        font-size: 8px !important;
+        gap: 3px !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-duration svg {
+        width: 7px !important;
+        height: 7px !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-bottom-meta,
+      #recipeGrid .recipe-card .recipe-card-meta-row,
+      #recipeGrid .recipe-card .recipe-card-desc {
+        display: none !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-body {
+        padding: 0 2px 3px !important;
+        gap: 4px;
+        justify-content: space-between;
+      }
+      #recipeGrid .recipe-card .recipe-card-body > * + * {
+        margin-top: 0 !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-title {
+        font-size: 13px !important;
+        line-height: 1.32 !important;
+        font-weight: 500 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      html[data-lang="fa"] #recipeGrid .recipe-card .recipe-card-title,
+      html[data-lang="ar"] #recipeGrid .recipe-card .recipe-card-title {
+        font-size: 11.5px !important;
+        line-height: 1.45 !important;
+      }
+      #recipeGrid .recipe-card .recipe-card-mobile-time {
+        display: flex !important;
+        align-items: center;
+        gap: 3px;
+        font-size: 9px;
+        color: var(--text-stone);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
     /* Mega Menu & Buttons */
     .mega-cat-item { color: var(--text-stone); border: 1px solid transparent; transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1); }
     .mega-cat-item:hover { color: #FFFFFF; background: rgba(47, 79, 79, 0.34); border-color: rgba(105, 105, 105, 0.45); }
@@ -814,7 +888,7 @@
       </div>
 
       <div class="flex items-center justify-between text-xs text-stone mb-5 sm:mb-8">
-        <span id="resultsCountText" class="font-medium text-ivory/90 tracking-wide">6 Entries</span>
+        <span id="resultsCountText" class="font-medium text-ivory/90 tracking-wide">0 Entries</span>
         <span class="hidden md:inline" data-i18n="collectionHint">Select any entry for full video, scalable formula, and cook mode</span>
       </div>
 
@@ -1362,120 +1436,6 @@
       },
     };
 
-    const DEFAULT_RECIPES = [
-      {
-        id: 'duck-saffron', category: 'mains', difficulty: 'advanced', prepMin: 55, duration: '18:40', durationSec: 1120, baseServings: 2,
-        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=85',
-        chapters: [{ time: 0, label: '00:00 — Scoring & Cold Pan' }, { time: 340, label: '05:40 — Saffron Emulsion' }, { time: 780, label: '13:00 — Resting & Plating' }],
-        locales: {
-          en: {
-            title: 'Saffron & Pistachio Duck Breast', desc: 'Crisp rendered Moulard duck breast lacquered with Persian saffron jus and toasted Bronte pistachio crumble.',
-            note: 'Always place duck skin-side down into a completely cold pan. Gradual heat renders the fat cleanly without scorching the skin.',
-            ingredients: [{ amount: 360, unit: 'g', name: 'Moulard duck breast, scored' }, { amount: 1, unit: 'pinch', name: 'Persian saffron threads' }, { amount: 40, unit: 'g', name: 'Roasted green pistachios, crushed' }, { amount: 120, unit: 'ml', name: 'Reduced duck jus' }, { amount: 20, unit: 'g', name: 'Cold unsalted butter' }, { amount: 1, unit: 'tsp', name: 'Flaky sea salt' }],
-            steps: ['Score the duck skin in a fine crosshatch pattern without cutting into the flesh, then season with flaky sea salt.', 'Place skin-side down in a cold heavy skillet and raise heat to medium-low. Render slowly for 11 minutes, pouring off excess fat.', 'Flip and sear the flesh side for 2 minutes until internal temperature reaches 54°C, then rest on a warm rack for 8 minutes.', 'Steep saffron threads in warm duck jus for 5 minutes, whisk in cold butter off the heat until glossy, and finish with crushed pistachios.'],
-          },
-          fa: {
-            title: 'سینه اردک زعفرانی با پسته برشته', desc: 'سینه اردک با پوست کاملاً ترد، سس غلیظ زعفران ایرانی و خرده‌پسته بوداده با تعادل دقیق حرارت.',
-            note: 'سینه اردک را همیشه از سمت پوست در تابه کاملاً سرد قرار دهید تا چربی آن به آرامی آب شده و پوست بدون سوختن، ترد و شیشه‌ای شود.',
-            ingredients: [{ amount: 360, unit: 'g', name: 'سینه اردک برش‌خورده' }, { amount: 1, unit: 'pinch', name: 'رشته‌های زعفران سرگل' }, { amount: 40, unit: 'g', name: 'مغز پسته سبز بوداده و نیم‌کوب' }, { amount: 120, unit: 'ml', name: 'عصاره غلیظ اردک (ژو)' }, { amount: 20, unit: 'g', name: 'کره سرد بدون نمک' }, { amount: 1, unit: 'tsp', name: 'نمک دریایی پرک' }],
-            steps: ['پوست اردک را به‌صورت لوزی‌های ظریف برش دهید بدون آنکه به گوشت برسد و با نمک دریا مزه‌دار کنید.', 'سمت پوست را در تابه سرد قرار دهید و با حرارت ملایم ۱۱ دقیقه بپزید تا چربی کاملاً خارج و پوست طلایی شود.', 'سمت گوشت را ۲ دقیقه تفت دهید تا دمای مرکز به ۵۴ درجه برسد، سپس ۸ دقیقه روی توری گرم استراحت دهید.', 'زعفران را در عصاره گرم دم کنید، خارج از حرارت با کره سرد امولسیون بسازید و با پسته سرو نمایید.'],
-          },
-        },
-      },
-      {
-        id: 'truffle-tagliolini', category: 'masterclasses', difficulty: 'intermediate', prepMin: 60, duration: '22:15', durationSec: 1335, baseServings: 2,
-        image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85',
-        chapters: [{ time: 0, label: '00:00 — 30-Yolk Dough' }, { time: 460, label: '07:40 — Rolling & Cutting' }, { time: 980, label: '16:20 — Butter Emulsion' }],
-        locales: {
-          en: {
-            title: 'Hand-Rolled Black Truffle Tagliolini', desc: 'Silky high-yolk Piedmontese pasta ribbons emulsified in cultured Normandy butter and freshly shaved Périgord black truffle.',
-            note: 'Never boil truffle. Warm it gently in butter emulsion off the direct flame so its volatile aromatics remain intact.',
-            ingredients: [{ amount: 200, unit: 'g', name: 'Tipo 00 pasta flour' }, { amount: 6, unit: 'pcs', name: 'Rich pasture egg yolks' }, { amount: 60, unit: 'g', name: 'Cultured Normandy butter' }, { amount: 15, unit: 'g', name: 'Fresh black Périgord truffle' }, { amount: 30, unit: 'g', name: '36-month Parmigiano Reggiano' }],
-            steps: ['Combine flour and egg yolks into a firm, golden dough; knead 8 minutes and rest wrapped for 30 minutes.', 'Roll paper-thin to 0.8mm thickness, dust lightly with semolina, and hand-cut into delicate 2mm ribbons.', 'Cook tagliolini in salted boiling water for exactly 65 seconds, reserving half a ladle of starchy pasta water.', 'Emulsify butter and pasta water in a warm pan, toss pasta gently with Parmigiano, and finish with shaved black truffle.'],
-          },
-          fa: {
-            title: 'تالیولینی دست‌ساز با ترافل سیاه', desc: 'پاستای ابریشمی تهیه‌شده با زرده تخم‌مرغ غنی، امولسیون کره نورماندی و ورقه‌های تازه ترافل سیاه.',
-            note: 'ترافل را هرگز نجوشانید؛ آن را روی حرارت بسیار ملایم در امولسیون کره گرم کنید تا عطر فرّار آن کاملاً حفظ شود.',
-            ingredients: [{ amount: 200, unit: 'g', name: 'آرد پاستا نوع 00' }, { amount: 6, unit: 'pcs', name: 'زرده تخم‌مرغ محلی' }, { amount: 60, unit: 'g', name: 'کره پرچرب نورماندی' }, { amount: 15, unit: 'g', name: 'ترافل سیاه تازه' }, { amount: 30, unit: 'g', name: 'پنیر پارمیجانو ۳۶ ماهه' }],
-            steps: ['آرد و زرده‌ها را ۸ دقیقه ورز دهید تا خمیری طلایی و یکدست شود، سپس ۳۰ دقیقه استراحت دهید.', 'خمیر را بسیار نازک (۰.۸ میلی‌متر) باز کرده و به نوارهای ظریف ۲ میلی‌متری برش دهید.', 'پاستا را دقیقاً ۶۵ ثانیه در آب جوش نمکی بپزید و کمی از آب نشاسته‌ای آن را نگه دارید.', 'کره و آب پاستا را در تابه گرم امولسیون کنید، پاستا و پنیر را ترکیب کرده و با ترافل تازه سرو نمایید.'],
-          },
-        },
-      },
-      {
-        id: 'chocolate-salt-tart', category: 'pastry', difficulty: 'intermediate', prepMin: 70, duration: '16:10', durationSec: 970, baseServings: 6,
-        image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=85',
-        chapters: [{ time: 0, label: '00:00 — Pâte Sucrée Cacao' }, { time: 420, label: '07:00 — Mirror Ganache' }, { time: 760, label: '12:40 — Smoked Salt Finish' }],
-        locales: {
-          en: {
-            title: 'Dark Chocolate & Smoked Sea Salt Tart', desc: 'Crisp cacao pâte sucrée shell filled with 70% dark ganache and finished with oak-smoked sea salt.',
-            note: 'Pour the ganache at 38°C to prevent air bubbles and achieve a flawless mirror-black surface.',
-            ingredients: [{ amount: 240, unit: 'g', name: '70% single-origin dark chocolate' }, { amount: 220, unit: 'ml', name: 'Heavy whipping cream (35%)' }, { amount: 45, unit: 'g', name: 'Unsalted cultured butter' }, { amount: 180, unit: 'g', name: 'Baked cacao pâte sucrée shell' }, { amount: 1, unit: 'pinch', name: 'Oak-smoked flaky sea salt' }],
-            steps: ['Blind-bake the chilled cacao tart shell at 165°C for 18 minutes until matte and crisp; cool completely.', 'Finely chop dark chocolate into a tall bowl. Bring cream to a gentle simmer and pour over the chocolate.', 'Wait 60 seconds, then stir slowly from the center outward to form a tight, glossy emulsion.', 'Fold in diced butter at 40°C, pour smoothly into the tart shell, chill 2 hours, and finish with smoked sea salt.'],
-          },
-          fa: {
-            title: 'تارت شکلات تلخ و نمک دریایی دودی', desc: 'پوسته ترد کاکائویی با گاناش مخملی شکلات تلخ ۷۰ درصد و عطر ظریف نمک دریایی دودی‌شده با چوب بلوط.',
-            note: 'گاناش را در دمای ۳۸ درجه داخل پوسته بریزید تا هیچ حباب هوایی باقی نماند و سطحی کاملاً آینه‌ای ایجاد شود.',
-            ingredients: [{ amount: 240, unit: 'g', name: 'شکلات تلخ ۷۰ درصد تک‌خاستگاه' }, { amount: 220, unit: 'ml', name: 'خامه سنگین ۳۵ درصد' }, { amount: 45, unit: 'g', name: 'کره بدون نمک' }, { amount: 180, unit: 'g', name: 'پوسته تارت کاکائویی پخته‌شده' }, { amount: 1, unit: 'pinch', name: 'نمک دریایی دودی' }],
-            steps: ['پوسته تارت سرد را در دمای ۱۶۵ درجه به مدت ۱۸ دقیقه بپزید تا ترد شود و کاملاً خنک نمایید.', 'شکلات را ریز خرد کنید، خامه داغ را روی آن بریزید و ۶۰ ثانیه صبر کنید.', 'از مرکز به آرامی هم بزنید تا امولسیونی براق و بدون حباب شکل بگیرد.', 'کره را در دمای ۴۰ درجه ترکیب کرده، داخل تارت بریزید و پس از ۲ ساعت استراحت با نمک دودی سرو کنید.'],
-          },
-        },
-      },
-      {
-        id: 'lamb-pomegranate', category: 'mains', difficulty: 'essential', prepMin: 180, duration: '19:50', durationSec: 1190, baseServings: 4,
-        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=85',
-        locales: {
-          en: {
-            title: 'Slow-Braised Lamb Shank with Pomegranate Glaze', desc: 'Four-hour braised lamb shanks lacquered in tart pomegranate molasses, charred shallots, and crushed coriander seed.',
-            note: 'Chill the braising liquid overnight if time permits—lifting off the solidified fat yields a remarkably clean glaze.',
-            ingredients: [{ amount: 4, unit: 'pcs', name: 'Trimmed lamb shanks' }, { amount: 60, unit: 'ml', name: 'Pure sour pomegranate molasses' }, { amount: 4, unit: 'pcs', name: 'Whole shallots, halved' }, { amount: 500, unit: 'ml', name: 'Roasted lamb or beef stock' }],
-            steps: ['Pat lamb shanks completely dry, season generously, and sear in olive oil until deeply caramelized.', 'Add shallots and toasted coriander seeds; deglaze with stock and half of the pomegranate molasses.', 'Cover tightly and braise in a 150°C oven for 3 hours until tender.', 'Strain and reduce the braising jus with the remaining molasses until syrupy, then glaze the shanks.'],
-          },
-          fa: {
-            title: 'ماهیچه بره آرام‌پز با لعاب رب انار', desc: 'ماهیچه بره پخته‌شده در حرارت ملایم با لعاب ملس رب انار اصیل، موسیر کاراملی و تخم گشنیز بوداده.',
-            note: 'برای رسیدن به سس کاملاً شفاف، پس از پخت آب ماهیچه را صاف کرده و روی حرارت ملایم به غلظت شربت برسانید.',
-            ingredients: [{ amount: 4, unit: 'pcs', name: 'ماهیچه بره تمیزشده' }, { amount: 60, unit: 'ml', name: 'رب انار ملس خالص' }, { amount: 4, unit: 'pcs', name: 'موسیر کامل نصف‌شده' }, { amount: 500, unit: 'ml', name: 'استاک گوشت برشته‌شده' }],
-            steps: ['ماهیچه‌ها را کاملاً خشک کرده و در روغن زیتون تا کاراملی شدن کامل تفت دهید.', 'موسیر و تخم گشنیز را اضافه کنید، سپس استاک و نیمی از رب انار را بیفزایید.', 'در ظرف را ببندید و ۳ ساعت در فر ۱۵۰ درجه بپزید.', 'سس را صاف کرده و با بقیه رب انار غلیظ نمایید و روی ماهیچه‌ها لعاب بدهید.'],
-          },
-        },
-      },
-      {
-        id: 'matcha-yuzu-crepe', category: 'pastry', difficulty: 'advanced', prepMin: 90, duration: '24:05', durationSec: 1445, baseServings: 8,
-        image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=85',
-        locales: {
-          en: {
-            title: 'Matcha & Yuzu Mille-Crêpe', desc: 'Twenty gossamer Uji matcha crêpes layered with airy yuzu diplomat cream for razor-sharp architectural slices.',
-            note: 'Strain the crêpe batter twice and rest overnight so the flour hydrates fully.',
-            ingredients: [{ amount: 180, unit: 'g', name: 'Cake flour, sifted' }, { amount: 18, unit: 'g', name: 'Ceremonial Uji matcha powder' }, { amount: 480, unit: 'ml', name: 'Whole milk' }, { amount: 4, unit: 'pcs', name: 'Large eggs' }],
-            steps: ['Whisk sifted flour and matcha with eggs, slowly stream in milk, strain twice, and chill overnight.', 'Cook 20 ultra-thin crêpes in a lightly buttered 20cm pan over gentle heat.', 'Fold whipped cream into chilled yuzu pastry cream to form a light diplomat cream.', 'Stack crêpes with even 2mm layers of cream, chill 4 hours, and dust with matcha before slicing.'],
-          },
-          fa: {
-            title: 'میل‌کرپ ماچا و یوزو ژاپنی', desc: 'بیست لایه کرپ فوق‌العاده نازک با پودر ماچای اصیل اوجی و کرم دیپلمات معطر یوزو.',
-            note: 'مایه کرپ را دو بار از صافی رد کنید و یک شب در یخچال استراحت دهید.',
-            ingredients: [{ amount: 180, unit: 'g', name: 'آرد کیک الک‌شده' }, { amount: 18, unit: 'g', name: 'پودر ماچای اوجی' }, { amount: 480, unit: 'ml', name: 'شیر کامل' }, { amount: 4, unit: 'pcs', name: 'تخم‌مرغ درشت' }],
-            steps: ['آرد و ماچا را با تخم‌مرغ ترکیب کنید، شیر را اضافه کرده، دو بار صاف کنید و یک شب در یخچال بگذارید.', 'بیست کرپ بسیار نازک را با حرارت ملایم بپزید.', 'خامه فرم‌گرفته را با کرم پاتیسیر یوزو ترکیب کنید.', 'لایه‌ها را منظم روی هم بچینید، ۴ ساعت خنک کنید و با چاقوی گرم برش بزنید.'],
-          },
-        },
-      },
-      {
-        id: 'sourdough-fermentation', category: 'techniques', difficulty: 'essential', prepMin: 240, duration: '26:30', durationSec: 1590, baseServings: 1,
-        image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=1000&q=85',
-        locales: {
-          en: {
-            title: 'Artisan Sourdough Fermentation', desc: 'Master 78% hydration country boule: reading fermentation temperature, gentle coil folds, and building a blistered crust.',
-            note: 'Judge bulk fermentation by dough volume (+50%) and sweet lactic aroma—never by the clock alone.',
-            ingredients: [{ amount: 450, unit: 'g', name: 'High-protein bread flour' }, { amount: 50, unit: 'g', name: 'Stone-ground whole wheat flour' }, { amount: 390, unit: 'ml', name: 'Filtered water (26°C)' }, { amount: 100, unit: 'g', name: 'Active peaked levain' }],
-            steps: ['Mix flours and water for a 45-minute autolyse to develop natural gluten extensibility.', 'Incorporate active levain and sea salt until completely homogeneous.', 'Perform 4 gentle coil folds spaced 35 minutes apart at 25°C dough temperature.', 'Shape taut, cold-proof 14 hours at 4°C, score, and bake in a preheated Dutch oven at 250°C.'],
-          },
-          fa: {
-            title: 'تخمیر حرفه‌ای نان خمیرترش (ساوردو)', desc: 'آموزش نان روستایی با هیدراسیون ۷۸ درصد: شناخت دمای تخمیر، تا زدن‌های ظریف و ایجاد پوسته برشته.',
-            note: 'پایان تخمیر اولیه را با افزایش ۵۰ درصدی حجم و عطر ملایم لاکتیکی تشخیص دهید.',
-            ingredients: [{ amount: 450, unit: 'g', name: 'آرد نان با پروتئین بالا' }, { amount: 50, unit: 'g', name: 'آرد گندم کامل آسیاب‌سنگی' }, { amount: 390, unit: 'ml', name: 'آب تصفیه‌شده (۲۶ درجه)' }, { amount: 100, unit: 'g', name: 'خمیرترش فعال' }],
-            steps: ['آردها و آب را مخلوط کرده و ۴۵ دقیقه اتولیز کنید.', 'خمیرترش فعال و نمک را به خمیر اضافه کرده و کاملاً یکدست نمایید.', '۴ مرحله تا زدن ظریف با فواصل ۳۵ دقیقه در دمای ۲۵ درجه انجام دهید.', 'فرم‌دهی کرده، ۱۴ ساعت در یخچال ۴ درجه استراحت دهید و در قابلمه چدنی داغ با دمای ۲۵۰ درجه بپزید.'],
-          },
-        },
-      },
-    ];
-
     const JOURNAL_ARTICLES = [
       {
         id: 'maillard-precision', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=900&q=85',
@@ -1724,7 +1684,7 @@
     let searchQuery = '';
     let currentPage = 1;
     let firestoreRecipes = [];
-    let recipes = [...DEFAULT_RECIPES];
+    let recipes = [];
     let activeRecipe = null;
     let currentServings = 2;
     let checkedSet = new Set();
@@ -1792,7 +1752,7 @@
           id: docSnap.id,
           ...docSnap.data(),
         }));
-        recipes = [...firestoreRecipes, ...DEFAULT_RECIPES];
+        recipes = [...firestoreRecipes];
         renderRecipeGrid();
         AutoTranslator.translateNode(document.getElementById('recipeGrid'));
       }, (err) => {
@@ -1887,14 +1847,14 @@
         const safeImg = isSafeUrl(r.image) ? escapeHTML(r.image) : '';
         return `
           <article data-recipe-id="${escapeHTML(r.id)}" class="recipe-card card-melt group cursor-pointer flex flex-col rounded-2xl p-3 sm:p-3">
-            <div class="relative aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden bg-black mb-3.5 sm:mb-4">
+            <div class="recipe-card-media relative aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden bg-black mb-3.5 sm:mb-4">
               ${safeImg ? `<img src="${safeImg}" alt="${escapeHTML(loc.title)}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-95 group-hover:opacity-100" />` : ''}
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent"></div>
-              <div class="absolute top-2.5 end-2.5 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
+              <div class="recipe-card-duration absolute top-2.5 end-2.5 px-2.5 py-1 rounded-full glass-surface text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5" data-no-translate="true">
                 <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
                 <span>${escapeHTML(r.duration || '15:00')}</span>
               </div>
-              <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-ivory/95">
+              <div class="recipe-card-bottom-meta absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-ivory/95">
                 <span class="px-2 py-0.5 rounded bg-black/55 backdrop-blur-sm">${escapeHTML(getCategoryLabel(r.category))}</span>
                 <span class="inline-flex items-center gap-1">
                   <svg class="w-3 h-3 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -1902,13 +1862,17 @@
                 </span>
               </div>
             </div>
-            <div class="px-1.5 pb-1.5 space-y-2 flex-1 flex flex-col">
-              <div class="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ivory/75 font-medium">
+            <div class="recipe-card-body px-1.5 pb-1.5 space-y-2 flex-1 flex flex-col">
+              <div class="recipe-card-meta-row flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ivory/75 font-medium">
                 <span>${escapeHTML(getDiffLabel(r.difficulty))}</span>
                 <span class="text-stone">${escapeHTML(r.baseServings)} ${escapeHTML(t('servingsLabel'))}</span>
               </div>
-              <h3 class="editorial-serif text-[1.35rem] sm:text-2xl font-normal text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
-              <p class="text-[13px] sm:text-xs text-stone font-light leading-relaxed line-clamp-2">${escapeHTML(loc.desc)}</p>
+              <h3 class="recipe-card-title editorial-serif text-[1.35rem] sm:text-2xl font-normal text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
+              <div class="recipe-card-mobile-time hidden">
+                <svg class="w-2.5 h-2.5 text-ivory/70 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span class="truncate">${escapeHTML(r.prepMin)} ${escapeHTML(getUnitLabel('min'))}</span>
+              </div>
+              <p class="recipe-card-desc text-[13px] sm:text-xs text-stone font-light leading-relaxed line-clamp-2">${escapeHTML(loc.desc)}</p>
             </div>
           </article>
         `;
