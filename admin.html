@@ -23,6 +23,7 @@
             obsidian: '#0B0C0E',
             charcoal: '#131519',
             elevated: '#1B1E24',
+            slateDeep: '#2F4F4F',
             ivory: '#F4F3EF',
             stone: '#94979E',
             hairline: 'rgba(255, 255, 255, 0.09)',
@@ -48,7 +49,7 @@
     body {
       background-color: var(--bg-obsidian);
       background-image:
-        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.045) 0%, transparent 45%),
+        radial-gradient(circle at 15% 0%, rgba(47, 79, 79, 0.18) 0%, transparent 45%),
         radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
       background-attachment: fixed;
       color: var(--text-ivory);
@@ -63,11 +64,25 @@
     }
 
     .glass-surface {
-      background: rgba(19, 21, 25, 0.84);
+      background: rgba(19, 21, 25, 0.86);
       backdrop-filter: blur(22px) saturate(140%);
       -webkit-backdrop-filter: blur(22px) saturate(140%);
       border: 1px solid rgba(255, 255, 255, 0.09);
       box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
+    }
+
+    .section-card {
+      background: rgba(11, 12, 14, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      transition: border-color 0.2s ease;
+    }
+    @media (min-width: 640px) {
+      .section-card { padding: 1.5rem 1.75rem; }
+    }
+    .section-card:focus-within {
+      border-color: rgba(255, 255, 255, 0.22);
     }
 
     .hairline-border { border: 1px solid rgba(255, 255, 255, 0.09); }
@@ -82,16 +97,28 @@
     }
     .btn-glass:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.11);
-      border-color: rgba(255, 255, 255, 0.65);
+      border-color: rgba(255, 255, 255, 0.55);
       color: #FFFFFF;
     }
-    .btn-glass:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-glass:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.32);
+      color: #FCA5A5;
+      transition: all 0.2s ease;
+    }
+    .btn-danger:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: rgba(248, 113, 113, 0.75);
+      color: #FFFFFF;
+    }
 
     .btn-primary {
       background: #FFFFFF;
       color: #0B0C0E;
       border: 1px solid #FFFFFF;
-      box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.22);
       transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .btn-primary:hover:not(:disabled) {
@@ -104,18 +131,26 @@
     .field-input {
       width: 100%;
       background-color: #0B0C0E;
-      border: 1px solid rgba(255, 255, 255, 0.11);
-      border-radius: 0.75rem;
-      padding: 0.65rem 0.9rem;
-      font-size: 0.875rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.85rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
       color: #FFFFFF;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .field-input:focus {
       outline: none;
-      border-color: rgba(255, 255, 255, 0.65);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
     }
     .field-input::placeholder { color: rgba(148, 151, 158, 0.55); }
+
+    textarea.field-input {
+      resize: vertical;
+      min-height: 112px;
+      line-height: 1.9;
+    }
 
     .locale-tab {
       color: var(--text-stone);
@@ -130,6 +165,21 @@
       border-color: #FFFFFF;
       font-weight: 600;
     }
+
+    .jump-pill {
+      color: var(--text-stone);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.18s ease;
+    }
+    .jump-pill:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0B0C0E; }
@@ -189,21 +239,25 @@
 
     <!-- Top Sticky Header -->
     <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <button id="toggleSidebarBtn" type="button" title="باز و بسته کردن لیست آرشیو" class="hidden lg:inline-flex btn-glass w-9 h-9 rounded-full items-center justify-center shrink-0">
+            <i data-lucide="panel-right" class="w-4 h-4"></i>
+          </button>
           <div class="w-10 h-10 rounded-full overflow-hidden ring-1 ring-white/35 bg-obsidian shrink-0">
             <img src="photos/logo.jpg" alt="ATELIER Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
           </div>
-          <div>
-            <div class="flex items-baseline gap-2">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
               <span class="editorial-serif text-xl sm:text-2xl text-white uppercase leading-none">ATELIER</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-ivory/90">پنل مدیریت</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-ivory/90 shrink-0">پنل مدیریت</span>
+              <span id="unsavedBadge" class="hidden text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/35 text-amber-200 shrink-0">تغییرات ذخیره نشده</span>
             </div>
             <p id="adminEmailDisplay" class="text-[11px] text-stone font-latin mt-0.5 truncate max-w-[180px] sm:max-w-xs"></p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <a href="index.html" target="_blank" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-2">
             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
             <span class="hidden sm:inline">مشاهده سایت</span>
@@ -212,18 +266,18 @@
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
             <span>آموزش جدید</span>
           </button>
-          <button id="logoutBtn" type="button" aria-label="خروج" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center text-stone hover:text-red-400">
+          <button id="logoutBtn" type="button" aria-label="خروج" title="خروج از حساب" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center text-stone hover:text-red-400">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Main 12-Column Workspace -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+    <!-- Main Wide Workspace -->
+    <main id="workspaceGrid" class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- SIDEBAR: LIST OF RECIPES IN FIRESTORE (4 Cols) -->
-      <aside class="lg:col-span-4 space-y-4 lg:sticky lg:top-24">
+      <!-- SIDEBAR: LIST OF RECIPES IN FIRESTORE (3 Cols on Desktop) -->
+      <aside id="archiveSidebar" class="lg:col-span-3 space-y-4 lg:sticky lg:top-24">
         <div class="glass-surface rounded-2xl p-4 space-y-4">
           <div class="flex items-center justify-between">
             <h2 class="text-sm font-semibold text-white flex items-center gap-2">
@@ -234,45 +288,77 @@
           </div>
 
           <div class="relative">
-            <input id="adminSearchInput" type="text" placeholder="جستجو در آموزش‌ها..." class="field-input pr-9 py-2 text-xs" />
+            <input id="adminSearchInput" type="text" placeholder="جستجو در آرشیو..." class="field-input pr-9 py-2 text-xs" />
             <i data-lucide="search" class="w-3.5 h-3.5 text-stone absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
           </div>
 
-          <div id="recipesListContainer" class="space-y-2.5 max-h-[62vh] overflow-y-auto pl-1">
+          <div id="recipesListContainer" class="space-y-2.5 max-h-[68vh] overflow-y-auto pl-1">
             <p class="text-xs text-stone text-center py-8">در حال بارگذاری از فایربیس...</p>
           </div>
         </div>
       </aside>
 
-      <!-- MAIN EDITOR FORM (8 Cols) -->
-      <section class="lg:col-span-8">
-        <form id="recipeForm" class="glass-surface rounded-3xl p-5 sm:p-8 space-y-8">
+      <!-- MAIN SPACIOUS EDITOR FORM (9 Cols on Desktop, 12 when sidebar collapsed) -->
+      <section id="editorColumn" class="lg:col-span-9">
+        <form id="recipeForm" class="glass-surface rounded-3xl p-5 sm:p-8 lg:p-10 space-y-7">
 
-          <!-- Form Header -->
+          <!-- Sticky Action Header inside Editor -->
           <div class="flex flex-wrap items-center justify-between gap-4 pb-5 hairline-b">
             <div>
-              <span id="formModeBadge" class="text-[10px] uppercase tracking-[0.2em] text-white/70 block mb-1">NEW ENTRY</span>
+              <span id="formModeBadge" class="text-[10px] uppercase tracking-[0.2em] text-white/65 block mb-1">NEW ENTRY</span>
               <h2 id="formHeading" class="text-xl sm:text-2xl font-semibold text-white">ثبت مسترکلاس / دستور پخت جدید</h2>
             </div>
-            <div class="flex items-center gap-2">
-              <button type="button" id="resetFormBtn" class="btn-glass px-4 py-2 rounded-full text-xs">پاک کردن فرم</button>
-              <button type="submit" id="saveRecipeBtn" class="btn-primary px-6 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="revertAllBtn" class="hidden btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5" title="بازگردانی کل فرم به آخرین نسخه ذخیره‌شده">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>بازگردانی کل فرم</span>
+              </button>
+              <button type="button" id="deleteCurrentRecipeBtn" class="hidden btn-danger px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>حذف این آموزش</span>
+              </button>
+              <button type="button" id="resetFormBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs">پاک کردن فرم</button>
+              <button type="submit" id="saveRecipeBtn" class="btn-primary px-6 py-2.5 rounded-full text-xs font-semibold inline-flex items-center gap-2">
                 <i data-lucide="save" class="w-3.5 h-3.5"></i>
                 <span id="saveBtnLabel">ذخیره در فایربیس</span>
               </button>
             </div>
           </div>
 
-          <!-- 1. MEDIA SECTION: COVER IMAGE & YOUTUBE VIDEO -->
-          <div class="space-y-4">
-            <h3 class="text-xs uppercase tracking-[0.18em] text-white/80 font-medium flex items-center gap-2">
-              <i data-lucide="film" class="w-4 h-4"></i>
-              <span>رسانه (عکس کاور و ویدیوی یوتیوب)</span>
-            </h3>
+          <!-- Quick Section Jump Bar -->
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            <a href="#sec-media" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="film" class="w-3.5 h-3.5"></i><span>رسانه</span></a>
+            <a href="#sec-meta" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i><span>مشخصات</span></a>
+            <a href="#sec-texts" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>عنوان و توضیحات</span></a>
+            <a href="#sec-ingredients" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="list-checks" class="w-3.5 h-3.5"></i><span>مواد اولیه</span></a>
+            <a href="#sec-steps" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="chef-hat" class="w-3.5 h-3.5"></i><span>مراحل پخت</span></a>
+            <a href="#sec-chapters" class="jump-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i><span>فصل‌بندی ویدیو</span></a>
+          </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- =============================================================== -->
+          <!-- SECTION 1: MEDIA (COVER IMAGE & YOUTUBE VIDEO)                  -->
+          <!-- =============================================================== -->
+          <div id="sec-media" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="film" class="w-4 h-4 text-white/80"></i>
+                <span>۱. رسانه (عکس کاور و ویدیوی یوتیوب)</span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="media" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="media" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>پاک کردن بخش</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Cover Image -->
-              <div class="space-y-2.5">
+              <div class="space-y-3">
                 <label for="coverImageUrl" class="block text-xs text-stone">لینک عکس کاور (نشانگر کارت آموزش)</label>
                 <input id="coverImageUrl" type="url" dir="ltr" required placeholder="https://images.unsplash.com/..." class="field-input text-left font-latin" />
                 <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
@@ -285,7 +371,7 @@
               </div>
 
               <!-- YouTube Video -->
-              <div class="space-y-2.5">
+              <div class="space-y-3">
                 <label for="youtubeUrl" class="block text-xs text-stone">لینک ویدیو یوتیوب (پخش در پلیر اختصاصی سایت)</label>
                 <input id="youtubeUrl" type="text" dir="ltr" required placeholder="https://www.youtube.com/watch?v=... یا https://youtu.be/..." class="field-input text-left font-latin" />
                 <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
@@ -300,16 +386,30 @@
             </div>
           </div>
 
-          <!-- 2. METADATA SECTION -->
-          <div class="space-y-4 pt-6 hairline-t">
-            <h3 class="text-xs uppercase tracking-[0.18em] text-white/80 font-medium flex items-center gap-2">
-              <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-              <span>مشخصات فنی آموزش</span>
-            </h3>
+          <!-- =============================================================== -->
+          <!-- SECTION 2: METADATA                                             -->
+          <!-- =============================================================== -->
+          <div id="sec-meta" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-white/80"></i>
+                <span>۲. مشخصات فنی آموزش</span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="meta" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="meta" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                  <span>بازنشانی پیش‌فرض</span>
+                </button>
+              </div>
+            </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
               <div>
-                <label for="recipeCategory" class="block text-[11px] text-stone mb-1.5">دسته‌بندی</label>
+                <label for="recipeCategory" class="block text-xs text-stone mb-1.5">دسته‌بندی</label>
                 <select id="recipeCategory" class="field-input">
                   <option value="masterclasses">مسترکلاس (Masterclasses)</option>
                   <option value="mains">غذای اصلی (Mains)</option>
@@ -318,7 +418,7 @@
                 </select>
               </div>
               <div>
-                <label for="recipeDifficulty" class="block text-[11px] text-stone mb-1.5">سطح مهارت</label>
+                <label for="recipeDifficulty" class="block text-xs text-stone mb-1.5">سطح مهارت</label>
                 <select id="recipeDifficulty" class="field-input">
                   <option value="essential">پایه (Essential)</option>
                   <option value="intermediate">متوسط (Intermediate)</option>
@@ -326,68 +426,146 @@
                 </select>
               </div>
               <div>
-                <label for="recipePrepMin" class="block text-[11px] text-stone mb-1.5">زمان پخت (دقیقه)</label>
+                <label for="recipePrepMin" class="block text-xs text-stone mb-1.5">زمان پخت (دقیقه)</label>
                 <input id="recipePrepMin" type="number" min="1" max="1440" value="45" required class="field-input font-latin text-center" />
               </div>
               <div>
-                <label for="recipeDuration" class="block text-[11px] text-stone mb-1.5">مدت ویدیو (MM:SS)</label>
+                <label for="recipeDuration" class="block text-xs text-stone mb-1.5">مدت ویدیو (MM:SS)</label>
                 <input id="recipeDuration" type="text" dir="ltr" value="15:00" pattern="^\d{1,3}:\d{2}$" required placeholder="18:40" class="field-input font-mono text-center" />
               </div>
               <div class="col-span-2 sm:col-span-1">
-                <label for="recipeBaseServings" class="block text-[11px] text-stone mb-1.5">تعداد نفرات پایه</label>
+                <label for="recipeBaseServings" class="block text-xs text-stone mb-1.5">تعداد نفرات پایه</label>
                 <input id="recipeBaseServings" type="number" min="1" max="50" value="2" required class="field-input font-latin text-center font-semibold" />
               </div>
             </div>
           </div>
 
-          <!-- 3. MULTILINGUAL CONTENT TABS (FA / EN / DE) + AUTO-TRANSLATE -->
-          <div class="space-y-5 pt-6 hairline-t">
-            <div class="flex flex-wrap items-center justify-between gap-3">
+          <!-- =============================================================== -->
+          <!-- LANGUAGE BAR + FIND & REPLACE TOOL                              -->
+          <!-- =============================================================== -->
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.03] hairline-border">
               <div class="flex items-center gap-2">
-                <button type="button" data-edit-lang="fa" class="locale-tab active px-3.5 py-1.5 rounded-full text-xs">🇮🇷 فارسی (FA)</button>
-                <button type="button" data-edit-lang="en" class="locale-tab px-3.5 py-1.5 rounded-full text-xs font-latin">🇬🇧 English (EN)</button>
-                <button type="button" data-edit-lang="de" class="locale-tab px-3.5 py-1.5 rounded-full text-xs font-latin">🇩🇪 Deutsch (DE)</button>
+                <button type="button" data-edit-lang="fa" class="locale-tab active px-4 py-2 rounded-full text-xs">🇮🇷 فارسی (FA)</button>
+                <button type="button" data-edit-lang="en" class="locale-tab px-4 py-2 rounded-full text-xs font-latin">🇬🇧 English (EN)</button>
+                <button type="button" data-edit-lang="de" class="locale-tab px-4 py-2 rounded-full text-xs font-latin">🇩🇪 Deutsch (DE)</button>
               </div>
 
-              <button type="button" id="autoTranslateBtn" class="btn-glass px-3.5 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
-                <i data-lucide="languages" class="w-3.5 h-3.5"></i>
-                <span>ترجمه خودکار به ۲ زبان دیگر</span>
-              </button>
-            </div>
-
-            <!-- Title, Desc, Chef Note -->
-            <div class="space-y-4">
-              <div>
-                <label for="locTitle" class="block text-xs text-stone mb-1.5">عنوان آموزش <span class="lang-badge text-white font-mono">[FA]</span></label>
-                <input id="locTitle" type="text" required placeholder="مثلاً: سینه اردک زعفرانی با پسته برشته" class="field-input" />
-              </div>
-              <div>
-                <label for="locDesc" class="block text-xs text-stone mb-1.5">توضیح کوتاه و حرفه‌ای <span class="lang-badge text-white font-mono">[FA]</span></label>
-                <textarea id="locDesc" rows="2" required placeholder="خلاصه جذاب از طعم و تکنیک این آموزش..." class="field-input"></textarea>
-              </div>
-              <div>
-                <label for="locChefNote" class="block text-xs text-stone mb-1.5">یادداشت سرآشپز (Chef's Note) <span class="lang-badge text-white font-mono">[FA]</span></label>
-                <textarea id="locChefNote" rows="2" placeholder="نکته طلایی و فوت کوزه‌گری این دستور پخت..." class="field-input"></textarea>
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" id="toggleFindReplaceBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="search-code" class="w-3.5 h-3.5"></i>
+                  <span>جستجو و جایگزینی در متن</span>
+                </button>
+                <button type="button" id="autoTranslateBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+                  <span>ترجمه خودکار به ۲ زبان دیگر</span>
+                </button>
               </div>
             </div>
 
-            <!-- 4. INGREDIENTS BUILDER + LIVE SERVINGS SCALING SIMULATOR -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
-              <div class="flex flex-wrap items-center justify-between gap-3 pb-3 hairline-b">
-                <div>
-                  <h4 class="text-sm font-medium text-white">پیشنیازها و مواد اولیه <span class="lang-badge text-xs text-stone font-mono">[FA]</span></h4>
-                  <p class="text-[11px] text-stone mt-0.5">مقادیر را بر اساس «تعداد نفرات پایه» وارد کنید تا در سایت خودکار محاسبه شوند.</p>
+            <!-- Inline Find & Replace Bar -->
+            <div id="findReplaceBar" class="hidden p-4 rounded-2xl bg-slateDeep/20 border border-white/20 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-white flex items-center gap-2">
+                  <i data-lucide="replace" class="w-4 h-4"></i>
+                  <span>جستجو و جایگزینی در تمام متن‌های زبان فعلی <span class="lang-badge font-mono text-stone">[FA]</span></span>
+                </span>
+                <button type="button" id="closeFindReplaceBtn" class="text-stone hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+                <input id="findTextInput" type="text" placeholder="عبارت مورد نظر برای پیدا کردن..." class="field-input sm:col-span-5 py-2 text-xs" />
+                <input id="replaceTextInput" type="text" placeholder="عبارت جایگزین..." class="field-input sm:col-span-4 py-2 text-xs" />
+                <button type="button" id="findLocateBtn" class="btn-glass sm:col-span-1 py-2.5 px-2 rounded-xl text-xs">پیدا کن</button>
+                <button type="button" id="replaceAllBtn" class="btn-primary sm:col-span-2 py-2.5 px-3 rounded-xl text-xs font-semibold">جایگزینی همه</button>
+              </div>
+              <p id="findReplaceStatus" class="text-[11px] text-ivory/80 hidden"></p>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 3: TITLE, DESCRIPTION & CHEF'S NOTE (SPACIOUS!)         -->
+          <!-- =============================================================== -->
+          <div id="sec-texts" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-white/80"></i>
+                <span>۳. عنوان، توضیحات و یادداشت سرآشپز <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="texts" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="texts" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>پاک کردن متن‌ها</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              <div>
+                <label for="locTitle" class="block text-xs text-stone mb-2">عنوان آموزش <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <input id="locTitle" type="text" required placeholder="مثلاً: سینه اردک زعفرانی با پسته برشته" class="field-input text-base font-medium" />
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label for="locDesc" class="text-xs text-stone">توضیحات کامل و حرفه‌ای <span class="lang-badge text-white font-mono">[FA]</span></label>
+                  <button type="button" data-expand-target="locDesc" data-expand-title="ویرایش توضیحات آموزش" class="expand-field-btn text-[11px] text-stone hover:text-white inline-flex items-center gap-1">
+                    <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                    <span>بزرگ‌نمایی ویرایشگر</span>
+                  </button>
                 </div>
-                <button type="button" id="addIngredientRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+                <textarea id="locDesc" rows="5" required placeholder="توضیحات کامل درباره طعم، بافت، تکنیک‌ها و نکات کلیدی این آموزش را با خیال راحت اینجا بنویسید..." class="field-input auto-grow"></textarea>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label for="locChefNote" class="text-xs text-stone">یادداشت سرآشپز (Chef's Note) <span class="lang-badge text-white font-mono">[FA]</span></label>
+                  <button type="button" data-expand-target="locChefNote" data-expand-title="ویرایش یادداشت سرآشپز" class="expand-field-btn text-[11px] text-stone hover:text-white inline-flex items-center gap-1">
+                    <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                    <span>بزرگ‌نمایی ویرایشگر</span>
+                  </button>
+                </div>
+                <textarea id="locChefNote" rows="4" placeholder="نکته طلایی، دمای دقیق، جایگزین مواد اولیه و فوت کوزه‌گری این دستور پخت..." class="field-input auto-grow"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 4: INGREDIENTS BUILDER + LIVE SCALING SIMULATOR         -->
+          <!-- =============================================================== -->
+          <div id="sec-ingredients" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <div>
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="list-checks" class="w-4 h-4 text-white/80"></i>
+                  <span>۴. پیش‌نیازها و مواد اولیه <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+                </h3>
+                <p class="text-[11px] text-stone mt-1">مقادیر را بر اساس «تعداد نفرات پایه» وارد کنید. امکان تغییر ترتیب و حذف تکی یا کلی وجود دارد.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-revert-section="ingredients" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="ingredients" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>حذف کل مواد</span>
+                </button>
+                <button type="button" id="addIngredientRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                   <span>افزودن ماده اولیه</span>
                 </button>
               </div>
+            </div>
 
-              <div id="ingredientsRows" class="space-y-2.5"></div>
+            <div id="ingredientsRows" class="space-y-3"></div>
 
-              <!-- Live Servings Scaling Simulator -->
-              <div class="pt-3 hairline-t flex flex-wrap items-center justify-between gap-3 bg-white/[0.02] p-3 rounded-xl">
+            <!-- Live Servings Scaling Simulator -->
+            <div class="pt-4 hairline-t space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-3 bg-white/[0.03] p-3.5 rounded-xl">
                 <div class="flex items-center gap-2 text-xs text-ivory/90">
                   <i data-lucide="calculator" class="w-4 h-4 text-white/80"></i>
                   <span>تست زنده محاسبه تعداد نفرات:</span>
@@ -400,41 +578,120 @@
               </div>
               <div id="simPreviewList" class="text-xs text-stone flex flex-wrap gap-2"></div>
             </div>
+          </div>
 
-            <!-- 5. METHOD STEPS BUILDER -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
-              <div class="flex items-center justify-between gap-3 pb-3 hairline-b">
-                <div>
-                  <h4 class="text-sm font-medium text-white">مراحل پخت (Method) <span class="lang-badge text-xs text-stone font-mono">[FA]</span></h4>
-                  <p class="text-[11px] text-stone mt-0.5">مراحل اجرا را به ترتیب وارد کنید.</p>
-                </div>
-                <button type="button" id="addStepRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+          <!-- =============================================================== -->
+          <!-- SECTION 5: METHOD STEPS BUILDER (LARGE, REORDERABLE, CLEARABLE) -->
+          <!-- =============================================================== -->
+          <div id="sec-steps" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <div>
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="chef-hat" class="w-4 h-4 text-white/80"></i>
+                  <span>۵. مراحل پخت (Method) <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+                </h3>
+                <p class="text-[11px] text-stone mt-1">هر مرحله فضای بزرگ و خودکار دارد؛ می‌توانید ترتیب مراحل را عوض کرده یا هر مرحله را حذف کنید.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-revert-section="steps" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="steps" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>حذف کل مراحل</span>
+                </button>
+                <button type="button" id="addStepRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                   <span>افزودن مرحله</span>
                 </button>
               </div>
-              <div id="stepsRows" class="space-y-2.5"></div>
             </div>
 
-            <!-- 6. VIDEO CHAPTERS BUILDER (OPTIONAL) -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
-              <div class="flex items-center justify-between gap-3 pb-3 hairline-b">
-                <div>
-                  <h4 class="text-sm font-medium text-white">فصل‌بندی ویدیو (Chapters) <span class="text-[10px] text-stone">(اختیاری)</span></h4>
-                  <p class="text-[11px] text-stone mt-0.5">زمان‌های کلیدی ویدیو برای پرش سریع کاربر (مثلاً 00:00 یا 05:40)</p>
-                </div>
-                <button type="button" id="addChapterRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+            <div id="stepsRows" class="space-y-4"></div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 6: VIDEO CHAPTERS BUILDER                               -->
+          <!-- =============================================================== -->
+          <div id="sec-chapters" class="section-card scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <div>
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="clock" class="w-4 h-4 text-white/80"></i>
+                  <span>۶. فصل‌بندی ویدیو (Chapters) <span class="text-[10px] text-stone">(اختیاری)</span></span>
+                </h3>
+                <p class="text-[11px] text-stone mt-1">زمان‌های کلیدی ویدیو برای پرش سریع کاربر (مثلاً 00:00 یا 05:40)</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-revert-section="chapters" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                  <span>بازگردانی</span>
+                </button>
+                <button type="button" data-clear-section="chapters" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>حذف کل فصل‌ها</span>
+                </button>
+                <button type="button" id="addChapterRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                   <span>افزودن فصل</span>
                 </button>
               </div>
-              <div id="chaptersRows" class="space-y-2.5"></div>
             </div>
+
+            <div id="chaptersRows" class="space-y-3"></div>
+          </div>
+
+          <!-- Bottom Save Bar -->
+          <div class="pt-4 hairline-t flex flex-wrap items-center justify-between gap-3">
+            <p class="text-xs text-stone">تمام تغییرات پس از زدن دکمه ذخیره، بلافاصله در سایت اصلی منتشر می‌شوند.</p>
+            <button type="submit" class="btn-primary px-8 py-3 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i>
+              <span>ذخیره نهایی در فایربیس</span>
+            </button>
           </div>
 
         </form>
       </section>
     </main>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- FULLSCREEN TEXT EDITOR MODAL (FOR LONG DESCRIPTIONS / STEPS)            -->
+  <!-- ======================================================================= -->
+  <div id="expandTextModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-8">
+    <div class="glass-surface rounded-3xl w-full max-w-4xl p-6 sm:p-8 space-y-4">
+      <div class="flex items-center justify-between pb-3 hairline-b">
+        <h3 id="expandModalTitle" class="text-base font-semibold text-white">ویرایشگر تمام‌صفحه</h3>
+        <button type="button" id="closeExpandModalBtn" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <textarea id="expandModalTextarea" rows="14" class="field-input text-base leading-9 min-h-[55vh]"></textarea>
+      <div class="flex items-center justify-between pt-2">
+        <span id="expandCharCount" class="text-xs text-stone font-mono">0 کاراکتر</span>
+        <button type="button" id="applyExpandModalBtn" class="btn-primary px-6 py-2.5 rounded-full text-xs font-semibold">تأیید و بازگشت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- CUSTOM CONFIRMATION MODAL (FOR DELETING SECTIONS OR MAIN RECIPE)        -->
+  <!-- ======================================================================= -->
+  <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-surface rounded-3xl w-full max-w-md p-6 sm:p-7 space-y-5">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/35 flex items-center justify-center text-red-400 shrink-0">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <div class="space-y-1.5">
+          <h3 id="confirmModalTitle" class="text-base font-semibold text-white">تأیید حذف</h3>
+          <p id="confirmModalMessage" class="text-xs text-stone leading-6"></p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2.5 pt-2">
+        <button type="button" id="confirmCancelBtn" class="btn-glass px-5 py-2 rounded-full text-xs">انصراف</button>
+        <button type="button" id="confirmOkBtn" class="btn-danger px-5 py-2 rounded-full text-xs font-semibold">تأیید و انجام</button>
+      </div>
+    </div>
   </div>
 
   <!-- Toast Notification -->
@@ -444,7 +701,7 @@
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 3. FIREBASE MODULAR ENGINE & ADMIN LOGIC                                -->
+  <!-- 3. FIREBASE MODULAR ENGINE & ENHANCED ADMIN LOGIC                       -->
   <!-- ======================================================================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -472,9 +729,12 @@
     /* --- State --- */
     let allRecipes = [];
     let editingDocId = null;
+    let originalSnapshot = null; // Stores last saved state for per-section & full revert
     let activeEditLang = 'fa';
     let simServings = 2;
     let unsubscribeRecipes = null;
+    let isDirty = false;
+    let sidebarCollapsed = false;
 
     const emptyLocale = () => ({
       title: '',
@@ -485,7 +745,7 @@
     });
 
     let draftLocales = { fa: emptyLocale(), en: emptyLocale(), de: emptyLocale() };
-    let draftChapters = []; // [{ timeSec: 0, timeStr: '00:00', labels: { fa: '', en: '', de: '' } }]
+    let draftChapters = [];
 
     /* --- Security & Utility Helpers --- */
     function escapeHTML(str) {
@@ -513,14 +773,8 @@
       if (!input) return null;
       const trimmed = input.trim();
       if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-      ];
-      for (const p of patterns) {
-        const match = trimmed.match(p);
-        if (match && match[1]) return match[1];
-      }
-      return null;
+      const match = trimmed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+      return match && match[1] ? match[1] : null;
     }
 
     function parseTimeToSec(str) {
@@ -541,6 +795,26 @@
       return Number.isInteger(rounded) ? String(rounded) : String(Number(rounded.toFixed(1)));
     }
 
+    function autoGrowTextarea(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.max(112, el.scrollHeight + 4) + 'px';
+    }
+
+    function markDirty(dirty = true) {
+      isDirty = dirty;
+      document.getElementById('unsavedBadge')?.classList.toggle('hidden', !dirty);
+    }
+
+    function updateEditModeButtons() {
+      const hasSnapshot = Boolean(originalSnapshot);
+      document.getElementById('revertAllBtn')?.classList.toggle('hidden', !hasSnapshot);
+      document.getElementById('deleteCurrentRecipeBtn')?.classList.toggle('hidden', !editingDocId);
+      document.querySelectorAll('.revert-sec-btn').forEach((btn) => {
+        btn.classList.toggle('hidden', !hasSnapshot);
+      });
+    }
+
     let toastTimer = null;
     function showToast(msg) {
       const el = document.getElementById('toast');
@@ -554,6 +828,77 @@
         el.classList.remove('flex');
       }, 3400);
     }
+
+    /* Custom Confirmation Modal */
+    function openConfirmModal(title, message, onConfirm) {
+      const modal = document.getElementById('confirmModal');
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalMessage').textContent = message;
+      modal.classList.remove('hidden');
+
+      const okBtn = document.getElementById('confirmOkBtn');
+      const cancelBtn = document.getElementById('confirmCancelBtn');
+
+      const cleanup = () => {
+        modal.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+      };
+      cancelBtn.onclick = cleanup;
+      okBtn.onclick = () => {
+        cleanup();
+        onConfirm();
+      };
+    }
+
+    /* Fullscreen Expandable Textarea Modal */
+    let expandTargetEl = null;
+    function openExpandModal(targetEl, titleText) {
+      if (!targetEl) return;
+      expandTargetEl = targetEl;
+      const modal = document.getElementById('expandTextModal');
+      const ta = document.getElementById('expandModalTextarea');
+      document.getElementById('expandModalTitle').textContent = titleText || 'ویرایش متن';
+      ta.dir = targetEl.dir || (activeEditLang === 'fa' ? 'rtl' : 'ltr');
+      ta.value = targetEl.value;
+      document.getElementById('expandCharCount').textContent = `${ta.value.length} کاراکتر`;
+      modal.classList.remove('hidden');
+      ta.focus();
+    }
+
+    document.getElementById('expandModalTextarea').addEventListener('input', (e) => {
+      document.getElementById('expandCharCount').textContent = `${e.target.value.length} کاراکتر`;
+    });
+    document.getElementById('closeExpandModalBtn').addEventListener('click', () => {
+      document.getElementById('expandTextModal').classList.add('hidden');
+      expandTargetEl = null;
+    });
+    document.getElementById('applyExpandModalBtn').addEventListener('click', () => {
+      if (expandTargetEl) {
+        expandTargetEl.value = document.getElementById('expandModalTextarea').value;
+        autoGrowTextarea(expandTargetEl);
+        markDirty(true);
+      }
+      document.getElementById('expandTextModal').classList.add('hidden');
+      expandTargetEl = null;
+    });
+
+    document.querySelectorAll('.expand-field-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const el = document.getElementById(btn.getAttribute('data-expand-target'));
+        openExpandModal(el, btn.getAttribute('data-expand-title'));
+      });
+    });
+
+    /* Sidebar Toggle for Maximum Writing Space */
+    document.getElementById('toggleSidebarBtn').addEventListener('click', () => {
+      sidebarCollapsed = !sidebarCollapsed;
+      const sidebar = document.getElementById('archiveSidebar');
+      const editorCol = document.getElementById('editorColumn');
+      sidebar.classList.toggle('lg:hidden', sidebarCollapsed);
+      editorCol.classList.toggle('lg:col-span-9', !sidebarCollapsed);
+      editorCol.classList.toggle('lg:col-span-12', sidebarCollapsed);
+    });
 
     /* Free Keyless Translation Helper (MyMemory) */
     async function freeTranslate(text, from, to) {
@@ -583,7 +928,7 @@
       btn.disabled = true;
       try {
         await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
+      } catch {
         loginError.textContent = 'ایمیل یا رمز عبور اشتباه است. لطفاً دوباره بررسی کنید.';
         loginError.classList.remove('hidden');
       } finally {
@@ -621,6 +966,22 @@
       });
     }
 
+    async function deleteRecipeById(id, titleText) {
+      openConfirmModal(
+        'حذف دائمی آموزش',
+        `آیا از حذف دائمی «${titleText || 'این آموزش'}» مطمئن هستید؟ این عملیات قابل بازگشت نیست.`,
+        async () => {
+          try {
+            await deleteDoc(doc(db, 'recipes', id));
+            if (editingDocId === id) resetForm();
+            showToast('آموزش با موفقیت از فایربیس حذف شد.');
+          } catch {
+            showToast('خطا در حذف آموزش.');
+          }
+        }
+      );
+    }
+
     function renderRecipesList() {
       const container = document.getElementById('recipesListContainer');
       const badge = document.getElementById('totalRecipesBadge');
@@ -635,34 +996,33 @@
       badge.textContent = String(allRecipes.length);
 
       if (filtered.length === 0) {
-        container.innerHTML = `<p class="text-xs text-stone text-center py-8">هنوز آموزشی ثبت نشده است.</p>`;
+        container.innerHTML = `<p class="text-xs text-stone text-center py-8">آموزشی یافت نشد.</p>`;
         return;
       }
 
       container.innerHTML = filtered.map((r) => {
-        const title = escapeHTML(r.locales?.fa?.title || r.locales?.en?.title || 'بدون عنوان');
+        const rawTitle = r.locales?.fa?.title || r.locales?.en?.title || 'بدون عنوان';
+        const title = escapeHTML(rawTitle);
         const img = isSafeUrl(r.image) ? escapeHTML(r.image) : '';
         const isSelected = r.id === editingDocId;
         return `
           <div class="p-2.5 rounded-xl flex items-center gap-3 transition-colors ${isSelected ? 'bg-white/15 border border-white/40' : 'bg-obsidian/70 hairline-border hover:bg-white/[0.06]'}">
-            <div class="w-14 h-11 rounded-lg overflow-hidden bg-charcoal shrink-0">
+            <div class="w-12 h-11 rounded-lg overflow-hidden bg-charcoal shrink-0">
               ${img ? `<img src="${img}" alt="" class="w-full h-full object-cover" />` : ''}
             </div>
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 cursor-pointer edit-item-trigger" data-edit-id="${escapeHTML(r.id)}">
               <p class="text-xs font-medium text-white truncate">${title}</p>
-              <div class="flex items-center gap-2 text-[10px] text-stone mt-0.5 font-latin">
+              <div class="flex items-center gap-1.5 text-[10px] text-stone mt-0.5 font-latin">
                 <span>${escapeHTML(r.category || '')}</span>
                 <span>•</span>
                 <span>${escapeHTML(r.duration || '00:00')}</span>
-                <span>•</span>
-                <span>${escapeHTML(r.baseServings || 2)} نفر</span>
               </div>
             </div>
             <div class="flex items-center gap-1 shrink-0">
               <button type="button" data-edit-id="${escapeHTML(r.id)}" title="ویرایش" class="edit-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center">
                 <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
               </button>
-              <button type="button" data-del-id="${escapeHTML(r.id)}" title="حذف" class="del-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center hover:text-red-400">
+              <button type="button" data-del-id="${escapeHTML(r.id)}" data-del-title="${title}" title="حذف آموزش" class="del-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center hover:text-red-400">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             </div>
@@ -672,7 +1032,7 @@
 
       if (window.lucide) window.lucide.createIcons();
 
-      container.querySelectorAll('.edit-item-btn').forEach((btn) => {
+      container.querySelectorAll('.edit-item-btn, .edit-item-trigger').forEach((btn) => {
         btn.addEventListener('click', () => {
           const found = allRecipes.find((x) => x.id === btn.getAttribute('data-edit-id'));
           if (found) loadRecipeIntoForm(found);
@@ -680,21 +1040,20 @@
       });
 
       container.querySelectorAll('.del-item-btn').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const id = btn.getAttribute('data-del-id');
-          if (!confirm('آیا از حذف دائمی این آموزش مطمئن هستید؟')) return;
-          try {
-            await deleteDoc(doc(db, 'recipes', id));
-            if (editingDocId === id) resetForm();
-            showToast('آموزش با موفقیت حذف شد.');
-          } catch (err) {
-            showToast('خطا در حذف آموزش.');
-          }
+        btn.addEventListener('click', () => {
+          deleteRecipeById(btn.getAttribute('data-del-id'), btn.getAttribute('data-del-title'));
         });
       });
     }
 
     document.getElementById('adminSearchInput').addEventListener('input', renderRecipesList);
+
+    /* Delete Current Editing Recipe Button */
+    document.getElementById('deleteCurrentRecipeBtn').addEventListener('click', () => {
+      if (!editingDocId) return;
+      const currentTitle = document.getElementById('locTitle').value.trim() || 'این آموزش';
+      deleteRecipeById(editingDocId, currentTitle);
+    });
 
     /* --- Live Media Previews --- */
     const coverUrlInput = document.getElementById('coverImageUrl');
@@ -712,7 +1071,7 @@
         coverPlaceholder.classList.remove('hidden');
       }
     }
-    coverUrlInput.addEventListener('input', updateCoverPreview);
+    coverUrlInput.addEventListener('input', () => { updateCoverPreview(); markDirty(true); });
 
     const ytInput = document.getElementById('youtubeUrl');
     const ytThumb = document.getElementById('ytPreviewThumb');
@@ -733,17 +1092,92 @@
         ytPlaceholder.classList.remove('hidden');
       }
     }
-    ytInput.addEventListener('input', updateYouTubePreview);
+    ytInput.addEventListener('input', () => { updateYouTubePreview(); markDirty(true); });
+
+    /* --- Find & Replace Engine --- */
+    const findReplaceBar = document.getElementById('findReplaceBar');
+    const findStatus = document.getElementById('findReplaceStatus');
+
+    document.getElementById('toggleFindReplaceBtn').addEventListener('click', () => {
+      findReplaceBar.classList.toggle('hidden');
+      if (!findReplaceBar.classList.contains('hidden')) document.getElementById('findTextInput').focus();
+    });
+    document.getElementById('closeFindReplaceBtn').addEventListener('click', () => {
+      findReplaceBar.classList.add('hidden');
+      findStatus.classList.add('hidden');
+    });
+
+    function getAllEditableTextFields() {
+      return [
+        document.getElementById('locTitle'),
+        document.getElementById('locDesc'),
+        document.getElementById('locChefNote'),
+        ...document.querySelectorAll('#ingredientsRows .ing-name'),
+        ...document.querySelectorAll('#stepsRows .step-text'),
+        ...document.querySelectorAll('#chaptersRows .ch-label'),
+      ].filter(Boolean);
+    }
+
+    let lastFindIndex = -1;
+    document.getElementById('findLocateBtn').addEventListener('click', () => {
+      const needle = document.getElementById('findTextInput').value;
+      if (!needle) return;
+      const fields = getAllEditableTextFields();
+      const matches = fields.filter((f) => f.value.toLowerCase().includes(needle.toLowerCase()));
+      findStatus.classList.remove('hidden');
+      if (matches.length === 0) {
+        findStatus.textContent = `عبارت «${needle}» در هیچ‌یک از بخش‌های زبان فعلی پیدا نشد.`;
+        return;
+      }
+      lastFindIndex = (lastFindIndex + 1) % matches.length;
+      const target = matches[lastFindIndex];
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.focus();
+      const idx = target.value.toLowerCase().indexOf(needle.toLowerCase());
+      if (idx >= 0 && typeof target.setSelectionRange === 'function') {
+        target.setSelectionRange(idx, idx + needle.length);
+      }
+      findStatus.textContent = `مورد ${lastFindIndex + 1} از ${matches.length} بخش پیدا شد.`;
+    });
+
+    document.getElementById('replaceAllBtn').addEventListener('click', () => {
+      const needle = document.getElementById('findTextInput').value;
+      const replacement = document.getElementById('replaceTextInput').value;
+      if (!needle) return;
+      const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'gi');
+      let count = 0;
+
+      getAllEditableTextFields().forEach((field) => {
+        const found = field.value.match(regex);
+        if (found) {
+          count += found.length;
+          field.value = field.value.replace(regex, replacement);
+          if (field.tagName === 'TEXTAREA') autoGrowTextarea(field);
+        }
+      });
+
+      findStatus.classList.remove('hidden');
+      if (count > 0) {
+        saveActiveLangToDraft();
+        updateServingsSimulator();
+        markDirty(true);
+        findStatus.textContent = `${count} مورد با موفقیت جایگزین شد.`;
+        showToast(`${count} مورد در متن جایگزین شد.`);
+      } else {
+        findStatus.textContent = `عبارت «${needle}» برای جایگزینی پیدا نشد.`;
+      }
+    });
 
     /* --- Dynamic Form Builders (Ingredients, Steps, Chapters) --- */
     function saveActiveLangToDraft() {
       const ingRows = Array.from(document.querySelectorAll('#ingredientsRows .ing-builder-row')).map((row) => ({
-        amount: parseFloat(row.querySelector('.ing-amount').value) || 0,
+        amount: row.querySelector('.ing-amount').value === '' ? '' : (parseFloat(row.querySelector('.ing-amount').value) || 0),
         unit: row.querySelector('.ing-unit').value,
         name: row.querySelector('.ing-name').value.trim(),
-      })).filter((i) => i.name.length > 0 || i.amount > 0);
+      }));
 
-      const stepRows = Array.from(document.querySelectorAll('#stepsRows .step-text')).map((el) => el.value.trim()).filter(Boolean);
+      const stepRows = Array.from(document.querySelectorAll('#stepsRows .step-text')).map((el) => el.value.trim());
 
       draftLocales[activeEditLang] = {
         title: document.getElementById('locTitle').value.trim(),
@@ -753,7 +1187,6 @@
         steps: stepRows.length ? stepRows : [''],
       };
 
-      // Save chapters for current lang
       const chRows = Array.from(document.querySelectorAll('#chaptersRows .chapter-builder-row'));
       draftChapters = chRows.map((row, idx) => {
         const existingLabels = (draftChapters[idx] && draftChapters[idx].labels) ? { ...draftChapters[idx].labels } : { fa: '', en: '', de: '' };
@@ -775,6 +1208,8 @@
       titleEl.value = loc.title || '';
       descEl.value = loc.desc || '';
       noteEl.value = loc.note || '';
+      autoGrowTextarea(descEl);
+      autoGrowTextarea(noteEl);
 
       renderIngredientsRows(loc.ingredients);
       renderStepsRows(loc.steps);
@@ -788,26 +1223,56 @@
       const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
       const units = ['g', 'ml', 'tbsp', 'tsp', 'pcs', 'cup', 'pinch'];
 
-      container.innerHTML = list.map((ing) => `
-        <div class="ing-builder-row grid grid-cols-12 gap-2 items-center">
+      container.innerHTML = list.map((ing, idx) => `
+        <div class="ing-builder-row grid grid-cols-12 gap-2 items-center p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
           <input type="number" step="any" min="0" value="${escapeHTML(ing.amount)}" placeholder="مقدار" class="ing-amount field-input col-span-3 sm:col-span-2 text-center font-latin py-2 text-xs" />
-          <select class="ing-unit field-input col-span-4 sm:col-span-3 font-latin py-2 text-xs">
+          <select class="ing-unit field-input col-span-4 sm:col-span-2 font-latin py-2 text-xs">
             ${units.map((u) => `<option value="${u}" ${ing.unit === u ? 'selected' : ''}>${u}</option>`).join('')}
           </select>
-          <input type="text" dir="${dir}" value="${escapeHTML(ing.name)}" placeholder="نام ماده اولیه..." class="ing-name field-input col-span-4 sm:col-span-6 py-2 text-xs" />
-          <button type="button" class="remove-row-btn col-span-1 btn-glass h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400">
-            <i data-lucide="x" class="w-3.5 h-3.5"></i>
-          </button>
+          <input type="text" dir="${dir}" value="${escapeHTML(ing.name)}" placeholder="نام ماده اولیه..." class="ing-name field-input col-span-5 sm:col-span-6 py-2 text-xs" />
+          <div class="col-span-12 sm:col-span-2 flex items-center justify-end gap-1">
+            <button type="button" data-move-ing="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} title="انتقال به بالا" class="move-ing-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-move-ing="down" data-idx="${idx}" ${idx === list.length - 1 ? 'disabled' : ''} title="انتقال به پایین" class="move-ing-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-del-ing="${idx}" title="حذف این ماده" class="remove-row-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+          </div>
         </div>
       `).join('');
 
       if (window.lucide) window.lucide.createIcons();
+
       container.querySelectorAll('.remove-row-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          if (container.children.length > 1) { btn.closest('.ing-builder-row').remove(); updateServingsSimulator(); }
+          saveActiveLangToDraft();
+          const idx = Number(btn.getAttribute('data-del-ing'));
+          draftLocales[activeEditLang].ingredients.splice(idx, 1);
+          if (draftLocales[activeEditLang].ingredients.length === 0) {
+            draftLocales[activeEditLang].ingredients.push({ amount: '', unit: 'g', name: '' });
+          }
+          renderIngredientsRows(draftLocales[activeEditLang].ingredients);
+          updateServingsSimulator();
+          markDirty(true);
         });
       });
-      container.querySelectorAll('input, select').forEach((el) => el.addEventListener('input', updateServingsSimulator));
+
+      container.querySelectorAll('.move-ing-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          saveActiveLangToDraft();
+          const idx = Number(btn.getAttribute('data-idx'));
+          const dirMove = btn.getAttribute('data-move-ing') === 'up' ? -1 : 1;
+          const arr = draftLocales[activeEditLang].ingredients;
+          const swap = idx + dirMove;
+          if (swap >= 0 && swap < arr.length) {
+            [arr[idx], arr[swap]] = [arr[swap], arr[idx]];
+            renderIngredientsRows(arr);
+            updateServingsSimulator();
+            markDirty(true);
+          }
+        });
+      });
+
+      container.querySelectorAll('input, select').forEach((el) => {
+        el.addEventListener('input', () => { updateServingsSimulator(); markDirty(true); });
+      });
     }
 
     function renderStepsRows(steps) {
@@ -816,23 +1281,57 @@
       const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
 
       container.innerHTML = list.map((step, i) => `
-        <div class="step-builder-row flex items-start gap-2.5">
-          <span class="w-7 h-8 rounded-lg bg-white/10 text-white text-xs font-mono flex items-center justify-center shrink-0 mt-0.5">${String(i + 1).padStart(2, '0')}</span>
-          <textarea rows="2" dir="${dir}" placeholder="توضیح مرحله پخت..." class="step-text field-input flex-1 py-2 text-xs">${escapeHTML(step)}</textarea>
-          <button type="button" class="remove-step-btn btn-glass w-8 h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400 shrink-0 mt-0.5">
-            <i data-lucide="x" class="w-3.5 h-3.5"></i>
-          </button>
+        <div class="step-builder-row p-3.5 rounded-2xl bg-white/[0.025] border border-white/[0.08] space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-white/10 text-white text-xs font-mono">مرحله ${String(i + 1).padStart(2, '0')}</span>
+            <div class="flex items-center gap-1">
+              <button type="button" data-expand-step="${i}" title="بزرگ‌نمایی این مرحله" class="expand-step-btn btn-glass px-2.5 h-7 rounded-lg text-[11px] inline-flex items-center gap-1"><i data-lucide="maximize-2" class="w-3 h-3"></i><span>بزرگ‌نمایی</span></button>
+              <button type="button" data-move-step="up" data-idx="${i}" ${i === 0 ? 'disabled' : ''} title="بالا" class="move-step-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-move-step="down" data-idx="${i}" ${i === list.length - 1 ? 'disabled' : ''} title="پایین" class="move-step-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-del-step="${i}" title="حذف این مرحله" class="remove-step-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+          <textarea rows="4" dir="${dir}" placeholder="شرح دقیق این مرحله پخت را بنویسید..." class="step-text field-input auto-grow">${escapeHTML(step)}</textarea>
         </div>
       `).join('');
 
       if (window.lucide) window.lucide.createIcons();
+
+      container.querySelectorAll('.step-text').forEach((ta) => {
+        autoGrowTextarea(ta);
+        ta.addEventListener('input', () => { autoGrowTextarea(ta); markDirty(true); });
+      });
+
+      container.querySelectorAll('.expand-step-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const ta = btn.closest('.step-builder-row').querySelector('.step-text');
+          const idx = Number(btn.getAttribute('data-expand-step')) + 1;
+          openExpandModal(ta, `ویرایش مرحله ${idx}`);
+        });
+      });
+
       container.querySelectorAll('.remove-step-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          if (container.children.length > 1) {
-            btn.closest('.step-builder-row').remove();
-            Array.from(container.querySelectorAll('.step-builder-row span')).forEach((sp, idx) => {
-              sp.textContent = String(idx + 1).padStart(2, '0');
-            });
+          saveActiveLangToDraft();
+          const idx = Number(btn.getAttribute('data-del-step'));
+          draftLocales[activeEditLang].steps.splice(idx, 1);
+          if (draftLocales[activeEditLang].steps.length === 0) draftLocales[activeEditLang].steps.push('');
+          renderStepsRows(draftLocales[activeEditLang].steps);
+          markDirty(true);
+        });
+      });
+
+      container.querySelectorAll('.move-step-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          saveActiveLangToDraft();
+          const idx = Number(btn.getAttribute('data-idx'));
+          const dirMove = btn.getAttribute('data-move-step') === 'up' ? -1 : 1;
+          const arr = draftLocales[activeEditLang].steps;
+          const swap = idx + dirMove;
+          if (swap >= 0 && swap < arr.length) {
+            [arr[idx], arr[swap]] = [arr[swap], arr[idx]];
+            renderStepsRows(arr);
+            markDirty(true);
           }
         });
       });
@@ -842,28 +1341,140 @@
       const container = document.getElementById('chaptersRows');
       const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
       if (draftChapters.length === 0) {
-        container.innerHTML = `<p class="text-[11px] text-stone/70 text-center py-2">فصلی ثبت نشده است (اختیاری).</p>`;
+        container.innerHTML = `<p class="text-xs text-stone/70 text-center py-3">فصلی ثبت نشده است (اختیاری).</p>`;
         return;
       }
-      container.innerHTML = draftChapters.map((ch) => `
-        <div class="chapter-builder-row grid grid-cols-12 gap-2 items-center">
-          <input type="text" dir="ltr" value="${escapeHTML(ch.timeStr || formatSecToTime(ch.timeSec))}" placeholder="00:00" class="ch-time field-input col-span-3 font-mono text-center py-2 text-xs" />
-          <input type="text" dir="${dir}" value="${escapeHTML(ch.labels?.[activeEditLang] || '')}" placeholder="عنوان فصل (مثلاً آماده‌سازی سس)" class="ch-label field-input col-span-8 py-2 text-xs" />
-          <button type="button" class="remove-ch-btn col-span-1 btn-glass h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400">
-            <i data-lucide="x" class="w-3.5 h-3.5"></i>
-          </button>
+      container.innerHTML = draftChapters.map((ch, idx) => `
+        <div class="chapter-builder-row grid grid-cols-12 gap-2 items-center p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <input type="text" dir="ltr" value="${escapeHTML(ch.timeStr || formatSecToTime(ch.timeSec))}" placeholder="00:00" class="ch-time field-input col-span-3 sm:col-span-2 font-mono text-center py-2 text-xs" />
+          <input type="text" dir="${dir}" value="${escapeHTML(ch.labels?.[activeEditLang] || '')}" placeholder="عنوان فصل (مثلاً آماده‌سازی سس)" class="ch-label field-input col-span-9 sm:col-span-8 py-2 text-xs" />
+          <div class="col-span-12 sm:col-span-2 flex items-center justify-end gap-1">
+            <button type="button" data-move-ch="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} class="move-ch-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-move-ch="down" data-idx="${idx}" ${idx === draftChapters.length - 1 ? 'disabled' : ''} class="move-ch-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-del-ch="${idx}" class="remove-ch-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+          </div>
         </div>
       `).join('');
 
       if (window.lucide) window.lucide.createIcons();
-      container.querySelectorAll('.remove-ch-btn').forEach((btn, idx) => {
+
+      container.querySelectorAll('input').forEach((inp) => inp.addEventListener('input', () => markDirty(true)));
+      container.querySelectorAll('.remove-ch-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
           saveActiveLangToDraft();
-          draftChapters.splice(idx, 1);
+          draftChapters.splice(Number(btn.getAttribute('data-del-ch')), 1);
           renderChaptersRows();
+          markDirty(true);
+        });
+      });
+      container.querySelectorAll('.move-ch-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          saveActiveLangToDraft();
+          const idx = Number(btn.getAttribute('data-idx'));
+          const swap = idx + (btn.getAttribute('data-move-ch') === 'up' ? -1 : 1);
+          if (swap >= 0 && swap < draftChapters.length) {
+            [draftChapters[idx], draftChapters[swap]] = [draftChapters[swap], draftChapters[idx]];
+            renderChaptersRows();
+            markDirty(true);
+          }
         });
       });
     }
+
+    /* --- Per-Section Clear & Revert Handlers --- */
+    document.querySelectorAll('[data-clear-section]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const sec = btn.getAttribute('data-clear-section');
+        const names = {
+          media: 'رسانه (عکس و لینک یوتیوب)',
+          meta: 'مشخصات فنی',
+          texts: 'عنوان، توضیحات و یادداشت سرآشپز',
+          ingredients: 'کل مواد اولیه',
+          steps: 'کل مراحل پخت',
+          chapters: 'کل فصل‌های ویدیو',
+        };
+        openConfirmModal(`پاک کردن بخش ${names[sec]}`, `آیا مطمئن هستید که می‌خواهید محتوای بخش «${names[sec]}» را پاک کنید؟`, () => {
+          saveActiveLangToDraft();
+          if (sec === 'media') {
+            coverUrlInput.value = ''; ytInput.value = '';
+            updateCoverPreview(); updateYouTubePreview();
+          } else if (sec === 'meta') {
+            document.getElementById('recipeCategory').value = 'masterclasses';
+            document.getElementById('recipeDifficulty').value = 'intermediate';
+            document.getElementById('recipePrepMin').value = 45;
+            document.getElementById('recipeDuration').value = '15:00';
+            document.getElementById('recipeBaseServings').value = 2;
+            simServings = 2; updateServingsSimulator();
+          } else if (sec === 'texts') {
+            draftLocales[activeEditLang].title = '';
+            draftLocales[activeEditLang].desc = '';
+            draftLocales[activeEditLang].note = '';
+            renderActiveLangFields();
+          } else if (sec === 'ingredients') {
+            draftLocales[activeEditLang].ingredients = [{ amount: '', unit: 'g', name: '' }];
+            renderIngredientsRows(draftLocales[activeEditLang].ingredients);
+            updateServingsSimulator();
+          } else if (sec === 'steps') {
+            draftLocales[activeEditLang].steps = [''];
+            renderStepsRows(draftLocales[activeEditLang].steps);
+          } else if (sec === 'chapters') {
+            draftChapters = [];
+            renderChaptersRows();
+          }
+          markDirty(true);
+          showToast(`بخش «${names[sec]}» پاک شد.`);
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-revert-section]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!originalSnapshot) return;
+        const sec = btn.getAttribute('data-revert-section');
+        if (sec === 'media') {
+          coverUrlInput.value = originalSnapshot.image || '';
+          ytInput.value = originalSnapshot.youtubeUrl || originalSnapshot.youtubeId || '';
+          updateCoverPreview(); updateYouTubePreview();
+        } else if (sec === 'meta') {
+          document.getElementById('recipeCategory').value = originalSnapshot.category || 'mains';
+          document.getElementById('recipeDifficulty').value = originalSnapshot.difficulty || 'intermediate';
+          document.getElementById('recipePrepMin').value = originalSnapshot.prepMin || 45;
+          document.getElementById('recipeDuration').value = originalSnapshot.duration || '15:00';
+          document.getElementById('recipeBaseServings').value = originalSnapshot.baseServings || 2;
+          simServings = originalSnapshot.baseServings || 2; updateServingsSimulator();
+        } else if (sec === 'texts') {
+          const origLoc = originalSnapshot.locales?.[activeEditLang] || emptyLocale();
+          draftLocales[activeEditLang].title = origLoc.title || '';
+          draftLocales[activeEditLang].desc = origLoc.desc || '';
+          draftLocales[activeEditLang].note = origLoc.note || '';
+          renderActiveLangFields();
+        } else if (sec === 'ingredients') {
+          const origLoc = originalSnapshot.locales?.[activeEditLang] || emptyLocale();
+          draftLocales[activeEditLang].ingredients = JSON.parse(JSON.stringify(origLoc.ingredients || [{ amount: '', unit: 'g', name: '' }]));
+          renderIngredientsRows(draftLocales[activeEditLang].ingredients);
+          updateServingsSimulator();
+        } else if (sec === 'steps') {
+          const origLoc = originalSnapshot.locales?.[activeEditLang] || emptyLocale();
+          draftLocales[activeEditLang].steps = JSON.parse(JSON.stringify(origLoc.steps || ['']));
+          renderStepsRows(draftLocales[activeEditLang].steps);
+        } else if (sec === 'chapters') {
+          draftChapters = JSON.parse(JSON.stringify(originalSnapshot.chapters || []));
+          renderChaptersRows();
+        }
+        showToast('این بخش به آخرین نسخه ذخیره‌شده بازگردانی شد.');
+      });
+    });
+
+    document.getElementById('revertAllBtn').addEventListener('click', () => {
+      if (!originalSnapshot) return;
+      openConfirmModal('بازگردانی کل فرم', 'تمام تغییرات ذخیره نشده لغو و به آخرین نسخه ذخیره‌شده برگردانده می‌شوند. ادامه می‌دهید؟', () => {
+        const found = allRecipes.find((r) => r.id === editingDocId);
+        if (found) {
+          loadRecipeIntoForm(found);
+          showToast('کل فرم به آخرین نسخه ذخیره‌شده بازگردانی شد.');
+        }
+      });
+    });
 
     /* Live Servings Simulator */
     function updateServingsSimulator() {
@@ -887,27 +1498,40 @@
     document.getElementById('recipeBaseServings').addEventListener('input', (e) => {
       simServings = Math.max(1, Number(e.target.value) || 2);
       updateServingsSimulator();
+      markDirty(true);
     });
     document.getElementById('simIncBtn').addEventListener('click', () => { if (simServings < 50) { simServings++; updateServingsSimulator(); } });
     document.getElementById('simDecBtn').addEventListener('click', () => { if (simServings > 1) { simServings--; updateServingsSimulator(); } });
+
+    /* Auto-grow & dirty listeners for main text inputs */
+    ['locTitle', 'locDesc', 'locChefNote', 'recipeCategory', 'recipeDifficulty', 'recipePrepMin', 'recipeDuration'].forEach((id) => {
+      const el = document.getElementById(id);
+      el?.addEventListener('input', () => {
+        if (el.tagName === 'TEXTAREA') autoGrowTextarea(el);
+        markDirty(true);
+      });
+    });
 
     /* Add Row Buttons */
     document.getElementById('addIngredientRowBtn').addEventListener('click', () => {
       saveActiveLangToDraft();
       draftLocales[activeEditLang].ingredients.push({ amount: '', unit: 'g', name: '' });
       renderIngredientsRows(draftLocales[activeEditLang].ingredients);
+      markDirty(true);
     });
 
     document.getElementById('addStepRowBtn').addEventListener('click', () => {
       saveActiveLangToDraft();
       draftLocales[activeEditLang].steps.push('');
       renderStepsRows(draftLocales[activeEditLang].steps);
+      markDirty(true);
     });
 
     document.getElementById('addChapterRowBtn').addEventListener('click', () => {
       saveActiveLangToDraft();
       draftChapters.push({ timeSec: 0, timeStr: '00:00', labels: { fa: '', en: '', de: '' } });
       renderChaptersRows();
+      markDirty(true);
     });
 
     /* Language Tabs Switching */
@@ -920,7 +1544,7 @@
       });
     });
 
-    /* Auto-Translate to Other 2 Languages (Free MyMemory Engine) */
+    /* Auto-Translate to Other 2 Languages */
     document.getElementById('autoTranslateBtn').addEventListener('click', async () => {
       saveActiveLangToDraft();
       const srcLang = activeEditLang;
@@ -963,6 +1587,7 @@
             }
           }
         }
+        markDirty(true);
         showToast('ترجمه خودکار به دو زبان دیگر با موفقیت انجام شد.');
       } catch {
         showToast('خطا در ارتباط با موتور ترجمه.');
@@ -1003,15 +1628,31 @@
           }))
         : [];
 
+      // Save clean snapshot for Revert buttons
+      originalSnapshot = {
+        image: recipe.image || '',
+        youtubeUrl: recipe.youtubeUrl || recipe.youtubeId || '',
+        category: recipe.category || 'mains',
+        difficulty: recipe.difficulty || 'intermediate',
+        prepMin: recipe.prepMin || 45,
+        duration: recipe.duration || '15:00',
+        baseServings: recipe.baseServings || 2,
+        locales: JSON.parse(JSON.stringify(draftLocales)),
+        chapters: JSON.parse(JSON.stringify(draftChapters)),
+      };
+
       updateCoverPreview();
       updateYouTubePreview();
       renderActiveLangFields();
       renderRecipesList();
+      updateEditModeButtons();
+      markDirty(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetForm() {
       editingDocId = null;
+      originalSnapshot = null;
       document.getElementById('recipeForm').reset();
       document.getElementById('formModeBadge').textContent = 'NEW ENTRY';
       document.getElementById('formHeading').textContent = 'ثبت مسترکلاس / دستور پخت جدید';
@@ -1023,10 +1664,14 @@
       updateYouTubePreview();
       renderActiveLangFields();
       renderRecipesList();
+      updateEditModeButtons();
+      markDirty(false);
     }
 
     document.getElementById('newRecipeBtn').addEventListener('click', resetForm);
-    document.getElementById('resetFormBtn').addEventListener('click', resetForm);
+    document.getElementById('resetFormBtn').addEventListener('click', () => {
+      openConfirmModal('پاک کردن کل فرم', 'آیا می‌خواهید تمام فیلدهای فرم را پاک کنید؟', resetForm);
+    });
 
     /* Submit Form -> Save to Firebase Firestore */
     document.getElementById('recipeForm').addEventListener('submit', async (e) => {
@@ -1043,7 +1688,6 @@
       const durationStr = document.getElementById('recipeDuration').value.trim();
       const durationSec = parseTimeToSec(durationStr);
 
-      // Ensure fallback for empty languages
       const primary = draftLocales[activeEditLang].title ? activeEditLang : (draftLocales.fa.title ? 'fa' : 'en');
       const cleanLocales = {};
       for (const code of ['fa', 'en', 'de']) {
@@ -1095,6 +1739,17 @@
       try {
         if (editingDocId) {
           await updateDoc(doc(db, 'recipes', editingDocId), payload);
+          originalSnapshot = {
+            image, youtubeUrl,
+            category: payload.category,
+            difficulty: payload.difficulty,
+            prepMin: payload.prepMin,
+            duration: payload.duration,
+            baseServings: payload.baseServings,
+            locales: JSON.parse(JSON.stringify(draftLocales)),
+            chapters: JSON.parse(JSON.stringify(draftChapters)),
+          };
+          markDirty(false);
           showToast('تغییرات با موفقیت در فایربیس ذخیره شد.');
         } else {
           payload.createdAt = serverTimestamp();
@@ -1112,6 +1767,7 @@
 
     /* Initial Render */
     renderActiveLangFields();
+    updateEditModeButtons();
     if (window.lucide) window.lucide.createIcons();
   </script>
 </body>
