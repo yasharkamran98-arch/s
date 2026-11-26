@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ATELIER — پنل مدیریت سرآشپز</title>
+  <link rel="icon" type="image/jpeg" href="photos/logo.jpg" />
+
+  <!-- Typography matching index.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0B0C0E',
+            charcoal: '#131519',
+            elevated: '#1B1E24',
+            ivory: '#F4F3EF',
+            stone: '#94979E',
+            hairline: 'rgba(255, 255, 255, 0.09)',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Vazirmatn', 'Inter', 'system-ui', 'sans-serif'],
+            latin: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-obsidian: #0B0C0E;
+      --bg-charcoal: #131519;
+      --text-ivory: #F4F3EF;
+      --text-stone: #94979E;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.045) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text-ivory);
+      font-family: 'Vazirmatn', 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .editorial-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: 0.18em;
+    }
+
+    .glass-surface {
+      background: rgba(19, 21, 25, 0.84);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
+    }
+
+    .hairline-border { border: 1px solid rgba(255, 255, 255, 0.09); }
+    .hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
+    .hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.09); }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-ivory);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-glass:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.11);
+      border-color: rgba(255, 255, 255, 0.65);
+      color: #FFFFFF;
+    }
+    .btn-glass:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-primary {
+      background: #FFFFFF;
+      color: #0B0C0E;
+      border: 1px solid #FFFFFF;
+      box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.25);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: #E8E8EC;
+      border-color: #E8E8EC;
+      transform: translateY(-1px);
+    }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .field-input {
+      width: 100%;
+      background-color: #0B0C0E;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.875rem;
+      color: #FFFFFF;
+      transition: border-color 0.2s ease;
+    }
+    .field-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.65);
+    }
+    .field-input::placeholder { color: rgba(148, 151, 158, 0.55); }
+
+    .locale-tab {
+      color: var(--text-stone);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      transition: all 0.2s ease;
+    }
+    .locale-tab:hover { color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3); }
+    .locale-tab.active {
+      background: #FFFFFF;
+      color: #0B0C0E;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0C0E; }
+    ::-webkit-scrollbar-thumb { background: #2A2D36; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FFFFFF; }
+  </style>
+</head>
+<body class="min-h-screen bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
+
+  <!-- ======================================================================= -->
+  <!-- 1. AUTHENTICATION SCREEN (LOCKED UNTIL FIREBASE LOGIN)                  -->
+  <!-- ======================================================================= -->
+  <section id="authSection" class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md glass-surface rounded-3xl p-7 sm:p-9 space-y-7">
+      <div class="flex flex-col items-center text-center space-y-3">
+        <div class="w-16 h-16 rounded-full overflow-hidden ring-1 ring-white/35 shadow-xl bg-obsidian">
+          <img src="photos/logo.jpg" alt="ATELIER Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
+        </div>
+        <div>
+          <h1 class="editorial-serif text-3xl text-white uppercase">ATELIER</h1>
+          <p class="text-xs text-stone mt-1">ورود به پنل مدیریت مسترکلاس‌ها و دستور پخت‌ها</p>
+        </div>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="loginEmail" class="block text-xs text-stone mb-1.5">ایمیل مدیر</label>
+          <input id="loginEmail" type="email" dir="ltr" required autocomplete="username" placeholder="chef@atelier-culinaire.com" class="field-input text-left" />
+        </div>
+        <div>
+          <label for="loginPassword" class="block text-xs text-stone mb-1.5">رمز عبور</label>
+          <input id="loginPassword" type="password" dir="ltr" required autocomplete="current-password" placeholder="••••••••" class="field-input text-left" />
+        </div>
+
+        <p id="loginError" class="hidden text-xs text-red-400 bg-red-500/10 border border-red-500/25 rounded-xl px-3.5 py-2.5"></p>
+
+        <button id="loginSubmitBtn" type="submit" class="btn-primary w-full py-3 rounded-full text-xs font-semibold tracking-wide flex items-center justify-center gap-2">
+          <span>ورود به استودیو مدیریت</span>
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div class="pt-4 hairline-t flex items-center justify-between text-[11px] text-stone">
+        <a href="index.html" class="hover:text-white transition-colors inline-flex items-center gap-1.5">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>بازگشت به سایت اصلی</span>
+        </a>
+        <span class="font-latin text-[10px] tracking-widest uppercase">Firebase Auth</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 2. ADMIN DASHBOARD (VISIBLE ONLY AFTER AUTHENTICATION)                  -->
+  <!-- ======================================================================= -->
+  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
+
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full overflow-hidden ring-1 ring-white/35 bg-obsidian shrink-0">
+            <img src="photos/logo.jpg" alt="ATELIER Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
+          </div>
+          <div>
+            <div class="flex items-baseline gap-2">
+              <span class="editorial-serif text-xl sm:text-2xl text-white uppercase leading-none">ATELIER</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-ivory/90">پنل مدیریت</span>
+            </div>
+            <p id="adminEmailDisplay" class="text-[11px] text-stone font-latin mt-0.5 truncate max-w-[180px] sm:max-w-xs"></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="index.html" target="_blank" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-2">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">مشاهده سایت</span>
+          </a>
+          <button id="newRecipeBtn" type="button" class="btn-primary px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>آموزش جدید</span>
+          </button>
+          <button id="logoutBtn" type="button" aria-label="خروج" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center text-stone hover:text-red-400">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main 12-Column Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+      <!-- SIDEBAR: LIST OF RECIPES IN FIRESTORE (4 Cols) -->
+      <aside class="lg:col-span-4 space-y-4 lg:sticky lg:top-24">
+        <div class="glass-surface rounded-2xl p-4 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-white/80"></i>
+              <span>آرشیو آموزش‌ها</span>
+            </h2>
+            <span id="totalRecipesBadge" class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-white">0</span>
+          </div>
+
+          <div class="relative">
+            <input id="adminSearchInput" type="text" placeholder="جستجو در آموزش‌ها..." class="field-input pr-9 py-2 text-xs" />
+            <i data-lucide="search" class="w-3.5 h-3.5 text-stone absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <div id="recipesListContainer" class="space-y-2.5 max-h-[62vh] overflow-y-auto pl-1">
+            <p class="text-xs text-stone text-center py-8">در حال بارگذاری از فایربیس...</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN EDITOR FORM (8 Cols) -->
+      <section class="lg:col-span-8">
+        <form id="recipeForm" class="glass-surface rounded-3xl p-5 sm:p-8 space-y-8">
+
+          <!-- Form Header -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-5 hairline-b">
+            <div>
+              <span id="formModeBadge" class="text-[10px] uppercase tracking-[0.2em] text-white/70 block mb-1">NEW ENTRY</span>
+              <h2 id="formHeading" class="text-xl sm:text-2xl font-semibold text-white">ثبت مسترکلاس / دستور پخت جدید</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="resetFormBtn" class="btn-glass px-4 py-2 rounded-full text-xs">پاک کردن فرم</button>
+              <button type="submit" id="saveRecipeBtn" class="btn-primary px-6 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span id="saveBtnLabel">ذخیره در فایربیس</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. MEDIA SECTION: COVER IMAGE & YOUTUBE VIDEO -->
+          <div class="space-y-4">
+            <h3 class="text-xs uppercase tracking-[0.18em] text-white/80 font-medium flex items-center gap-2">
+              <i data-lucide="film" class="w-4 h-4"></i>
+              <span>رسانه (عکس کاور و ویدیوی یوتیوب)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Cover Image -->
+              <div class="space-y-2.5">
+                <label for="coverImageUrl" class="block text-xs text-stone">لینک عکس کاور (نشانگر کارت آموزش)</label>
+                <input id="coverImageUrl" type="url" dir="ltr" required placeholder="https://images.unsplash.com/..." class="field-input text-left font-latin" />
+                <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
+                  <img id="coverPreviewImg" src="" alt="پیش‌نمایش کاور" class="hidden w-full h-full object-cover" />
+                  <span id="coverPreviewPlaceholder" class="text-[11px] text-stone/70 flex items-center gap-1.5">
+                    <i data-lucide="image" class="w-4 h-4"></i>
+                    <span>پیش‌نمایش تصویر کاور</span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- YouTube Video -->
+              <div class="space-y-2.5">
+                <label for="youtubeUrl" class="block text-xs text-stone">لینک ویدیو یوتیوب (پخش در پلیر اختصاصی سایت)</label>
+                <input id="youtubeUrl" type="text" dir="ltr" required placeholder="https://www.youtube.com/watch?v=... یا https://youtu.be/..." class="field-input text-left font-latin" />
+                <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
+                  <img id="ytPreviewThumb" src="" alt="پیش‌نمایش یوتیوب" class="hidden w-full h-full object-cover opacity-85" />
+                  <div id="ytValidBadge" class="hidden absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/80 border border-white/20 text-[10px] font-mono text-white" dir="ltr"></div>
+                  <span id="ytPreviewPlaceholder" class="text-[11px] text-stone/70 flex items-center gap-1.5">
+                    <i data-lucide="youtube" class="w-4 h-4"></i>
+                    <span>تشخیص خودکار لینک یوتیوب</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. METADATA SECTION -->
+          <div class="space-y-4 pt-6 hairline-t">
+            <h3 class="text-xs uppercase tracking-[0.18em] text-white/80 font-medium flex items-center gap-2">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+              <span>مشخصات فنی آموزش</span>
+            </h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
+              <div>
+                <label for="recipeCategory" class="block text-[11px] text-stone mb-1.5">دسته‌بندی</label>
+                <select id="recipeCategory" class="field-input">
+                  <option value="masterclasses">مسترکلاس (Masterclasses)</option>
+                  <option value="mains">غذای اصلی (Mains)</option>
+                  <option value="pastry">شیرینی‌پزی (Pastry)</option>
+                  <option value="techniques">تکنیک‌ها (Techniques)</option>
+                </select>
+              </div>
+              <div>
+                <label for="recipeDifficulty" class="block text-[11px] text-stone mb-1.5">سطح مهارت</label>
+                <select id="recipeDifficulty" class="field-input">
+                  <option value="essential">پایه (Essential)</option>
+                  <option value="intermediate">متوسط (Intermediate)</option>
+                  <option value="advanced">پیشرفته (Advanced)</option>
+                </select>
+              </div>
+              <div>
+                <label for="recipePrepMin" class="block text-[11px] text-stone mb-1.5">زمان پخت (دقیقه)</label>
+                <input id="recipePrepMin" type="number" min="1" max="1440" value="45" required class="field-input font-latin text-center" />
+              </div>
+              <div>
+                <label for="recipeDuration" class="block text-[11px] text-stone mb-1.5">مدت ویدیو (MM:SS)</label>
+                <input id="recipeDuration" type="text" dir="ltr" value="15:00" pattern="^\d{1,3}:\d{2}$" required placeholder="18:40" class="field-input font-mono text-center" />
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <label for="recipeBaseServings" class="block text-[11px] text-stone mb-1.5">تعداد نفرات پایه</label>
+                <input id="recipeBaseServings" type="number" min="1" max="50" value="2" required class="field-input font-latin text-center font-semibold" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. MULTILINGUAL CONTENT TABS (FA / EN / DE) + AUTO-TRANSLATE -->
+          <div class="space-y-5 pt-6 hairline-t">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <button type="button" data-edit-lang="fa" class="locale-tab active px-3.5 py-1.5 rounded-full text-xs">🇮🇷 فارسی (FA)</button>
+                <button type="button" data-edit-lang="en" class="locale-tab px-3.5 py-1.5 rounded-full text-xs font-latin">🇬🇧 English (EN)</button>
+                <button type="button" data-edit-lang="de" class="locale-tab px-3.5 py-1.5 rounded-full text-xs font-latin">🇩🇪 Deutsch (DE)</button>
+              </div>
+
+              <button type="button" id="autoTranslateBtn" class="btn-glass px-3.5 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+                <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+                <span>ترجمه خودکار به ۲ زبان دیگر</span>
+              </button>
+            </div>
+
+            <!-- Title, Desc, Chef Note -->
+            <div class="space-y-4">
+              <div>
+                <label for="locTitle" class="block text-xs text-stone mb-1.5">عنوان آموزش <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <input id="locTitle" type="text" required placeholder="مثلاً: سینه اردک زعفرانی با پسته برشته" class="field-input" />
+              </div>
+              <div>
+                <label for="locDesc" class="block text-xs text-stone mb-1.5">توضیح کوتاه و حرفه‌ای <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <textarea id="locDesc" rows="2" required placeholder="خلاصه جذاب از طعم و تکنیک این آموزش..." class="field-input"></textarea>
+              </div>
+              <div>
+                <label for="locChefNote" class="block text-xs text-stone mb-1.5">یادداشت سرآشپز (Chef's Note) <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <textarea id="locChefNote" rows="2" placeholder="نکته طلایی و فوت کوزه‌گری این دستور پخت..." class="field-input"></textarea>
+              </div>
+            </div>
+
+            <!-- 4. INGREDIENTS BUILDER + LIVE SERVINGS SCALING SIMULATOR -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-3 hairline-b">
+                <div>
+                  <h4 class="text-sm font-medium text-white">پیشنیازها و مواد اولیه <span class="lang-badge text-xs text-stone font-mono">[FA]</span></h4>
+                  <p class="text-[11px] text-stone mt-0.5">مقادیر را بر اساس «تعداد نفرات پایه» وارد کنید تا در سایت خودکار محاسبه شوند.</p>
+                </div>
+                <button type="button" id="addIngredientRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>افزودن ماده اولیه</span>
+                </button>
+              </div>
+
+              <div id="ingredientsRows" class="space-y-2.5"></div>
+
+              <!-- Live Servings Scaling Simulator -->
+              <div class="pt-3 hairline-t flex flex-wrap items-center justify-between gap-3 bg-white/[0.02] p-3 rounded-xl">
+                <div class="flex items-center gap-2 text-xs text-ivory/90">
+                  <i data-lucide="calculator" class="w-4 h-4 text-white/80"></i>
+                  <span>تست زنده محاسبه تعداد نفرات:</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" id="simDecBtn" class="btn-glass w-7 h-7 rounded-full flex items-center justify-center">-</button>
+                  <span id="simServingsDisplay" class="text-xs font-semibold text-white min-w-[54px] text-center">2 نفر</span>
+                  <button type="button" id="simIncBtn" class="btn-glass w-7 h-7 rounded-full flex items-center justify-center">+</button>
+                </div>
+              </div>
+              <div id="simPreviewList" class="text-xs text-stone flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- 5. METHOD STEPS BUILDER -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
+              <div class="flex items-center justify-between gap-3 pb-3 hairline-b">
+                <div>
+                  <h4 class="text-sm font-medium text-white">مراحل پخت (Method) <span class="lang-badge text-xs text-stone font-mono">[FA]</span></h4>
+                  <p class="text-[11px] text-stone mt-0.5">مراحل اجرا را به ترتیب وارد کنید.</p>
+                </div>
+                <button type="button" id="addStepRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>افزودن مرحله</span>
+                </button>
+              </div>
+              <div id="stepsRows" class="space-y-2.5"></div>
+            </div>
+
+            <!-- 6. VIDEO CHAPTERS BUILDER (OPTIONAL) -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-obsidian/70 hairline-border space-y-4">
+              <div class="flex items-center justify-between gap-3 pb-3 hairline-b">
+                <div>
+                  <h4 class="text-sm font-medium text-white">فصل‌بندی ویدیو (Chapters) <span class="text-[10px] text-stone">(اختیاری)</span></h4>
+                  <p class="text-[11px] text-stone mt-0.5">زمان‌های کلیدی ویدیو برای پرش سریع کاربر (مثلاً 00:00 یا 05:40)</p>
+                </div>
+                <button type="button" id="addChapterRowBtn" class="btn-glass px-3 py-1.5 rounded-full text-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>افزودن فصل</span>
+                </button>
+              </div>
+              <div id="chaptersRows" class="space-y-2.5"></div>
+            </div>
+          </div>
+
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-5 left-5 z-50 glass-surface border-white/25 px-5 py-3 rounded-full shadow-2xl items-center gap-2.5 text-xs text-white">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-white shrink-0"></i>
+    <span id="toastText"></span>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 3. FIREBASE MODULAR ENGINE & ADMIN LOGIC                                -->
+  <!-- ======================================================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+      onSnapshot, query, orderBy, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAQcwvOuZZ0XP3A_dx30UHHIuMyQUGLxpI",
+      authDomain: "atelier-culinaire-bab27.firebaseapp.com",
+      projectId: "atelier-culinaire-bab27",
+      storageBucket: "atelier-culinaire-bab27.firebasestorage.app",
+      messagingSenderId: "25801878163",
+      appId: "1:25801878163:web:7d82cc7a9d96bbae1b7b66",
+      measurementId: "G-N6C2FRBHSM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const recipesCol = collection(db, 'recipes');
+
+    /* --- State --- */
+    let allRecipes = [];
+    let editingDocId = null;
+    let activeEditLang = 'fa';
+    let simServings = 2;
+    let unsubscribeRecipes = null;
+
+    const emptyLocale = () => ({
+      title: '',
+      desc: '',
+      note: '',
+      ingredients: [{ amount: '', unit: 'g', name: '' }],
+      steps: [''],
+    });
+
+    let draftLocales = { fa: emptyLocale(), en: emptyLocale(), de: emptyLocale() };
+    let draftChapters = []; // [{ timeSec: 0, timeStr: '00:00', labels: { fa: '', en: '', de: '' } }]
+
+    /* --- Security & Utility Helpers --- */
+    function escapeHTML(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function isSafeUrl(url) {
+      if (!url) return false;
+      const trimmed = url.trim();
+      if (trimmed.startsWith('photos/')) return true;
+      try {
+        const parsed = new URL(trimmed);
+        return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+      } catch {
+        return false;
+      }
+    }
+
+    function extractYouTubeId(input) {
+      if (!input) return null;
+      const trimmed = input.trim();
+      if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+      ];
+      for (const p of patterns) {
+        const match = trimmed.match(p);
+        if (match && match[1]) return match[1];
+      }
+      return null;
+    }
+
+    function parseTimeToSec(str) {
+      const parts = String(str || '0:00').trim().split(':').map(Number);
+      if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+        return parts[0] * 60 + parts[1];
+      }
+      return 0;
+    }
+
+    function formatSecToTime(sec) {
+      const s = Math.max(0, Number(sec) || 0);
+      return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+    }
+
+    function formatQty(num) {
+      const rounded = Math.round(num * 100) / 100;
+      return Number.isInteger(rounded) ? String(rounded) : String(Number(rounded.toFixed(1)));
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      const txt = document.getElementById('toastText');
+      txt.textContent = msg;
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }, 3400);
+    }
+
+    /* Free Keyless Translation Helper (MyMemory) */
+    async function freeTranslate(text, from, to) {
+      if (!text || !text.trim() || from === to) return text;
+      try {
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
+        if (!res.ok) return text;
+        const data = await res.json();
+        return (data && data.responseData && data.responseData.translatedText) || text;
+      } catch {
+        return text;
+      }
+    }
+
+    /* --- Auth Flow --- */
+    const authSection = document.getElementById('authSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.classList.add('hidden');
+      const btn = document.getElementById('loginSubmitBtn');
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      btn.disabled = true;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        loginError.textContent = 'ایمیل یا رمز عبور اشتباه است. لطفاً دوباره بررسی کنید.';
+        loginError.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await signOut(auth);
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        document.getElementById('adminEmailDisplay').textContent = user.email;
+        subscribeToRecipes();
+      } else {
+        if (unsubscribeRecipes) { unsubscribeRecipes(); unsubscribeRecipes = null; }
+        dashboardSection.classList.add('hidden');
+        authSection.classList.remove('hidden');
+      }
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    /* --- Firestore Realtime Subscription --- */
+    function subscribeToRecipes() {
+      const q = query(recipesCol, orderBy('createdAt', 'desc'));
+      unsubscribeRecipes = onSnapshot(q, (snapshot) => {
+        allRecipes = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderRecipesList();
+      }, (err) => {
+        console.error(err);
+        showToast('خطا در خواندن اطلاعات از فایربیس. قوانین Rules را بررسی کنید.');
+      });
+    }
+
+    function renderRecipesList() {
+      const container = document.getElementById('recipesListContainer');
+      const badge = document.getElementById('totalRecipesBadge');
+      const q = document.getElementById('adminSearchInput').value.trim().toLowerCase();
+
+      const filtered = allRecipes.filter((r) => {
+        const faTitle = r.locales?.fa?.title || '';
+        const enTitle = r.locales?.en?.title || '';
+        return !q || faTitle.toLowerCase().includes(q) || enTitle.toLowerCase().includes(q) || (r.category || '').toLowerCase().includes(q);
+      });
+
+      badge.textContent = String(allRecipes.length);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-xs text-stone text-center py-8">هنوز آموزشی ثبت نشده است.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((r) => {
+        const title = escapeHTML(r.locales?.fa?.title || r.locales?.en?.title || 'بدون عنوان');
+        const img = isSafeUrl(r.image) ? escapeHTML(r.image) : '';
+        const isSelected = r.id === editingDocId;
+        return `
+          <div class="p-2.5 rounded-xl flex items-center gap-3 transition-colors ${isSelected ? 'bg-white/15 border border-white/40' : 'bg-obsidian/70 hairline-border hover:bg-white/[0.06]'}">
+            <div class="w-14 h-11 rounded-lg overflow-hidden bg-charcoal shrink-0">
+              ${img ? `<img src="${img}" alt="" class="w-full h-full object-cover" />` : ''}
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-medium text-white truncate">${title}</p>
+              <div class="flex items-center gap-2 text-[10px] text-stone mt-0.5 font-latin">
+                <span>${escapeHTML(r.category || '')}</span>
+                <span>•</span>
+                <span>${escapeHTML(r.duration || '00:00')}</span>
+                <span>•</span>
+                <span>${escapeHTML(r.baseServings || 2)} نفر</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" data-edit-id="${escapeHTML(r.id)}" title="ویرایش" class="edit-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center">
+                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+              </button>
+              <button type="button" data-del-id="${escapeHTML(r.id)}" title="حذف" class="del-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center hover:text-red-400">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+
+      container.querySelectorAll('.edit-item-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const found = allRecipes.find((x) => x.id === btn.getAttribute('data-edit-id'));
+          if (found) loadRecipeIntoForm(found);
+        });
+      });
+
+      container.querySelectorAll('.del-item-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-del-id');
+          if (!confirm('آیا از حذف دائمی این آموزش مطمئن هستید؟')) return;
+          try {
+            await deleteDoc(doc(db, 'recipes', id));
+            if (editingDocId === id) resetForm();
+            showToast('آموزش با موفقیت حذف شد.');
+          } catch (err) {
+            showToast('خطا در حذف آموزش.');
+          }
+        });
+      });
+    }
+
+    document.getElementById('adminSearchInput').addEventListener('input', renderRecipesList);
+
+    /* --- Live Media Previews --- */
+    const coverUrlInput = document.getElementById('coverImageUrl');
+    const coverPreviewImg = document.getElementById('coverPreviewImg');
+    const coverPlaceholder = document.getElementById('coverPreviewPlaceholder');
+
+    function updateCoverPreview() {
+      const url = coverUrlInput.value.trim();
+      if (isSafeUrl(url)) {
+        coverPreviewImg.src = url;
+        coverPreviewImg.classList.remove('hidden');
+        coverPlaceholder.classList.add('hidden');
+      } else {
+        coverPreviewImg.classList.add('hidden');
+        coverPlaceholder.classList.remove('hidden');
+      }
+    }
+    coverUrlInput.addEventListener('input', updateCoverPreview);
+
+    const ytInput = document.getElementById('youtubeUrl');
+    const ytThumb = document.getElementById('ytPreviewThumb');
+    const ytBadge = document.getElementById('ytValidBadge');
+    const ytPlaceholder = document.getElementById('ytPreviewPlaceholder');
+
+    function updateYouTubePreview() {
+      const id = extractYouTubeId(ytInput.value);
+      if (id) {
+        ytThumb.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+        ytThumb.classList.remove('hidden');
+        ytBadge.textContent = `YT ID: ${id}`;
+        ytBadge.classList.remove('hidden');
+        ytPlaceholder.classList.add('hidden');
+      } else {
+        ytThumb.classList.add('hidden');
+        ytBadge.classList.add('hidden');
+        ytPlaceholder.classList.remove('hidden');
+      }
+    }
+    ytInput.addEventListener('input', updateYouTubePreview);
+
+    /* --- Dynamic Form Builders (Ingredients, Steps, Chapters) --- */
+    function saveActiveLangToDraft() {
+      const ingRows = Array.from(document.querySelectorAll('#ingredientsRows .ing-builder-row')).map((row) => ({
+        amount: parseFloat(row.querySelector('.ing-amount').value) || 0,
+        unit: row.querySelector('.ing-unit').value,
+        name: row.querySelector('.ing-name').value.trim(),
+      })).filter((i) => i.name.length > 0 || i.amount > 0);
+
+      const stepRows = Array.from(document.querySelectorAll('#stepsRows .step-text')).map((el) => el.value.trim()).filter(Boolean);
+
+      draftLocales[activeEditLang] = {
+        title: document.getElementById('locTitle').value.trim(),
+        desc: document.getElementById('locDesc').value.trim(),
+        note: document.getElementById('locChefNote').value.trim(),
+        ingredients: ingRows.length ? ingRows : [{ amount: '', unit: 'g', name: '' }],
+        steps: stepRows.length ? stepRows : [''],
+      };
+
+      // Save chapters for current lang
+      const chRows = Array.from(document.querySelectorAll('#chaptersRows .chapter-builder-row'));
+      draftChapters = chRows.map((row, idx) => {
+        const existingLabels = (draftChapters[idx] && draftChapters[idx].labels) ? { ...draftChapters[idx].labels } : { fa: '', en: '', de: '' };
+        const timeStr = row.querySelector('.ch-time').value.trim() || '00:00';
+        existingLabels[activeEditLang] = row.querySelector('.ch-label').value.trim();
+        return { timeSec: parseTimeToSec(timeStr), timeStr, labels: existingLabels };
+      });
+    }
+
+    function renderActiveLangFields() {
+      const loc = draftLocales[activeEditLang] || emptyLocale();
+      const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
+      document.querySelectorAll('.lang-badge').forEach((el) => { el.textContent = `[${activeEditLang.toUpperCase()}]`; });
+
+      const titleEl = document.getElementById('locTitle');
+      const descEl = document.getElementById('locDesc');
+      const noteEl = document.getElementById('locChefNote');
+      titleEl.dir = dir; descEl.dir = dir; noteEl.dir = dir;
+      titleEl.value = loc.title || '';
+      descEl.value = loc.desc || '';
+      noteEl.value = loc.note || '';
+
+      renderIngredientsRows(loc.ingredients);
+      renderStepsRows(loc.steps);
+      renderChaptersRows();
+      updateServingsSimulator();
+    }
+
+    function renderIngredientsRows(ingredients) {
+      const container = document.getElementById('ingredientsRows');
+      const list = ingredients && ingredients.length ? ingredients : [{ amount: '', unit: 'g', name: '' }];
+      const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
+      const units = ['g', 'ml', 'tbsp', 'tsp', 'pcs', 'cup', 'pinch'];
+
+      container.innerHTML = list.map((ing) => `
+        <div class="ing-builder-row grid grid-cols-12 gap-2 items-center">
+          <input type="number" step="any" min="0" value="${escapeHTML(ing.amount)}" placeholder="مقدار" class="ing-amount field-input col-span-3 sm:col-span-2 text-center font-latin py-2 text-xs" />
+          <select class="ing-unit field-input col-span-4 sm:col-span-3 font-latin py-2 text-xs">
+            ${units.map((u) => `<option value="${u}" ${ing.unit === u ? 'selected' : ''}>${u}</option>`).join('')}
+          </select>
+          <input type="text" dir="${dir}" value="${escapeHTML(ing.name)}" placeholder="نام ماده اولیه..." class="ing-name field-input col-span-4 sm:col-span-6 py-2 text-xs" />
+          <button type="button" class="remove-row-btn col-span-1 btn-glass h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.remove-row-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (container.children.length > 1) { btn.closest('.ing-builder-row').remove(); updateServingsSimulator(); }
+        });
+      });
+      container.querySelectorAll('input, select').forEach((el) => el.addEventListener('input', updateServingsSimulator));
+    }
+
+    function renderStepsRows(steps) {
+      const container = document.getElementById('stepsRows');
+      const list = steps && steps.length ? steps : [''];
+      const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
+
+      container.innerHTML = list.map((step, i) => `
+        <div class="step-builder-row flex items-start gap-2.5">
+          <span class="w-7 h-8 rounded-lg bg-white/10 text-white text-xs font-mono flex items-center justify-center shrink-0 mt-0.5">${String(i + 1).padStart(2, '0')}</span>
+          <textarea rows="2" dir="${dir}" placeholder="توضیح مرحله پخت..." class="step-text field-input flex-1 py-2 text-xs">${escapeHTML(step)}</textarea>
+          <button type="button" class="remove-step-btn btn-glass w-8 h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400 shrink-0 mt-0.5">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.remove-step-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (container.children.length > 1) {
+            btn.closest('.step-builder-row').remove();
+            Array.from(container.querySelectorAll('.step-builder-row span')).forEach((sp, idx) => {
+              sp.textContent = String(idx + 1).padStart(2, '0');
+            });
+          }
+        });
+      });
+    }
+
+    function renderChaptersRows() {
+      const container = document.getElementById('chaptersRows');
+      const dir = activeEditLang === 'fa' ? 'rtl' : 'ltr';
+      if (draftChapters.length === 0) {
+        container.innerHTML = `<p class="text-[11px] text-stone/70 text-center py-2">فصلی ثبت نشده است (اختیاری).</p>`;
+        return;
+      }
+      container.innerHTML = draftChapters.map((ch) => `
+        <div class="chapter-builder-row grid grid-cols-12 gap-2 items-center">
+          <input type="text" dir="ltr" value="${escapeHTML(ch.timeStr || formatSecToTime(ch.timeSec))}" placeholder="00:00" class="ch-time field-input col-span-3 font-mono text-center py-2 text-xs" />
+          <input type="text" dir="${dir}" value="${escapeHTML(ch.labels?.[activeEditLang] || '')}" placeholder="عنوان فصل (مثلاً آماده‌سازی سس)" class="ch-label field-input col-span-8 py-2 text-xs" />
+          <button type="button" class="remove-ch-btn col-span-1 btn-glass h-8 rounded-lg flex items-center justify-center text-stone hover:text-red-400">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.remove-ch-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          saveActiveLangToDraft();
+          draftChapters.splice(idx, 1);
+          renderChaptersRows();
+        });
+      });
+    }
+
+    /* Live Servings Simulator */
+    function updateServingsSimulator() {
+      const base = Math.max(1, Number(document.getElementById('recipeBaseServings').value) || 2);
+      const ratio = simServings / base;
+      document.getElementById('simServingsDisplay').textContent = `${simServings} نفر`;
+
+      const rows = Array.from(document.querySelectorAll('#ingredientsRows .ing-builder-row'));
+      const previewEl = document.getElementById('simPreviewList');
+      const items = rows.map((r) => {
+        const amt = parseFloat(r.querySelector('.ing-amount').value);
+        const unit = r.querySelector('.ing-unit').value;
+        const name = r.querySelector('.ing-name').value.trim();
+        if (!name || isNaN(amt)) return '';
+        return `<span class="px-2.5 py-1 rounded-full bg-white/[0.05] hairline-border text-ivory/90"><strong class="text-white font-latin">${formatQty(amt * ratio)} ${escapeHTML(unit)}</strong> ${escapeHTML(name)}</span>`;
+      }).filter(Boolean);
+
+      previewEl.innerHTML = items.length ? items.join('') : '<span class="text-[11px] text-stone/60">برای مشاهده محاسبه زنده، حداقل یک ماده اولیه با مقدار وارد کنید.</span>';
+    }
+
+    document.getElementById('recipeBaseServings').addEventListener('input', (e) => {
+      simServings = Math.max(1, Number(e.target.value) || 2);
+      updateServingsSimulator();
+    });
+    document.getElementById('simIncBtn').addEventListener('click', () => { if (simServings < 50) { simServings++; updateServingsSimulator(); } });
+    document.getElementById('simDecBtn').addEventListener('click', () => { if (simServings > 1) { simServings--; updateServingsSimulator(); } });
+
+    /* Add Row Buttons */
+    document.getElementById('addIngredientRowBtn').addEventListener('click', () => {
+      saveActiveLangToDraft();
+      draftLocales[activeEditLang].ingredients.push({ amount: '', unit: 'g', name: '' });
+      renderIngredientsRows(draftLocales[activeEditLang].ingredients);
+    });
+
+    document.getElementById('addStepRowBtn').addEventListener('click', () => {
+      saveActiveLangToDraft();
+      draftLocales[activeEditLang].steps.push('');
+      renderStepsRows(draftLocales[activeEditLang].steps);
+    });
+
+    document.getElementById('addChapterRowBtn').addEventListener('click', () => {
+      saveActiveLangToDraft();
+      draftChapters.push({ timeSec: 0, timeStr: '00:00', labels: { fa: '', en: '', de: '' } });
+      renderChaptersRows();
+    });
+
+    /* Language Tabs Switching */
+    document.querySelectorAll('.locale-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        activeEditLang = tab.getAttribute('data-edit-lang');
+        document.querySelectorAll('.locale-tab').forEach((t) => t.classList.toggle('active', t === tab));
+        renderActiveLangFields();
+      });
+    });
+
+    /* Auto-Translate to Other 2 Languages (Free MyMemory Engine) */
+    document.getElementById('autoTranslateBtn').addEventListener('click', async () => {
+      saveActiveLangToDraft();
+      const srcLang = activeEditLang;
+      const src = draftLocales[srcLang];
+      if (!src.title) { showToast('ابتدا عنوان و محتوای زبان فعلی را وارد کنید.'); return; }
+
+      const btn = document.getElementById('autoTranslateBtn');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span>در حال ترجمه...</span>`;
+
+      try {
+        for (const target of ['fa', 'en', 'de']) {
+          if (target === srcLang) continue;
+          const trTitle = await freeTranslate(src.title, srcLang, target);
+          const trDesc = await freeTranslate(src.desc, srcLang, target);
+          const trNote = src.note ? await freeTranslate(src.note, srcLang, target) : '';
+          const trIngs = await Promise.all(
+            src.ingredients.filter((i) => i.name).map(async (ing) => ({
+              amount: ing.amount,
+              unit: ing.unit,
+              name: await freeTranslate(ing.name, srcLang, target),
+            }))
+          );
+          const trSteps = await Promise.all(
+            src.steps.filter(Boolean).map((s) => freeTranslate(s, srcLang, target))
+          );
+
+          draftLocales[target] = {
+            title: trTitle,
+            desc: trDesc,
+            note: trNote,
+            ingredients: trIngs.length ? trIngs : [{ amount: '', unit: 'g', name: '' }],
+            steps: trSteps.length ? trSteps : [''],
+          };
+
+          for (const ch of draftChapters) {
+            if (ch.labels[srcLang]) {
+              ch.labels[target] = await freeTranslate(ch.labels[srcLang], srcLang, target);
+            }
+          }
+        }
+        showToast('ترجمه خودکار به دو زبان دیگر با موفقیت انجام شد.');
+      } catch {
+        showToast('خطا در ارتباط با موتور ترجمه.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+        if (window.lucide) window.lucide.createIcons();
+      }
+    });
+
+    /* Load Existing Recipe for Editing */
+    function loadRecipeIntoForm(recipe) {
+      editingDocId = recipe.id;
+      document.getElementById('formModeBadge').textContent = 'EDIT MODE';
+      document.getElementById('formHeading').textContent = 'ویرایش آموزش';
+      document.getElementById('saveBtnLabel').textContent = 'ذخیره تغییرات';
+
+      coverUrlInput.value = recipe.image || '';
+      ytInput.value = recipe.youtubeUrl || recipe.youtubeId || '';
+      document.getElementById('recipeCategory').value = recipe.category || 'mains';
+      document.getElementById('recipeDifficulty').value = recipe.difficulty || 'intermediate';
+      document.getElementById('recipePrepMin').value = recipe.prepMin || 45;
+      document.getElementById('recipeDuration').value = recipe.duration || '15:00';
+      document.getElementById('recipeBaseServings').value = recipe.baseServings || 2;
+      simServings = recipe.baseServings || 2;
+
+      draftLocales = {
+        fa: recipe.locales?.fa ? JSON.parse(JSON.stringify(recipe.locales.fa)) : emptyLocale(),
+        en: recipe.locales?.en ? JSON.parse(JSON.stringify(recipe.locales.en)) : emptyLocale(),
+        de: recipe.locales?.de ? JSON.parse(JSON.stringify(recipe.locales.de)) : emptyLocale(),
+      };
+
+      draftChapters = Array.isArray(recipe.chapters)
+        ? recipe.chapters.map((ch) => ({
+            timeSec: ch.time || 0,
+            timeStr: formatSecToTime(ch.time || 0),
+            labels: typeof ch.label === 'object' ? { fa: ch.label.fa || '', en: ch.label.en || '', de: ch.label.de || '' } : { fa: ch.label || '', en: ch.label || '', de: ch.label || '' },
+          }))
+        : [];
+
+      updateCoverPreview();
+      updateYouTubePreview();
+      renderActiveLangFields();
+      renderRecipesList();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      editingDocId = null;
+      document.getElementById('recipeForm').reset();
+      document.getElementById('formModeBadge').textContent = 'NEW ENTRY';
+      document.getElementById('formHeading').textContent = 'ثبت مسترکلاس / دستور پخت جدید';
+      document.getElementById('saveBtnLabel').textContent = 'ذخیره در فایربیس';
+      draftLocales = { fa: emptyLocale(), en: emptyLocale(), de: emptyLocale() };
+      draftChapters = [];
+      simServings = 2;
+      updateCoverPreview();
+      updateYouTubePreview();
+      renderActiveLangFields();
+      renderRecipesList();
+    }
+
+    document.getElementById('newRecipeBtn').addEventListener('click', resetForm);
+    document.getElementById('resetFormBtn').addEventListener('click', resetForm);
+
+    /* Submit Form -> Save to Firebase Firestore */
+    document.getElementById('recipeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      saveActiveLangToDraft();
+
+      const image = coverUrlInput.value.trim();
+      const youtubeUrl = ytInput.value.trim();
+      const youtubeId = extractYouTubeId(youtubeUrl);
+
+      if (!isSafeUrl(image)) { showToast('لینک عکس کاور معتبر نیست.'); return; }
+      if (!youtubeId) { showToast('لینک ویدیو یوتیوب معتبر نیست.'); return; }
+
+      const durationStr = document.getElementById('recipeDuration').value.trim();
+      const durationSec = parseTimeToSec(durationStr);
+
+      // Ensure fallback for empty languages
+      const primary = draftLocales[activeEditLang].title ? activeEditLang : (draftLocales.fa.title ? 'fa' : 'en');
+      const cleanLocales = {};
+      for (const code of ['fa', 'en', 'de']) {
+        const d = draftLocales[code];
+        const src = d.title ? d : draftLocales[primary];
+        cleanLocales[code] = {
+          title: src.title,
+          desc: src.desc,
+          note: src.note || '',
+          ingredients: (src.ingredients || []).filter((i) => i.name).map((i) => ({
+            amount: Number(i.amount) || 0,
+            unit: i.unit || 'g',
+            name: i.name,
+          })),
+          steps: (src.steps || []).filter(Boolean),
+        };
+      }
+
+      const cleanChapters = draftChapters
+        .filter((c) => c.labels.fa || c.labels.en || c.labels.de)
+        .map((c) => ({
+          time: c.timeSec,
+          label: {
+            fa: c.labels.fa || c.labels.en || c.labels.de,
+            en: c.labels.en || c.labels.fa || c.labels.de,
+            de: c.labels.de || c.labels.en || c.labels.fa,
+          },
+        }));
+
+      const payload = {
+        category: document.getElementById('recipeCategory').value,
+        difficulty: document.getElementById('recipeDifficulty').value,
+        prepMin: Math.max(1, Number(document.getElementById('recipePrepMin').value) || 45),
+        duration: durationStr,
+        durationSec,
+        baseServings: Math.max(1, Number(document.getElementById('recipeBaseServings').value) || 2),
+        image,
+        youtubeUrl,
+        youtubeId,
+        primaryLang: primary,
+        locales: cleanLocales,
+        chapters: cleanChapters,
+        updatedAt: serverTimestamp(),
+      };
+
+      const saveBtn = document.getElementById('saveRecipeBtn');
+      saveBtn.disabled = true;
+
+      try {
+        if (editingDocId) {
+          await updateDoc(doc(db, 'recipes', editingDocId), payload);
+          showToast('تغییرات با موفقیت در فایربیس ذخیره شد.');
+        } else {
+          payload.createdAt = serverTimestamp();
+          await addDoc(recipesCol, payload);
+          showToast('آموزش جدید با موفقیت منتشر شد.');
+          resetForm();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('خطا در ذخیره اطلاعات. دسترسی فایربیس را بررسی کنید.');
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    /* Initial Render */
+    renderActiveLangFields();
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>
