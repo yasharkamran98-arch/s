@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ATELIER — French Cuisine & Culinary Masterclasses</title>
+
+  <!-- Site Signature Favicon -->
+  <link rel="icon" type="image/jpeg" href="../photos/logo.jpg" />
+
+  <!-- Bespoke Multi-Script Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- YouTube IFrame Player API -->
+  <script src="https://www.youtube.com/iframe_api" async></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0A0B0E',
+            charcoal: '#12141A',
+            elevated: '#191C24',
+            franceBlue: '#0055A4',
+            franceRed: '#EF4135',
+            ivory: '#F4F4F2',
+            stone: '#B4B8C2',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            rtl: ['Vazirmatn', 'Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --text-ivory: #F4F4F2;
+      --text-stone: #B4B8C2;
+      --france-blue: #0055A4;
+      --france-white: #FFFFFF;
+      --france-red: #EF4135;
+    }
+
+    html {
+      background-color: #090B10;
+    }
+
+    body {
+      position: relative;
+      background-color: transparent;
+      color: var(--text-ivory);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ===================================================================== */
+    /* FRENCH TRICOLOR VERTICAL FLAG BACKGROUND (BLUE · WHITE · RED)         */
+    /* ===================================================================== */
+    .france-flag-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+      background-color: #090B10;
+    }
+
+    .france-flag-bands {
+      position: absolute;
+      inset: -5%;
+      display: flex;
+      flex-direction: row;
+      transform: scale(1.05);
+      will-change: transform;
+      animation: flagWave 24s ease-in-out infinite alternate;
+    }
+
+    .france-band-blue {
+      flex: 1;
+      background: linear-gradient(160deg, #002654 0%, #0055A4 52%, #003473 100%);
+    }
+    .france-band-white {
+      flex: 1;
+      background: linear-gradient(160deg, #ECEEF2 0%, #FFFFFF 50%, #E6E9EF 100%);
+    }
+    .france-band-red {
+      flex: 1;
+      background: linear-gradient(160deg, #B81D24 0%, #EF4135 52%, #C42028 100%);
+    }
+
+    .france-flag-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 85% 75% at 50% 45%, rgba(9, 11, 16, 0.38) 0%, rgba(9, 11, 16, 0.72) 100%),
+        linear-gradient(180deg, rgba(9, 11, 16, 0.48) 0%, rgba(9, 11, 16, 0.3) 45%, rgba(9, 11, 16, 0.64) 100%);
+    }
+
+    @keyframes flagWave {
+      0%   { transform: scale(1.05) translate3d(0, 0, 0); }
+      50%  { transform: scale(1.08) translate3d(1vw, -0.8vh, 0); }
+      100% { transform: scale(1.05) translate3d(-1vw, 0.8vh, 0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .france-flag-bands { animation: none !important; } }
+
+    .france-tricolor-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #0055A4 0%, #0055A4 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #EF4135 66.66%, #EF4135 100%);
+    }
+
+    .editorial-serif { font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.01em; }
+    html[data-lang="fa"] body, html[data-lang="ar"] body, html[data-lang="fa"] .editorial-serif, html[data-lang="ar"] .editorial-serif { font-family: 'Vazirmatn', sans-serif !important; letter-spacing: 0 !important; }
+    html[data-lang="ja"] body, html[data-lang="ja"] .editorial-serif { font-family: 'Noto Sans JP', 'Inter', sans-serif !important; }
+    html[data-lang="zh-CN"] body, html[data-lang="zh-CN"] .editorial-serif { font-family: 'Noto Sans SC', 'Inter', sans-serif !important; }
+    html[data-lang="ko"] body, html[data-lang="ko"] .editorial-serif { font-family: 'Noto Sans KR', 'Inter', sans-serif !important; }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ===================================================================== */
+    /* TOP BORDER REVEAL HOVER ANIMATION (NO PILLS / PURE EDITORIAL TEXT)    */
+    /* ===================================================================== */
+    .fr-top-reveal {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 6px 8px;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: var(--text-stone);
+      cursor: pointer;
+      transition: color 220ms ease, opacity 220ms ease;
+    }
+
+    .fr-top-reveal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #1E78D6 0%, #FFFFFF 50%, #EF4135 100%);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .fr-top-reveal:hover:not(:disabled),
+    .fr-top-reveal:focus-visible:not(:disabled),
+    .fr-top-reveal.active,
+    .fr-top-reveal.is-current {
+      color: #FFFFFF;
+      outline: none;
+    }
+
+    .fr-top-reveal:hover:not(:disabled)::before,
+    .fr-top-reveal:focus-visible:not(:disabled)::before,
+    .fr-top-reveal.active::before,
+    .fr-top-reveal.is-current::before {
+      transform: scaleX(1);
+    }
+
+    .fr-top-reveal.active,
+    .fr-top-reveal.is-current {
+      font-weight: 600;
+    }
+
+    .fr-top-reveal:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+    }
+
+    /* Editorial Panels (Sharp/Subtle Corners, Low Transparency, Zero Pills) */
+    .glass-surface {
+      background: rgba(13, 15, 22, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-panel {
+      background: linear-gradient(155deg, rgba(13, 15, 22, 0.92) 0%, rgba(16, 18, 26, 0.86) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 24px 56px -18px rgba(0, 0, 0, 0.88);
+    }
+
+    .card-melt {
+      background: rgba(13, 15, 22, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 16px 38px -18px rgba(0, 0, 0, 0.88);
+      transition: border-color 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+    }
+    .card-melt:hover {
+      background: rgba(18, 21, 32, 0.96);
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.94), 0 0 24px -10px rgba(0, 85, 164, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .modal-melt {
+      background:
+        radial-gradient(ellipse 65% 32% at 20% 0%, rgba(0, 85, 164, 0.2) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 30% at 85% 5%, rgba(239, 65, 53, 0.16) 0%, transparent 60%),
+        #101218;
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .hairline-border { border: 1px solid rgba(255, 255, 255, 0.14); }
+    .hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+    .hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+
+    /* Language Dropdown (Sharp Editorial Box) */
+    .atelier-lang-wrapper { position: relative; display: inline-flex; align-items: center; }
+    .atelier-lang-chevron { transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1); }
+    .atelier-lang-wrapper.is-open .atelier-lang-chevron { transform: rotate(180deg); color: #FFFFFF; }
+    .atelier-lang-menu {
+      position: absolute; top: calc(100% + 10px); inset-inline-end: 0; min-width: 164px; padding: 6px;
+      border-radius: 6px; background: rgba(13, 15, 22, 0.98);
+      box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.16);
+      z-index: 60; overflow-y: auto; max-height: 0; opacity: 0; transform: translateY(-6px); pointer-events: none;
+      transition: max-height 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 320ms ease, transform 320ms ease;
+    }
+    .atelier-lang-menu.is-expanded { max-height: min(68vh, 520px); opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .atelier-lang-list { display: flex; flex-direction: column; gap: 2px; list-style: none; margin: 0; padding: 0; }
+    .atelier-lang-option {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 9px 12px; min-height: 38px; border: 0; border-radius: 4px; background: transparent;
+      color: rgba(244, 244, 242, 0.86); font-size: 13px; cursor: pointer; text-align: start;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+    .atelier-lang-option:hover { background: rgba(0, 85, 164, 0.35); color: #FFFFFF; }
+    .atelier-lang-option.is-selected { background: rgba(0, 85, 164, 0.55); color: #FFFFFF; font-weight: 500; }
+    .atelier-lang-option[data-lang-code="fa"] .atelier-lang-name { font-family: 'Vazirmatn', sans-serif; }
+
+    /* Cook Mode */
+    .cook-mode-on .cook-dim { opacity: 0.28; transition: opacity 0.3s ease; }
+    .cook-mode-on .cook-dim:hover { opacity: 1; }
+    .cook-mode-on .cook-enlarge { font-size: 1.12rem !important; line-height: 1.95 !important; }
+
+    /* Pro Studio Video Player */
+    .studio-player-shell { position: relative; background: #000000; overflow: hidden; user-select: none; -webkit-user-select: none; }
+    .studio-player-shell:fullscreen, .studio-player-shell:-webkit-full-screen { width: 100vw !important; height: 100vh !important; border-radius: 0 !important; border: 0 !important; aspect-ratio: auto !important; }
+    #ytPlayerMount iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: auto; }
+    .player-controls-chrome { transition: opacity 280ms ease, transform 280ms ease; }
+    .studio-player-shell.controls-hidden .player-controls-chrome { opacity: 0; pointer-events: none; transform: translateY(6px); }
+    .studio-player-shell.controls-hidden { cursor: none; }
+
+    input[type="range"].studio-scrubber { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: rgba(255, 255, 255, 0.24); outline: none; cursor: pointer; }
+    input[type="range"].studio-scrubber::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 13px; height: 13px; background: #FFFFFF; box-shadow: 0 0 0 3px rgba(0, 85, 164, 0.85); cursor: pointer; }
+    input[type="range"].studio-volume-slider { -webkit-appearance: none; appearance: none; width: 72px; height: 3px; background: rgba(255, 255, 255, 0.28); outline: none; cursor: pointer; }
+    input[type="range"].studio-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; background: #FFFFFF; cursor: pointer; }
+
+    .player-icon-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; min-height: 34px; color: rgba(244, 244, 242, 0.88); transition: color 180ms ease, background-color 180ms ease; }
+    .player-icon-btn:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.12); }
+    .player-icon-btn.is-active { color: #FFFFFF; position: relative; }
+    .player-icon-btn.is-active::after { content: ''; position: absolute; bottom: 3px; left: 7px; right: 7px; height: 2px; background: #EF4135; }
+
+    .player-settings-panel {
+      position: absolute; bottom: 62px; right: 14px; width: 248px; max-height: 340px; overflow-y: auto;
+      border-radius: 6px; background: rgba(13, 15, 22, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9); z-index: 50; padding: 10px;
+    }
+    #recipeModalWrapper.is-theater { max-width: 82rem !important; }
+
+    /* Mobile-only 3x2 grid for masterclasses */
+    @media (max-width: 639px) {
+      #collection > .max-w-7xl { padding-inline: 12px; }
+      #entriesGrid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px 8px !important; }
+      #entriesGrid .recipe-card { padding: 5px !important; border-radius: 6px !important; min-width: 0; }
+      #entriesGrid .recipe-card:hover { transform: none !important; }
+      #entriesGrid .recipe-card .recipe-card-media { aspect-ratio: 4 / 5 !important; border-radius: 4px !important; margin-bottom: 6px !important; }
+      #entriesGrid .recipe-card .recipe-card-duration { top: 5px !important; inset-inline-end: 5px !important; padding: 2px 5px !important; font-size: 8px !important; gap: 3px !important; }
+      #entriesGrid .recipe-card .recipe-card-duration svg { width: 7px !important; height: 7px !important; }
+      #entriesGrid .recipe-card .recipe-card-bottom-meta,
+      #entriesGrid .recipe-card .recipe-card-meta-row,
+      #entriesGrid .recipe-card .recipe-card-desc { display: none !important; }
+      #entriesGrid .recipe-card .recipe-card-body { padding: 0 2px 3px !important; gap: 4px; justify-content: space-between; }
+      #entriesGrid .recipe-card .recipe-card-body > * + * { margin-top: 0 !important; }
+      #entriesGrid .recipe-card .recipe-card-title { font-size: 13px !important; line-height: 1.32 !important; font-weight: 500 !important; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      html[data-lang="fa"] #entriesGrid .recipe-card .recipe-card-title,
+      html[data-lang="ar"] #entriesGrid .recipe-card .recipe-card-title { font-size: 11.5px !important; line-height: 1.45 !important; }
+      #entriesGrid .recipe-card .recipe-card-mobile-time { display: flex !important; align-items: center; gap: 3px; font-size: 9px; color: var(--text-stone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .animate-reveal { animation: fadeSlideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090B10; }
+    ::-webkit-scrollbar-thumb { background: #0055A4; }
+    ::-webkit-scrollbar-thumb:hover { background: #EF4135; }
+  </style>
+</head>
+<body id="top" class="text-ivory selection:bg-[#0055A4]/70 selection:text-white min-h-screen flex flex-col">
+
+  <!-- FRENCH TRICOLOR FULL-SCREEN BACKGROUND -->
+  <div class="france-flag-bg" aria-hidden="true">
+    <div class="france-flag-bands">
+      <div class="france-band-blue"></div>
+      <div class="france-band-white"></div>
+      <div class="france-band-red"></div>
+    </div>
+    <div class="france-flag-scrim"></div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 1. EDITORIAL HEADER (NO PILLS — TOP BORDER REVEAL TEXT LINKS)           -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
+    <div class="france-tricolor-bar w-full"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="../index.html" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none shrink-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 overflow-hidden ring-1 ring-white/30 group-hover:ring-white shadow-lg bg-obsidian shrink-0 transition-all">
+            <img src="../photos/logo.jpg" alt="ATELIER Seal" class="w-full h-full object-cover object-center scale-[1.32]" />
+          </div>
+          <div class="flex items-baseline gap-2.5">
+            <span data-no-translate="true" class="editorial-serif text-lg sm:text-2xl font-medium tracking-[0.18em] text-ivory uppercase">ATELIER</span>
+            <span class="hidden sm:inline-block text-[10px] uppercase tracking-[0.22em] text-stone" data-i18n="atlasBadge">FRANCE ATLAS</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Section Navigation -->
+      <nav class="hidden md:flex items-center gap-6 text-xs uppercase tracking-[0.16em]">
+        <a href="#collection" class="fr-top-reveal active" data-i18n="navMasterclasses">Masterclasses</a>
+        <a href="#france-journal" class="fr-top-reveal" data-i18n="navArticles">Articles</a>
+      </nav>
+
+      <div class="flex items-center gap-4 sm:gap-6">
+        <a href="../index.html" class="fr-top-reveal text-[11px] uppercase tracking-[0.14em]">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5 rtl:rotate-180"></i>
+          <span class="hidden sm:inline" data-i18n="backHome">Main Archive</span>
+        </a>
+
+        <!-- Language Selector (Pure Text + Top Border Reveal) -->
+        <div id="langDropdownWrapper" class="atelier-lang-wrapper" data-no-translate="true">
+          <button id="langDropdownTrigger" type="button" aria-label="Select Language" aria-haspopup="listbox" aria-expanded="false" class="fr-top-reveal text-[11px] uppercase tracking-[0.14em] font-medium">
+            <svg class="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a13.5 13.5 0 013.6 9 13.5 13.5 0 01-3.6 9 13.5 13.5 0 01-3.6-9A13.5 13.5 0 0112 3z"/></svg>
+            <span id="activeLangCode" class="font-semibold text-white">EN</span>
+            <svg class="atelier-lang-chevron w-3.5 h-3.5 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- 2. FRENCH CULINARY HERO                                                 -->
+  <!-- ======================================================================= -->
+  <section class="relative pt-10 pb-8 sm:pt-16 sm:pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="hero-panel p-6 sm:p-10 lg:p-12 max-w-4xl space-y-5">
+        <div class="inline-flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-ivory/90">
+          <span class="inline-flex items-center gap-1" aria-hidden="true">
+            <span class="w-3 h-[2px] bg-[#0055A4]"></span>
+            <span class="w-3 h-[2px] bg-[#FFFFFF]"></span>
+            <span class="w-3 h-[2px] bg-[#EF4135]"></span>
+          </span>
+          <span data-i18n="heroEyebrow">CULINARY ATLAS · FRANCE</span>
+        </div>
+
+        <h1 class="editorial-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-[1.12]" data-i18n="heroTitle">
+          French Gastronomy: Savoir-Faire, Sauces, and Haute Pâtisserie.
+        </h1>
+
+        <p class="text-sm sm:text-base text-ivory/85 max-w-2xl leading-relaxed font-light" data-i18n="heroSubtitle">
+          Explore classical French masterclasses, mother sauces, laminated viennoiserie, regional bistro classics, and culinary essays rooted in centuries of gastronomic tradition.
+        </p>
+
+        <!-- Minimalist Bottom-Bordered Search Input (No Pill) -->
+        <div class="pt-3 flex flex-col sm:flex-row items-stretch sm:items-end gap-5 max-w-2xl">
+          <div class="flex-1 flex items-center gap-3 pb-2.5 border-b border-white/30 focus-within:border-white transition-colors">
+            <svg class="w-4 h-4 text-stone shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+            <input id="searchInput" type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Search French dishes, sauces, pâtisserie, or essays..." class="w-full bg-transparent text-sm text-white placeholder:text-stone/80 focus:outline-none" />
+            <button id="clearSearchBtn" aria-label="Clear search" class="hidden p-1 text-stone hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+          </div>
+          <a href="#france-journal" class="fr-top-reveal text-xs uppercase tracking-[0.18em] shrink-0">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span data-i18n="navArticles">Articles</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 3. FRENCH MASTERCLASSES & RECIPES (TOP BORDER REVEAL CATEGORY TABS)     -->
+  <!-- ======================================================================= -->
+  <section id="collection" class="relative py-8 sm:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="glass-surface p-5 sm:p-7 mb-7 flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+        <div class="shrink-0">
+          <span class="block text-[10px] uppercase tracking-[0.22em] text-stone mb-1" data-i18n="collectionEyebrow">FRENCH REPERTOIRE</span>
+          <h2 class="editorial-serif text-2xl sm:text-4xl font-normal text-white" data-i18n="typeRecipes">Masterclasses &amp; Recipes</h2>
+        </div>
+
+        <!-- Text-Only Category Bar with French Tricolor Top Border Reveal -->
+        <div class="relative flex items-center gap-3 min-w-0 w-full lg:max-w-[62%]">
+          <button id="catScrollPrev" type="button" aria-label="Previous categories" class="fr-top-reveal hidden sm:inline-flex px-2 shrink-0">
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+          </button>
+          <div id="categoryTabs" class="flex-1 flex items-center gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth"></div>
+          <button id="catScrollNext" type="button" aria-label="Next categories" class="fr-top-reveal hidden sm:inline-flex px-2 shrink-0">
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs mb-6 px-1">
+        <span id="resultsCountText" class="font-medium text-white tracking-wider uppercase">0 Entries</span>
+        <span class="hidden md:inline text-ivory/80" data-i18n="collectionHint">Synced live with Firebase · Select any entry to watch</span>
+      </div>
+
+      <div id="entriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-x-7 sm:gap-y-11"></div>
+
+      <nav id="paginationBar" aria-label="Pagination" class="hidden mt-10 py-3 px-6 glass-surface w-fit mx-auto flex items-center justify-center gap-5"></nav>
+
+      <div id="emptyState" class="hidden py-14 sm:py-16 px-6 text-center card-melt">
+        <p class="editorial-serif text-2xl text-white mb-2" data-i18n="emptyTitle">No French recipes published yet</p>
+        <p class="text-xs text-stone mb-6" data-i18n="emptySubtitle">Add recipes to the "france" collection in Firebase to display them here automatically.</p>
+        <button id="resetFilterBtn" class="fr-top-reveal text-xs uppercase tracking-[0.18em]" data-i18n="emptyReset">Reset Filters</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 4. DEDICATED FRENCH CULINARY ARTICLES & ESSAYS SECTION                  -->
+  <!-- ======================================================================= -->
+  <section id="france-journal" class="relative py-12 sm:py-20 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="glass-surface p-5 sm:p-7 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="block text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-stone font-medium mb-1.5" data-i18n="journalEyebrow">FRENCH CULINARY JOURNAL</span>
+          <h2 class="editorial-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white" data-i18n="journalTitle">French Culinary Articles &amp; Essays</h2>
+        </div>
+        <span id="articlesCountText" class="text-xs uppercase tracking-[0.18em] text-ivory font-medium">0 Articles</span>
+      </div>
+
+      <!-- Articles Grid -->
+      <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"></div>
+
+      <!-- Empty State for Articles -->
+      <div id="articlesEmptyState" class="hidden py-14 px-6 text-center card-melt">
+        <div class="inline-flex items-center justify-center mb-3 text-white">
+          <i data-lucide="book-open" class="w-5 h-5"></i>
+        </div>
+        <p class="editorial-serif text-2xl text-white mb-2" data-i18n="articlesEmptyTitle">No French articles published yet</p>
+        <p class="text-xs text-stone max-w-md mx-auto leading-relaxed" data-i18n="articlesEmptySub">When you publish a culinary essay or article with type "article" in the "france" Firebase collection, it will automatically appear in this section.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 5. FOOTER                                                               -->
+  <!-- ======================================================================= -->
+  <footer class="relative py-8 hairline-t bg-[#090B10]/95 backdrop-blur-md mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone">
+      <span>&copy; 2026 ATELIER CULINAIRE · <span data-i18n="countryFrance">France</span></span>
+      <div class="flex items-center gap-6">
+        <a href="../index.html" class="fr-top-reveal text-[11px] uppercase tracking-[0.14em]" data-i18n="backHome">Main Archive</a>
+        <a href="#top" class="fr-top-reveal text-[11px] uppercase tracking-[0.14em]" data-i18n="footerTop">Top &uarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- 6. RECIPE & PRO STUDIO VIDEO PLAYER MODAL                               -->
+  <!-- ======================================================================= -->
+  <div id="recipeModal" class="hidden fixed inset-0 z-50 bg-black/88 backdrop-blur-md overflow-y-auto">
+    <div id="recipeModalWrapper" class="animate-reveal modal-melt max-w-5xl mx-auto my-0 sm:my-8 lg:my-10 min-h-screen sm:min-h-0 sm:border overflow-hidden shadow-2xl transition-all duration-300">
+      <div class="sticky top-0 z-30 glass-surface border-x-0 border-t-0 px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
+        <div class="flex items-center gap-4 min-w-0">
+          <button id="closeRecipeModalBtn" aria-label="Close" class="fr-top-reveal text-xs uppercase tracking-[0.14em]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+          <span id="modalCategoryLabel" class="hidden sm:inline-block truncate text-[11px] uppercase tracking-[0.2em] text-ivory/80 font-medium">France</span>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6 shrink-0">
+          <button id="jumpToMethodBtn" class="fr-top-reveal text-[10px] sm:text-[11px] uppercase tracking-[0.14em]">
+            <svg class="w-3.5 h-3.5 shrink-0 text-white" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"/></svg>
+            <span data-i18n="jumpToMethod">Jump to Method</span>
+          </button>
+
+          <label class="fr-top-reveal select-none text-[10px] sm:text-[11px] uppercase tracking-[0.14em]">
+            <input id="cookModeCheckbox" type="checkbox" class="accent-[#0055A4] w-3.5 h-3.5 cursor-pointer" />
+            <span data-i18n="cookMode">Cook Mode</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="cookModeStrip" class="hidden bg-[#0055A4]/25 border-b border-white/15 px-4 sm:px-6 py-2.5 text-xs text-white">
+        <span data-i18n="cookModeActive">Cook Mode Active — Screen Wake Lock requested and typography enlarged.</span>
+      </div>
+
+      <div class="p-4 sm:p-8 lg:p-10 space-y-6 sm:space-y-10">
+        <div class="cook-dim space-y-2.5 sm:space-y-4">
+          <h2 id="modalTitle" class="editorial-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight"></h2>
+          <p id="modalDesc" class="text-[13px] sm:text-base text-stone font-light leading-relaxed max-w-3xl"></p>
+          <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 text-xs text-stone uppercase tracking-[0.14em]">
+            <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="modalPrepTime"></span></span>
+            <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg><span id="modalDifficulty"></span></span>
+          </div>
+        </div>
+
+        <!-- Video Player -->
+        <div class="cook-dim space-y-3 sm:space-y-4">
+          <div id="customVideoPlayer" dir="ltr" class="studio-player-shell -mx-4 sm:mx-0 aspect-video sm:hairline-border border-y border-white/15 sm:border">
+            <div id="ytPlayerMount" class="absolute inset-0 z-20 hidden"></div>
+            <img id="modalVideoPoster" src="" alt="" onerror="this.style.display='none'" class="relative z-10 w-full h-full object-cover transition-opacity duration-500" />
+            <div id="videoClickSurface" class="absolute inset-0 z-20 cursor-pointer"></div>
+            <div id="videoPosterOverlay" class="absolute inset-0 z-30 bg-black/45 flex items-center justify-center transition-opacity pointer-events-auto">
+              <button id="videoCenterPlayBtn" type="button" aria-label="Play Video" class="px-6 py-4 bg-white text-black hover:bg-ivory flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold shadow-2xl transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+                <span>Play</span>
+              </button>
+            </div>
+
+            <!-- Settings Popup -->
+            <div id="playerSettingsPanel" class="player-settings-panel hidden text-xs text-ivory" data-no-translate="true">
+              <div class="space-y-3">
+                <div>
+                  <div class="text-[10px] uppercase tracking-[0.18em] text-stone px-2 py-1">Playback Speed</div>
+                  <div class="grid grid-cols-3 gap-1 mt-1">
+                    <button type="button" data-speed="0.5" class="speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">0.5x</button>
+                    <button type="button" data-speed="0.75" class="speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">0.75x</button>
+                    <button type="button" data-speed="1" class="speed-opt py-1.5 bg-ivory text-black font-semibold text-center">1x</button>
+                    <button type="button" data-speed="1.25" class="speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">1.25x</button>
+                    <button type="button" data-speed="1.5" class="speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">1.5x</button>
+                    <button type="button" data-speed="2" class="speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">2x</button>
+                  </div>
+                </div>
+                <div class="pt-2 hairline-t">
+                  <div class="text-[10px] uppercase tracking-[0.18em] text-stone px-2 py-1">Quality</div>
+                  <div class="grid grid-cols-2 gap-1 mt-1">
+                    <button type="button" data-quality="default" class="quality-opt py-1.5 bg-ivory text-black font-semibold text-center">Auto</button>
+                    <button type="button" data-quality="hd1080" class="quality-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">1080p HD</button>
+                    <button type="button" data-quality="hd720" class="quality-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">720p HD</button>
+                    <button type="button" data-quality="large" class="quality-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center">480p</button>
+                  </div>
+                </div>
+                <div class="pt-2 hairline-t">
+                  <div class="text-[10px] uppercase tracking-[0.18em] text-stone px-2 py-1">Subtitles (CC)</div>
+                  <div class="grid grid-cols-2 gap-1 mt-1">
+                    <button type="button" data-sub-lang="off" class="sub-opt py-1.5 px-2 bg-ivory text-black font-semibold text-center">Off</button>
+                    <button type="button" data-sub-lang="fr" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">Français</button>
+                    <button type="button" data-sub-lang="en" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">English</button>
+                    <button type="button" data-sub-lang="fa" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">فارسی</button>
+                    <button type="button" data-sub-lang="de" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">Deutsch</button>
+                    <button type="button" data-sub-lang="it" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">Italiano</button>
+                    <button type="button" data-sub-lang="es" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">Español</button>
+                    <button type="button" data-sub-lang="tr" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">Türkçe</button>
+                    <button type="button" data-sub-lang="ar" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">العربية</button>
+                    <button type="button" data-sub-lang="ja" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">日本語</button>
+                    <button type="button" data-sub-lang="ko" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">한국어</button>
+                    <button type="button" data-sub-lang="zh-Hans" class="sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center">简体中文</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controls Chrome -->
+            <div class="player-controls-chrome absolute bottom-0 inset-x-0 z-40 bg-gradient-to-t from-black/95 via-black/75 to-transparent px-3 sm:px-5 pb-2.5 sm:pb-3.5 pt-10">
+              <div class="py-2 -mt-2">
+                <input id="videoScrubber" type="range" min="0" max="100" step="0.1" value="0" class="studio-scrubber" />
+              </div>
+              <div class="flex items-center justify-between gap-2 text-xs text-ivory">
+                <div class="flex items-center gap-1 sm:gap-2">
+                  <button id="videoToggleBtn" type="button" aria-label="Play or Pause" class="player-icon-btn">
+                    <svg id="ctrlPlayIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+                    <svg id="ctrlPauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                  </button>
+                  <button id="videoBack10Btn" type="button" title="-10s" class="player-icon-btn"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/></svg></button>
+                  <button id="videoFwd10Btn" type="button" title="+10s" class="player-icon-btn"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"/></svg></button>
+                  <div class="flex items-center gap-1.5">
+                    <button id="videoMuteBtn" type="button" class="player-icon-btn">
+                      <svg id="volOnIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/></svg>
+                      <svg id="volOffIcon" class="w-4 h-4 hidden text-stone" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"/></svg>
+                    </button>
+                    <input id="videoVolumeSlider" type="range" min="0" max="100" value="100" class="studio-volume-slider hidden sm:block" />
+                  </div>
+                  <span id="videoClock" dir="ltr" data-no-translate="true" class="font-mono text-[11px] text-ivory/85 ms-1">00:00 / 12:00</span>
+                </div>
+                <div class="flex items-center gap-0.5 sm:gap-1.5">
+                  <a id="openInYouTubeBtn" href="#" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" class="player-icon-btn hidden"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+                  <button id="videoCaptionsBtn" type="button" title="Subtitles (CC)" class="player-icon-btn"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg></button>
+                  <button id="videoSettingsBtn" type="button" title="Settings" class="player-icon-btn"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
+                  <button id="videoTheaterBtn" type="button" title="Theater Mode" class="player-icon-btn hidden sm:inline-flex"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/></svg></button>
+                  <button id="videoFullscreenBtn" type="button" title="Fullscreen" class="player-icon-btn">
+                    <svg id="fsEnterIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>
+                    <svg id="fsExitIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="videoChapters" class="flex items-center gap-4 overflow-x-auto no-scrollbar sm:flex-wrap pb-1"></div>
+        </div>
+
+        <!-- Ingredients & Method -->
+        <div id="methodAnchor" class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6 hairline-t">
+          <div class="lg:col-span-5 space-y-5">
+            <div class="flex items-center justify-between pb-4 hairline-b">
+              <div>
+                <h3 class="editorial-serif text-2xl text-white" data-i18n="ingredientsHeading">Ingredients</h3>
+                <p id="checkedCountText" class="text-[11px] text-stone mt-0.5"></p>
+              </div>
+              <div class="flex items-center gap-3">
+                <button id="decServingsBtn" aria-label="Decrease servings" class="fr-top-reveal px-2 text-base font-mono">−</button>
+                <div class="text-center min-w-[44px]">
+                  <span id="servingsNumber" data-no-translate="true" class="block text-sm font-semibold text-white leading-none">2</span>
+                  <span class="text-[10px] uppercase tracking-wider text-stone" data-i18n="servingsLabel">Yield</span>
+                </div>
+                <button id="incServingsBtn" aria-label="Increase servings" class="fr-top-reveal px-2 text-base font-mono">+</button>
+              </div>
+            </div>
+            <ul id="ingredientsList" class="space-y-2"></ul>
+          </div>
+
+          <div class="lg:col-span-7 space-y-5">
+            <div class="pb-4 hairline-b"><h3 class="editorial-serif text-2xl text-white" data-i18n="methodHeading">Method</h3></div>
+            <ol id="stepsList" class="space-y-5"></ol>
+            <div class="p-5 bg-black/60 border-s-2 border-[#0055A4]">
+              <span class="block text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium mb-2" data-i18n="chefNoteLabel">CHEF'S NOTE</span>
+              <p id="modalChefNote" class="text-sm text-ivory/90 font-light leading-relaxed cook-enlarge"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 7. EDITORIAL ARTICLE READER MODAL                                       -->
+  <!-- ======================================================================= -->
+  <div id="articleModal" class="hidden fixed inset-0 z-50 bg-black/88 backdrop-blur-md overflow-y-auto p-0 sm:p-6 lg:p-8">
+    <div class="animate-reveal modal-melt max-w-3xl mx-auto my-0 sm:my-6 min-h-screen sm:min-h-0 sm:border overflow-hidden shadow-2xl">
+      <div class="relative h-56 sm:h-72 bg-black">
+        <img id="articleModalImg" src="" alt="" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-80" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#101218] via-[#101218]/25 to-transparent"></div>
+        <button id="closeArticleModalBtn" aria-label="Close" class="absolute top-4 end-4 px-3 py-2 bg-black/75 text-white hover:text-[#EF4135] transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-5 sm:p-10 space-y-4 sm:space-y-5">
+        <span id="articleModalTag" class="text-[10px] uppercase tracking-[0.24em] text-ivory/80 font-medium block"></span>
+        <h3 id="articleModalTitle" class="editorial-serif text-2xl sm:text-4xl text-white leading-tight"></h3>
+        <div id="articleModalBody" class="space-y-4 text-sm sm:text-base text-stone font-light leading-7 sm:leading-8 pt-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (Sharp Editorial Bar, No Pill) -->
+  <div id="toast" class="hidden fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-6 sm:right-6 z-[60] glass-surface border-t-2 border-t-[#0055A4] px-5 py-3.5 shadow-2xl items-center justify-center sm:justify-start gap-3 text-xs text-white">
+    <span id="toastText"></span>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 8. FIREBASE ENGINE (country-d32e6) + FRANCE PAGE LOGIC                  -->
+  <!-- ======================================================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYmZUoXuhGZGQjND5Hz2Y7iSQUahVk6QQ",
+      authDomain: "country-d32e6.firebaseapp.com",
+      projectId: "country-d32e6",
+      storageBucket: "country-d32e6.firebasestorage.app",
+      messagingSenderId: "777363148303",
+      appId: "1:777363148303:web:8c6f37aa2e100e8b375d7a",
+      measurementId: "G-MR7JDBL2L3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    try { getAnalytics(app); } catch {}
+    const db = getFirestore(app);
+
+    /* Firestore Collection for France */
+    const FRANCE_COLLECTION = 'france';
+
+    const LANGUAGES = [
+      { code: 'en', iso: 'EN', flag: '🇬🇧', native: 'English', dir: 'ltr' },
+      { code: 'fr', iso: 'FR', flag: '🇫🇷', native: 'Français', dir: 'ltr' },
+      { code: 'fa', iso: 'FA', flag: '🇮🇷', native: 'فارسی', dir: 'rtl' },
+      { code: 'de', iso: 'DE', flag: '🇩🇪', native: 'Deutsch', dir: 'ltr' },
+      { code: 'it', iso: 'IT', flag: '🇮🇹', native: 'Italiano', dir: 'ltr' },
+      { code: 'es', iso: 'ES', flag: '🇪🇸', native: 'Español', dir: 'ltr' },
+      { code: 'ja', iso: 'JA', flag: '🇯🇵', native: '日本語', dir: 'ltr' },
+      { code: 'tr', iso: 'TR', flag: '🇹🇷', native: 'Türkçe', dir: 'ltr' },
+      { code: 'zh-CN', iso: 'ZH', flag: '🇨🇳', native: '简体中文', dir: 'ltr' },
+      { code: 'ko', iso: 'KO', flag: '🇰🇷', native: '한국어', dir: 'ltr' },
+      { code: 'ar', iso: 'AR', flag: '🇸🇦', native: 'العربية', dir: 'rtl' },
+      { code: 'hi', iso: 'HI', flag: '🇮🇳', native: 'हिन्दी', dir: 'ltr' },
+      { code: 'th', iso: 'TH', flag: '🇹🇭', native: 'ไทย', dir: 'ltr' },
+      { code: 'pt', iso: 'PT', flag: '🇵🇹', native: 'Português', dir: 'ltr' },
+      { code: 'el', iso: 'EL', flag: '🇬🇷', native: 'Ελληνικά', dir: 'ltr' },
+    ];
+
+    const CATEGORY_KEYS = [
+      'all', 'masterclasses', 'mains', 'appetizers', 'salads', 'soups',
+      'pastry', 'drinks', 'vegetarian', 'healthy', 'quick', 'techniques'
+    ];
+
+    const UI_TRANSLATIONS = {
+      en: {
+        atlasBadge: 'FRANCE ATLAS', backHome: 'Main Archive', countryFrance: 'France',
+        navMasterclasses: 'Masterclasses', navArticles: 'Articles',
+        heroEyebrow: 'CULINARY ATLAS · FRANCE',
+        heroTitle: 'French Gastronomy: Savoir-Faire, Sauces, and Haute Pâtisserie.',
+        heroSubtitle: 'Explore classical French masterclasses, mother sauces, laminated viennoiserie, regional bistro classics, and culinary essays rooted in centuries of gastronomic tradition.',
+        searchPlaceholder: 'Search French dishes, sauces, pâtisserie, or essays...',
+        collectionEyebrow: 'FRENCH REPERTOIRE', typeRecipes: 'Masterclasses & Recipes',
+        collectionHint: 'Synced live with Firebase · Select any entry to watch',
+        emptyTitle: 'No French recipes published yet',
+        emptySubtitle: 'Add recipes to the "france" collection in Firebase to display them here automatically.',
+        emptyReset: 'Reset Filters', footerTop: 'Top ↑',
+        journalEyebrow: 'FRENCH CULINARY JOURNAL', journalTitle: 'French Culinary Articles & Essays',
+        articlesEmptyTitle: 'No French articles published yet',
+        articlesEmptySub: 'When you publish a culinary essay or article with type "article" in the "france" Firebase collection, it will automatically appear in this section.',
+        readArticle: 'Read Article', articlesCountLabel: 'Articles',
+        jumpToMethod: 'Jump to Method', cookMode: 'Cook Mode',
+        cookModeActive: 'Cook Mode Active — Screen Wake Lock requested and typography enlarged.',
+        ingredientsHeading: 'Ingredients', servingsLabel: 'Yield', methodHeading: 'Method', chefNoteLabel: "CHEF'S NOTE",
+        entriesCount: 'Entries', checkedOf: 'prepared', articleBadge: 'Article',
+        prevPage: 'Prev', nextPage: 'Next', toastLangChanged: 'Language switched to English.',
+        cats: {
+          all: 'All', masterclasses: 'Masterclasses', mains: 'Main Dishes', appetizers: 'Appetizers',
+          salads: 'Salads', soups: 'Soups', pastry: 'Desserts', drinks: 'Drinks',
+          vegetarian: 'Vegetarian', healthy: 'Healthy Food', quick: 'Quick & Easy', techniques: 'Techniques'
+        },
+        diff: { essential: 'Essential', intermediate: 'Intermediate', advanced: 'Advanced' },
+        units: { g: 'g', ml: 'ml', tbsp: 'tbsp', tsp: 'tsp', pcs: 'pcs', cup: 'cup', pinch: 'pinch', min: 'min' },
+      },
+      fr: {
+        atlasBadge: 'ATLAS FRANCE', backHome: 'Archive Principale', countryFrance: 'France',
+        navMasterclasses: 'Masterclasses', navArticles: 'Articles',
+        heroEyebrow: 'ATLAS CULINAIRE · FRANCE',
+        heroTitle: 'Gastronomie Française : Savoir-Faire, Sauces et Haute Pâtisserie.',
+        heroSubtitle: 'Découvrez des masterclasses françaises authentiques, sauces mères, viennoiseries feuilletées, grands classiques de bistrot et essais culinaires.',
+        searchPlaceholder: 'Rechercher un plat français, sauce, pâtisserie ou essai...',
+        collectionEyebrow: 'RÉPERTOIRE FRANÇAIS', typeRecipes: 'Masterclasses & Recettes',
+        collectionHint: 'Synchronisé en direct avec Firebase · Sélectionnez une entrée',
+        emptyTitle: 'Aucune recette française publiée pour le moment',
+        emptySubtitle: 'Ajoutez des recettes dans la collection Firebase « france » pour les afficher ici.',
+        emptyReset: 'Réinitialiser', footerTop: 'Haut ↑',
+        journalEyebrow: 'JOURNAL CULINAIRE FRANÇAIS', journalTitle: 'Articles & Essais Culinaires Français',
+        articlesEmptyTitle: 'Aucun article publié pour le moment',
+        articlesEmptySub: 'Les articles de type « article » dans la collection « france » apparaîtront automatiquement ici.',
+        readArticle: 'Lire l’article', articlesCountLabel: 'Articles',
+        jumpToMethod: 'Aller à la préparation', cookMode: 'Mode Cuisine',
+        cookModeActive: 'Mode Cuisine actif — Écran maintenu allumé et typographie agrandie.',
+        ingredientsHeading: 'Ingrédients', servingsLabel: 'Portions', methodHeading: 'Préparation', chefNoteLabel: 'NOTE DU CHEF',
+        entriesCount: 'Entrées', checkedOf: 'préparés', articleBadge: 'Article',
+        prevPage: 'Préc.', nextPage: 'Suiv.', toastLangChanged: 'Langue passée en français.',
+        cats: {
+          all: 'Tout', masterclasses: 'Masterclasses', mains: 'Plats', appetizers: 'Entrées',
+          salads: 'Salades', soups: 'Soupes', pastry: 'Desserts', drinks: 'Boissons',
+          vegetarian: 'Végétarien', healthy: 'Cuisine Saine', quick: 'Rapide', techniques: 'Techniques'
+        },
+        diff: { essential: 'Essentiel', intermediate: 'Intermédiaire', advanced: 'Avancé' },
+        units: { g: 'g', ml: 'ml', tbsp: 'c.à.s', tsp: 'c.à.c', pcs: 'pcs', cup: 'tasse', pinch: 'pincée', min: 'min' },
+      },
+      fa: {
+        atlasBadge: 'اطلس فرانسه', backHome: 'بازگشت به سایت اصلی', countryFrance: 'فرانسه',
+        navMasterclasses: 'مسترکلاس‌ها', navArticles: 'مقالات',
+        heroEyebrow: 'اطلس آشپزی جهان · فرانسه',
+        heroTitle: 'آشپزی اصیل فرانسه؛ هنر سس‌ها، پاتیسری و ظرافت کلاسیک.',
+        heroSubtitle: 'مجموعه‌ای از مسترکلاس‌های آشپزی فرانسوی، سس‌های مادر، شیرینی‌پزی و نان‌های لایه‌ای، غذاهای اصیل بیسترو و مقالات تخصصی درباره فرهنگ غذایی فرانسه.',
+        searchPlaceholder: 'جستجوی غذاهای فرانسوی، سس، پاتیسری یا مقالات...',
+        collectionEyebrow: 'مجموعه آشپزی فرانسه', typeRecipes: 'مسترکلاس‌ها و دستور پخت‌ها',
+        collectionHint: 'متصل به دیتابیس فایربیس · برای تماشا روی هر مورد کلیک کنید',
+        emptyTitle: 'هنوز آموزشی برای فرانسه ثبت نشده است',
+        emptySubtitle: 'با اضافه کردن آموزش در کالکشن «france» فایربیس، محتوا به‌صورت خودکار اینجا نمایش داده می‌شود.',
+        emptyReset: 'بازنشانی فیلترها', footerTop: 'بازگشت به بالا ↑',
+        journalEyebrow: 'مجله آشپزی فرانسه', journalTitle: 'مقالات و یادداشت‌های آشپزی فرانسوی',
+        articlesEmptyTitle: 'هنوز مقاله‌ای برای فرانسه ثبت نشده است',
+        articlesEmptySub: 'وقتی مقاله‌ای با نوع «article» در کالکشن «france» فایربیس ثبت کنید، به‌صورت خودکار در این بخش نمایش داده می‌شود.',
+        readArticle: 'مطالعه مقاله', articlesCountLabel: 'مقاله',
+        jumpToMethod: 'پرش به مراحل پخت', cookMode: 'حالت آشپزی',
+        cookModeActive: 'حالت آشپزی فعال شد — صفحه نمایش روشن می‌ماند و خوانایی متن افزایش یافت.',
+        ingredientsHeading: 'مواد اولیه', servingsLabel: 'نفر', methodHeading: 'مراحل اجرا', chefNoteLabel: 'یادداشت سرآشپز',
+        entriesCount: 'مورد', checkedOf: 'آماده شده', articleBadge: 'مقاله',
+        prevPage: 'قبلی', nextPage: 'بعدی', toastLangChanged: 'زبان صفحه به فارسی تغییر یافت.',
+        cats: {
+          all: 'همه', masterclasses: 'مسترکلاس‌ها', mains: 'غذاهای اصلی', appetizers: 'پیش‌غذاها',
+          salads: 'سالادها', soups: 'سوپ‌ها', pastry: 'دسر و شیرینی', drinks: 'نوشیدنی‌ها',
+          vegetarian: 'گیاهی', healthy: 'غذای سالم', quick: 'سریع و آسان', techniques: 'تکنیک‌ها'
+        },
+        diff: { essential: 'پایه', intermediate: 'متوسط', advanced: 'پیشرفته' },
+        units: { g: 'گرم', ml: 'میلی‌لیتر', tbsp: 'قاشق غذاخوری', tsp: 'قاشق چای‌خوری', pcs: 'عدد', cup: 'پیمانه', pinch: 'پنس', min: 'دقیقه' },
+      },
+      de: {
+        atlasBadge: 'FRANKREICH ATLAS', backHome: 'Hauptarchiv', countryFrance: 'Frankreich',
+        navMasterclasses: 'Meisterklassen', navArticles: 'Artikel',
+        heroEyebrow: 'KULINARISCHER ATLAS · FRANKREICH',
+        heroTitle: 'Französische Gastronomie: Savoir-Faire, Saucen und Haute Pâtisserie.',
+        heroSubtitle: 'Entdecken Sie klassische französische Meisterklassen, Grundsaucen, feine Patisserie, Bistro-Klassiker und kulinarische Essays.',
+        searchPlaceholder: 'Französische Gerichte, Saucen, Patisserie oder Essays suchen...',
+        collectionEyebrow: 'FRANZÖSISCHES REPERTOIRE', typeRecipes: 'Meisterklassen & Rezepte',
+        collectionHint: 'Live mit Firebase verbunden · Zum Ansehen auswählen',
+        emptyTitle: 'Noch keine französischen Rezepte vorhanden',
+        emptySubtitle: 'Fügen Sie Rezepte in der Firebase-Sammlung „france“ hinzu.',
+        emptyReset: 'Filter zurücksetzen', footerTop: 'Nach oben ↑',
+        journalEyebrow: 'FRANZÖSISCHES JOURNAL', journalTitle: 'Französische Kulinarik-Artikel & Essays',
+        articlesEmptyTitle: 'Noch keine Artikel veröffentlicht',
+        articlesEmptySub: 'Artikel mit Typ „article“ in der Sammlung „france“ erscheinen automatisch hier.',
+        readArticle: 'Artikel lesen', articlesCountLabel: 'Artikel',
+        jumpToMethod: 'Zur Zubereitung', cookMode: 'Kochmodus',
+        cookModeActive: 'Kochmodus aktiv — Bildschirm bleibt wach und Typografie ist vergrößert.',
+        ingredientsHeading: 'Zutaten', servingsLabel: 'Portionen', methodHeading: 'Zubereitung', chefNoteLabel: 'HINWEIS DES CHEFS',
+        entriesCount: 'Einträge', checkedOf: 'vorbereitet', articleBadge: 'Artikel',
+        prevPage: 'Zurück', nextPage: 'Weiter', toastLangChanged: 'Sprache auf Deutsch umgestellt.',
+        cats: {
+          all: 'Alle', masterclasses: 'Meisterklassen', mains: 'Hauptgerichte', appetizers: 'Vorspeisen',
+          salads: 'Salate', soups: 'Suppen', pastry: 'Desserts', drinks: 'Getränke',
+          vegetarian: 'Vegetarisch', healthy: 'Gesunde Küche', quick: 'Schnell & Einfach', techniques: 'Techniken'
+        },
+        diff: { essential: 'Basis', intermediate: 'Mittel', advanced: 'Anspruchsvoll' },
+        units: { g: 'g', ml: 'ml', tbsp: 'EL', tsp: 'TL', pcs: 'Stk.', cup: 'Tasse', pinch: 'Prise', min: 'Min.' },
+      },
+    };
+
+    /* --- Helpers --- */
+    function escapeHTML(str) {
+      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function isSafeUrl(url) {
+      if (!url) return false;
+      const s = String(url).trim();
+      if (s.startsWith('photos/') || s.startsWith('../photos/')) return true;
+      try { const u = new URL(s); return u.protocol === 'https:' || u.protocol === 'http:'; } catch { return false; }
+    }
+    function formatQty(num) { const r = Math.round(num * 100) / 100; return Number.isInteger(r) ? String(r) : String(Number(r.toFixed(1))); }
+    function formatClock(sec) { return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(Math.floor(sec % 60)).padStart(2, '0')}`; }
+
+    /* --- State --- */
+    const LANG_STORAGE_KEY = 'atelier_active_lang_v1';
+    const ITEMS_PER_PAGE = 6;
+    let currentLang = 'en';
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let currentPage = 1;
+    let entries = [];
+    let activeRecipe = null;
+    let currentServings = 2;
+    let checkedSet = new Set();
+    let wakeLockSentinel = null;
+
+    /* Video Player State */
+    let ytApiReady = false, ytPlayer = null, ytMounted = false, ytSyncInterval = null, controlsHideTimer = null;
+    let videoPlaying = false, videoSeconds = 0, videoVolume = 100, videoMuted = false;
+    let captionsEnabled = false, selectedCaptionLang = 'off', currentSpeed = 1, videoInterval = null;
+    window.onYouTubeIframeAPIReady = () => { ytApiReady = true; };
+
+    function t(key) { const d = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en; return d[key] !== undefined ? d[key] : UI_TRANSLATIONS.en[key] || key; }
+    function getCategoryLabel(c) { const d = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en; return d.cats?.[c] || UI_TRANSLATIONS.en.cats?.[c] || c; }
+    function getDiffLabel(df) { const d = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en; return d.diff?.[df] || UI_TRANSLATIONS.en.diff?.[df] || df; }
+    function getUnitLabel(u) { const d = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en; return d.units?.[u] || UI_TRANSLATIONS.en.units?.[u] || u; }
+
+    function getLocalizedEntry(entry, lang = currentLang) {
+      const primary = entry.locales?.[entry.primaryLang || 'fr'] || entry.locales?.en || entry.locales?.fa || entry.locales?.fr || {};
+      const loc = entry.locales?.[lang] || primary;
+      return {
+        title: loc.title || primary.title || '',
+        desc: loc.desc || primary.desc || '',
+        note: loc.note || primary.note || '',
+        tag: loc.tag || primary.tag || '',
+        body: loc.body || primary.body || [],
+        ingredients: loc.ingredients || primary.ingredients || [],
+        steps: loc.steps || primary.steps || [],
+      };
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast'), txt = document.getElementById('toastText');
+      if (!el || !txt) return;
+      txt.textContent = msg; el.classList.remove('hidden'); el.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { el.classList.add('hidden'); el.classList.remove('flex'); }, 3000);
+    }
+
+    /* --- Language Dropdown --- */
+    function initLangDropdown() {
+      const wrapper = document.getElementById('langDropdownWrapper');
+      const trigger = document.getElementById('langDropdownTrigger');
+      const badge = document.getElementById('activeLangCode');
+      let menuEl = null, isOpen = false;
+
+      function close() {
+        if (!isOpen || !menuEl) return;
+        isOpen = false;
+        wrapper.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        menuEl.remove(); menuEl = null;
+      }
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isOpen) { close(); return; }
+        isOpen = true;
+        menuEl = document.createElement('div');
+        menuEl.className = 'atelier-lang-menu is-expanded';
+        menuEl.innerHTML = `<ul class="atelier-lang-list">${LANGUAGES.map((l) => `
+          <li><button type="button" data-lang-code="${l.code}" class="atelier-lang-option ${l.code === currentLang ? 'is-selected' : ''}">
+            <span class="inline-flex items-center gap-2"><span>${l.flag}</span><span class="atelier-lang-name">${l.native}</span></span>
+          </button></li>`).join('')}</ul>`;
+        menuEl.querySelectorAll('button').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-lang-code');
+            const obj = LANGUAGES.find((x) => x.code === code) || LANGUAGES[0];
+            badge.textContent = obj.iso;
+            setLanguage(code, true);
+            close();
+          });
+        });
+        wrapper.appendChild(menuEl);
+        wrapper.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+      });
+
+      document.addEventListener('click', (e) => { if (isOpen && !wrapper.contains(e.target)) close(); });
+    }
+
+    function setLanguage(langCode, announce = true) {
+      const langObj = LANGUAGES.find((l) => l.code === langCode) || LANGUAGES[0];
+      currentLang = langObj.code;
+      try { localStorage.setItem(LANG_STORAGE_KEY, currentLang); } catch {}
+      document.documentElement.lang = langObj.code;
+      document.documentElement.dir = langObj.dir;
+      document.documentElement.setAttribute('data-lang', langObj.code);
+      document.getElementById('activeLangCode').textContent = langObj.iso;
+
+      document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.getAttribute('data-i18n')); });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => { el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder'))); });
+      renderCategoryTabs();
+      renderRecipesGrid();
+      renderArticlesSection();
+      if (announce) showToast(t('toastLangChanged'));
+    }
+
+    /* --- Category Tabs (Text-Only + Top Border Reveal) & Scroll Controls --- */
+    function updateCategoryScrollButtons() {
+      const c = document.getElementById('categoryTabs');
+      const prev = document.getElementById('catScrollPrev');
+      const next = document.getElementById('catScrollNext');
+      if (!c || !prev || !next) return;
+      const maxScroll = c.scrollWidth - c.clientWidth;
+      if (maxScroll <= 4) { prev.disabled = true; next.disabled = true; return; }
+      const isRtl = document.documentElement.dir === 'rtl';
+      const pos = Math.abs(c.scrollLeft);
+      prev.disabled = isRtl ? pos <= 4 : c.scrollLeft <= 4;
+      next.disabled = isRtl ? pos >= maxScroll - 4 : c.scrollLeft >= maxScroll - 4;
+    }
+
+    function renderCategoryTabs(scrollActive = false) {
+      const container = document.getElementById('categoryTabs');
+      if (!container) return;
+      container.innerHTML = CATEGORY_KEYS.map((k) => `<button data-cat="${k}" class="cat-tab fr-top-reveal text-xs uppercase tracking-[0.15em] whitespace-nowrap shrink-0 ${activeCategory === k ? 'active' : ''}">${getCategoryLabel(k)}</button>`).join('');
+      container.querySelectorAll('.cat-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeCategory = btn.getAttribute('data-cat');
+          currentPage = 1;
+          renderCategoryTabs(true);
+          renderRecipesGrid();
+        });
+      });
+      if (scrollActive) {
+        container.querySelector('.cat-tab.active')?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        setTimeout(updateCategoryScrollButtons, 280);
+      } else {
+        requestAnimationFrame(updateCategoryScrollButtons);
+      }
+    }
+
+    /* --- Firebase Live Sync (Collection: "france") --- */
+    function initFirebaseSync() {
+      const q = query(collection(db, FRANCE_COLLECTION), orderBy('createdAt', 'desc'));
+      onSnapshot(q, (snapshot) => {
+        entries = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+        renderRecipesGrid();
+        renderArticlesSection();
+      }, (err) => {
+        console.warn('France Firestore sync notice:', err.message);
+        renderRecipesGrid();
+        renderArticlesSection();
+      });
+    }
+
+    /* --- Render Masterclasses & Recipes Grid --- */
+    function renderRecipesGrid() {
+      const grid = document.getElementById('entriesGrid');
+      const empty = document.getElementById('emptyState');
+      const countEl = document.getElementById('resultsCountText');
+      const paginationBar = document.getElementById('paginationBar');
+
+      const q = searchQuery.trim().toLowerCase();
+      const filtered = entries.filter((item) => {
+        if (item.type === 'article') return false;
+        const catMatch = activeCategory === 'all' || item.category === activeCategory;
+        const loc = getLocalizedEntry(item);
+        const searchMatch = !q
+          || loc.title.toLowerCase().includes(q)
+          || loc.desc.toLowerCase().includes(q)
+          || loc.ingredients.some((i) => (i.name || '').toLowerCase().includes(q));
+        return catMatch && searchMatch;
+      });
+
+      if (filtered.length === 0) {
+        countEl.textContent = `0 ${t('entriesCount')}`;
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        paginationBar.classList.add('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+      countEl.textContent = totalPages > 1
+        ? `${startIdx + 1}–${startIdx + pageItems.length} / ${filtered.length} ${t('entriesCount')}`
+        : `${filtered.length} ${t('entriesCount')}`;
+
+      grid.innerHTML = pageItems.map((item) => {
+        const loc = getLocalizedEntry(item);
+        const safeImg = isSafeUrl(item.image) ? escapeHTML(item.image) : '';
+        return `
+          <article data-entry-id="${escapeHTML(item.id)}" class="recipe-card card-melt group cursor-pointer flex flex-col p-3">
+            <div class="recipe-card-media relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden bg-black mb-3.5 sm:mb-4">
+              ${safeImg ? `<img src="${safeImg}" alt="${escapeHTML(loc.title)}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out opacity-95 group-hover:opacity-100" />` : ''}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent"></div>
+              <div class="recipe-card-duration absolute top-2.5 end-2.5 px-2 py-0.5 bg-black/75 border border-white/20 text-[10px] font-mono tracking-wider text-white flex items-center gap-1.5">
+                <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+                <span>${escapeHTML(item.duration || '15:00')}</span>
+              </div>
+              <div class="recipe-card-bottom-meta absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-ivory/95">
+                <span class="px-2 py-0.5 bg-black/65">${escapeHTML(getCategoryLabel(item.category || 'masterclasses'))}</span>
+                <span class="inline-flex items-center gap-1"><svg class="w-3 h-3 text-ivory/80" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>${escapeHTML(item.prepMin || 45)} ${escapeHTML(getUnitLabel('min'))}</span>
+              </div>
+            </div>
+            <div class="recipe-card-body px-1.5 pb-1.5 space-y-2 flex-1 flex flex-col">
+              <div class="recipe-card-meta-row flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ivory/80 font-medium">
+                <span>${escapeHTML(getDiffLabel(item.difficulty || 'intermediate'))}</span>
+                <span class="text-stone">${escapeHTML(item.baseServings || 2)} ${escapeHTML(t('servingsLabel'))}</span>
+              </div>
+              <h3 class="recipe-card-title editorial-serif text-[1.35rem] sm:text-2xl font-normal text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
+              <div class="recipe-card-mobile-time hidden">
+                <span class="truncate">${escapeHTML(item.prepMin || 45)} ${escapeHTML(getUnitLabel('min'))}</span>
+              </div>
+              <p class="recipe-card-desc text-[13px] sm:text-xs text-stone font-light leading-relaxed line-clamp-2">${escapeHTML(loc.desc)}</p>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.recipe-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          const found = entries.find((x) => x.id === card.getAttribute('data-entry-id'));
+          if (found) openRecipeModal(found);
+        });
+      });
+
+      if (totalPages > 1) {
+        paginationBar.classList.remove('hidden');
+        let html = `<button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} class="fr-top-reveal text-xs uppercase tracking-[0.14em]">${escapeHTML(t('prevPage'))}</button><div class="flex items-center gap-4">`;
+        for (let p = 1; p <= totalPages; p++) {
+          html += `<button type="button" data-page="${p}" class="fr-top-reveal font-mono text-xs ${p === currentPage ? 'is-current' : ''}">${p}</button>`;
+        }
+        html += `</div><button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} class="fr-top-reveal text-xs uppercase tracking-[0.14em]">${escapeHTML(t('nextPage'))}</button>`;
+        paginationBar.innerHTML = html;
+        paginationBar.querySelectorAll('button[data-page]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = Number(btn.getAttribute('data-page'));
+            if (target >= 1 && target <= totalPages && target !== currentPage) {
+              currentPage = target;
+              renderRecipesGrid();
+              document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+      } else {
+        paginationBar.classList.add('hidden');
+      }
+    }
+
+    /* --- Render Dedicated Articles & Essays Section --- */
+    function renderArticlesSection() {
+      const grid = document.getElementById('articlesGrid');
+      const empty = document.getElementById('articlesEmptyState');
+      const countEl = document.getElementById('articlesCountText');
+
+      const q = searchQuery.trim().toLowerCase();
+      const articleItems = entries.filter((item) => {
+        if (item.type !== 'article') return false;
+        const loc = getLocalizedEntry(item);
+        return !q || loc.title.toLowerCase().includes(q) || loc.desc.toLowerCase().includes(q);
+      });
+
+      countEl.textContent = `${articleItems.length} ${t('articlesCountLabel')}`;
+
+      if (articleItems.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      grid.innerHTML = articleItems.map((art) => {
+        const loc = getLocalizedEntry(art);
+        const safeImg = isSafeUrl(art.image) ? escapeHTML(art.image) : '';
+        return `
+          <article data-article-id="${escapeHTML(art.id)}" class="article-card card-melt group cursor-pointer overflow-hidden flex flex-col">
+            <div class="relative aspect-[16/9] overflow-hidden bg-black">
+              ${safeImg ? `<img src="${safeImg}" alt="${escapeHTML(loc.title)}" loading="lazy" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" />` : ''}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent"></div>
+            </div>
+            <div class="p-5 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
+              <div class="space-y-2.5 sm:space-y-3">
+                <span class="text-[10px] uppercase tracking-[0.22em] text-ivory/80 font-medium block">${escapeHTML(loc.tag || t('articleBadge'))}</span>
+                <h3 class="editorial-serif text-2xl sm:text-3xl text-ivory group-hover:text-white transition-colors leading-snug">${escapeHTML(loc.title)}</h3>
+                <p class="text-[13px] sm:text-sm text-stone font-light leading-relaxed line-clamp-3">${escapeHTML(loc.desc)}</p>
+              </div>
+              <div class="pt-4 hairline-t flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-ivory/85 group-hover:text-white transition-colors">
+                <span>${escapeHTML(t('readArticle'))}</span>
+                <svg class="w-3.5 h-3.5 rtl:rotate-180" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.article-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          const found = entries.find((x) => x.id === card.getAttribute('data-article-id'));
+          if (found) openArticleModal(found);
+        });
+      });
+    }
+
+    /* --- Article Modal --- */
+    function openArticleModal(art) {
+      const loc = getLocalizedEntry(art);
+      document.getElementById('articleModalImg').src = isSafeUrl(art.image) ? art.image : '';
+      document.getElementById('articleModalTag').textContent = loc.tag || getCategoryLabel(art.category || 'masterclasses');
+      document.getElementById('articleModalTitle').textContent = loc.title;
+      const paragraphs = Array.isArray(loc.body) && loc.body.length ? loc.body : [loc.desc];
+      document.getElementById('articleModalBody').innerHTML = paragraphs.map((p) => `<p>${escapeHTML(p)}</p>`).join('');
+      document.getElementById('articleModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeArticleModal() {
+      document.getElementById('articleModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    /* --- Pro Video Player & Recipe Modal --- */
+    const playerShell = document.getElementById('customVideoPlayer');
+    const settingsPanel = document.getElementById('playerSettingsPanel');
+
+    function showPlayerControlsTemporarily() {
+      if (!playerShell) return;
+      playerShell.classList.remove('controls-hidden');
+      clearTimeout(controlsHideTimer);
+      if (videoPlaying && settingsPanel.classList.contains('hidden')) {
+        controlsHideTimer = setTimeout(() => {
+          if (videoPlaying && settingsPanel.classList.contains('hidden')) playerShell.classList.add('controls-hidden');
+        }, 3000);
+      }
+    }
+
+    function updateVolumeUI() {
+      const muted = videoMuted || videoVolume === 0;
+      document.getElementById('volOnIcon')?.classList.toggle('hidden', muted);
+      document.getElementById('volOffIcon')?.classList.toggle('hidden', !muted);
+      const s = document.getElementById('videoVolumeSlider');
+      if (s) {
+        const val = muted ? 0 : videoVolume;
+        s.value = val;
+        s.style.background = `linear-gradient(to right, #FFFFFF ${val}%, rgba(255,255,255,0.25) ${val}%)`;
+      }
+    }
+
+    function updateScrubberFill(pct) {
+      const s = document.getElementById('videoScrubber');
+      if (!s) return;
+      const c = Math.max(0, Math.min(100, pct));
+      s.value = c;
+      s.style.background = `linear-gradient(to right, #FFFFFF ${c}%, rgba(255,255,255,0.24) ${c}%)`;
+    }
+
+    function applySubtitleLanguage(langCode) {
+      selectedCaptionLang = langCode || 'off';
+      captionsEnabled = selectedCaptionLang !== 'off';
+      document.querySelectorAll('.sub-opt').forEach((btn) => {
+        const active = btn.getAttribute('data-sub-lang') === selectedCaptionLang;
+        btn.className = active ? 'sub-opt py-1.5 px-2 bg-ivory text-black font-semibold text-center' : 'sub-opt py-1.5 px-2 bg-white/[0.04] hover:bg-white/15 text-center';
+      });
+      document.getElementById('videoCaptionsBtn')?.classList.toggle('is-active', captionsEnabled);
+      if (ytPlayer) {
+        try {
+          if (captionsEnabled) { ytPlayer.loadModule('captions'); ytPlayer.setOption('captions', 'track', { languageCode: selectedCaptionLang }); }
+          else ytPlayer.unloadModule('captions');
+        } catch {}
+      }
+    }
+
+    function destroyYouTubePlayer() {
+      if (ytSyncInterval) { clearInterval(ytSyncInterval); ytSyncInterval = null; }
+      if (ytPlayer && typeof ytPlayer.destroy === 'function') { try { ytPlayer.destroy(); } catch {} }
+      ytPlayer = null; ytMounted = false;
+      const mount = document.getElementById('ytPlayerMount');
+      if (mount) { mount.innerHTML = ''; mount.classList.add('hidden'); }
+      document.getElementById('modalVideoPoster')?.classList.remove('opacity-0', 'pointer-events-none');
+      document.getElementById('videoClickSurface')?.classList.remove('hidden', 'pointer-events-none');
+      document.getElementById('videoPosterOverlay')?.classList.remove('opacity-0', 'pointer-events-none');
+      playerShell?.classList.remove('controls-hidden');
+    }
+
+    function mountYouTubePlayer(youtubeId, autoplay = false) {
+      const mount = document.getElementById('ytPlayerMount');
+      if (!mount || !youtubeId) return;
+      destroyYouTubePlayer();
+      ytMounted = true;
+      mount.classList.remove('hidden');
+      document.getElementById('modalVideoPoster')?.classList.add('opacity-0', 'pointer-events-none');
+      document.getElementById('videoPosterOverlay')?.classList.add('opacity-0', 'pointer-events-none');
+      document.getElementById('videoClickSurface')?.classList.add('hidden', 'pointer-events-none');
+
+      const div = document.createElement('div');
+      div.id = 'ytPlayerInstance';
+      mount.appendChild(div);
+
+      const playerVars = {
+        autoplay: autoplay ? 1 : 0, controls: 0, modestbranding: 1, rel: 0, iv_load_policy: 3, playsinline: 1, disablekb: 1,
+        cc_load_policy: captionsEnabled ? 1 : 0,
+        cc_lang_pref: selectedCaptionLang !== 'off' ? selectedCaptionLang : currentLang.split('-')[0],
+      };
+      if (window.location.protocol.startsWith('http')) playerVars.origin = window.location.origin;
+
+      const create = () => {
+        ytPlayer = new window.YT.Player('ytPlayerInstance', {
+          videoId: youtubeId, playerVars,
+          events: {
+            onReady: (e) => {
+              e.target.setVolume(videoVolume);
+              if (videoMuted) e.target.mute();
+              e.target.setPlaybackRate(currentSpeed);
+              const dur = e.target.getDuration();
+              if (dur > 0 && activeRecipe) activeRecipe.durationSec = Math.floor(dur);
+              updateVideoDisplay();
+            },
+            onStateChange: (e) => {
+              if (e.data === window.YT.PlayerState.PLAYING) {
+                videoPlaying = true;
+                if (ytSyncInterval) clearInterval(ytSyncInterval);
+                ytSyncInterval = setInterval(() => {
+                  if (ytPlayer?.getCurrentTime) {
+                    videoSeconds = Math.floor(ytPlayer.getCurrentTime() || 0);
+                    updateVideoDisplay();
+                  }
+                }, 350);
+                showPlayerControlsTemporarily();
+              } else if (e.data === window.YT.PlayerState.PAUSED || e.data === window.YT.PlayerState.ENDED) {
+                videoPlaying = false;
+                playerShell?.classList.remove('controls-hidden');
+                if (e.data === window.YT.PlayerState.ENDED) videoSeconds = 0;
+                if (ytSyncInterval) { clearInterval(ytSyncInterval); ytSyncInterval = null; }
+              }
+              updateVideoDisplay();
+            },
+          },
+        });
+      };
+
+      if (ytApiReady && window.YT?.Player) create();
+      else {
+        const w = setInterval(() => { if (window.YT?.Player) { clearInterval(w); ytApiReady = true; create(); } }, 120);
+      }
+    }
+
+    function updateVideoDisplay() {
+      if (!activeRecipe) return;
+      const total = activeRecipe.durationSec || 600;
+      updateScrubberFill((videoSeconds / total) * 100);
+      document.getElementById('videoClock').textContent = `${formatClock(videoSeconds)} / ${formatClock(total)}`;
+      document.getElementById('ctrlPlayIcon')?.classList.toggle('hidden', videoPlaying);
+      document.getElementById('ctrlPauseIcon')?.classList.toggle('hidden', !videoPlaying);
+      const hideOverlay = videoPlaying || ytMounted;
+      const ov = document.getElementById('videoPosterOverlay');
+      ov.classList.toggle('opacity-0', hideOverlay);
+      ov.classList.toggle('pointer-events-none', hideOverlay);
+    }
+
+    function toggleVideo() {
+      if (!activeRecipe) return;
+      settingsPanel?.classList.add('hidden');
+      if (activeRecipe.youtubeId) {
+        if (!ytPlayer) { mountYouTubePlayer(activeRecipe.youtubeId, true); return; }
+        videoPlaying ? ytPlayer.pauseVideo() : ytPlayer.playVideo();
+        return;
+      }
+      if (videoPlaying) stopVideo();
+      else {
+        videoPlaying = true; updateVideoDisplay(); showPlayerControlsTemporarily();
+        videoInterval = setInterval(() => { videoSeconds += 1; if (videoSeconds >= (activeRecipe.durationSec || 600)) { videoSeconds = 0; stopVideo(); } updateVideoDisplay(); }, 1000);
+      }
+    }
+
+    function stopVideo() {
+      videoPlaying = false;
+      if (videoInterval) { clearInterval(videoInterval); videoInterval = null; }
+      if (ytPlayer?.pauseVideo) { try { ytPlayer.pauseVideo(); } catch {} }
+      updateVideoDisplay();
+    }
+
+    function seekRelative(delta) {
+      if (!activeRecipe) return;
+      const total = activeRecipe.durationSec || 600;
+      videoSeconds = Math.max(0, Math.min(total, videoSeconds + delta));
+      if (ytPlayer?.seekTo) ytPlayer.seekTo(videoSeconds, true);
+      updateVideoDisplay(); showPlayerControlsTemporarily();
+    }
+
+    function openRecipeModal(recipe) {
+      activeRecipe = recipe;
+      currentServings = recipe.baseServings || 2;
+      checkedSet = new Set();
+      stopVideo(); destroyYouTubePlayer();
+      videoSeconds = 0; applySubtitleLanguage('off');
+      settingsPanel?.classList.add('hidden');
+
+      const loc = getLocalizedEntry(recipe);
+      document.getElementById('modalCategoryLabel').textContent = getCategoryLabel(recipe.category || 'masterclasses');
+      document.getElementById('modalTitle').textContent = loc.title;
+      document.getElementById('modalDesc').textContent = loc.desc;
+      document.getElementById('modalPrepTime').textContent = `${recipe.prepMin || 45} ${getUnitLabel('min')}`;
+      document.getElementById('modalDifficulty').textContent = getDiffLabel(recipe.difficulty || 'intermediate');
+      document.getElementById('modalVideoPoster').src = isSafeUrl(recipe.image) ? recipe.image : '';
+      document.getElementById('modalChefNote').textContent = loc.note || '';
+
+      const ytBtn = document.getElementById('openInYouTubeBtn');
+      if (recipe.youtubeId) { ytBtn.href = `https://www.youtube.com/watch?v=${encodeURIComponent(recipe.youtubeId)}`; ytBtn.classList.remove('hidden'); }
+      else ytBtn.classList.add('hidden');
+
+      const chEl = document.getElementById('videoChapters');
+      const chapters = Array.isArray(recipe.chapters) ? recipe.chapters : [];
+      chEl.innerHTML = chapters.map((ch) => {
+        const lbl = typeof ch.label === 'object' ? (ch.label[currentLang] || ch.label.fr || ch.label.fa || ch.label.en || '') : ch.label;
+        return `<button data-chapter-sec="${Number(ch.time) || 0}" class="chapter-btn fr-top-reveal whitespace-nowrap shrink-0 text-[11px] uppercase tracking-[0.12em]">${escapeHTML(lbl)}</button>`;
+      }).join('');
+      chEl.querySelectorAll('.chapter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const sec = Number(btn.getAttribute('data-chapter-sec')) || 0;
+          videoSeconds = sec;
+          if (activeRecipe?.youtubeId) {
+            if (!ytPlayer) { mountYouTubePlayer(activeRecipe.youtubeId, true); setTimeout(() => ytPlayer?.seekTo?.(sec, true), 900); }
+            else { ytPlayer.seekTo(sec, true); ytPlayer.playVideo(); }
+          }
+        });
+      });
+
+      renderModalIngredients();
+      renderModalSteps();
+      updateVolumeUI();
+      updateVideoDisplay();
+
+      const modal = document.getElementById('recipeModal');
+      modal.classList.remove('hidden'); modal.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderModalIngredients() {
+      if (!activeRecipe) return;
+      const loc = getLocalizedEntry(activeRecipe);
+      document.getElementById('servingsNumber').textContent = currentServings;
+      const ratio = currentServings / (activeRecipe.baseServings || 2);
+      const list = document.getElementById('ingredientsList');
+      list.innerHTML = loc.ingredients.map((ing, idx) => {
+        const checked = checkedSet.has(idx);
+        const scaled = formatQty((Number(ing.amount) || 0) * ratio);
+        return `
+          <li data-idx="${idx}" class="ing-row flex items-center gap-3.5 py-2.5 px-3 cursor-pointer transition-colors select-none ${checked ? 'bg-white/[0.02] text-stone' : 'hover:bg-[#0055A4]/20 text-ivory'}">
+            <span class="w-4 h-4 border flex items-center justify-center shrink-0 ${checked ? 'border-white bg-white text-black' : 'border-white/35'}">
+              ${checked ? '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>' : ''}
+            </span>
+            <span class="text-sm font-light cook-enlarge ${checked ? 'line-through opacity-50' : ''}">
+              <strong class="font-medium text-white">${escapeHTML(scaled)} ${escapeHTML(getUnitLabel(ing.unit))}</strong>
+              <span class="mx-1.5">${escapeHTML(ing.name)}</span>
+            </span>
+          </li>`;
+      }).join('');
+      document.getElementById('checkedCountText').textContent = `${checkedSet.size} / ${loc.ingredients.length} ${t('checkedOf')}`;
+      list.querySelectorAll('.ing-row').forEach((row) => {
+        row.addEventListener('click', () => {
+          const idx = Number(row.getAttribute('data-idx'));
+          checkedSet.has(idx) ? checkedSet.delete(idx) : checkedSet.add(idx);
+          renderModalIngredients();
+        });
+      });
+    }
+
+    function renderModalSteps() {
+      if (!activeRecipe) return;
+      const loc = getLocalizedEntry(activeRecipe);
+      document.getElementById('stepsList').innerHTML = loc.steps.map((step, idx) => `
+        <li class="flex items-start gap-4">
+          <span class="editorial-serif text-xl text-ivory/80 leading-none pt-1 min-w-[26px]">${String(idx + 1).padStart(2, '0')}</span>
+          <p class="text-sm text-ivory/90 font-light leading-7 cook-enlarge">${escapeHTML(step)}</p>
+        </li>`).join('');
+    }
+
+    function closeRecipeModal() {
+      if (document.fullscreenElement) { try { document.exitFullscreen(); } catch {} }
+      stopVideo(); destroyYouTubePlayer();
+      if (wakeLockSentinel) { try { wakeLockSentinel.release(); } catch {} wakeLockSentinel = null; }
+      const cb = document.getElementById('cookModeCheckbox');
+      if (cb?.checked) { cb.checked = false; document.getElementById('recipeModalWrapper').classList.remove('cook-mode-on'); document.getElementById('cookModeStrip').classList.add('hidden'); }
+      document.getElementById('recipeModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      initLangDropdown();
+
+      let savedLang = 'en';
+      try { const s = localStorage.getItem(LANG_STORAGE_KEY); if (s && LANGUAGES.some((l) => l.code === s)) savedLang = s; } catch {}
+      setLanguage(savedLang, false);
+      initFirebaseSync();
+
+      /* Category Scroll Controls */
+      const catTabsEl = document.getElementById('categoryTabs');
+      const scrollCat = (dir) => {
+        const isRtl = document.documentElement.dir === 'rtl';
+        const step = Math.max(180, Math.floor(catTabsEl.clientWidth * 0.65));
+        catTabsEl.scrollBy({ left: (dir === 'next' ? step : -step) * (isRtl ? -1 : 1), behavior: 'smooth' });
+      };
+      document.getElementById('catScrollPrev')?.addEventListener('click', () => scrollCat('prev'));
+      document.getElementById('catScrollNext')?.addEventListener('click', () => scrollCat('next'));
+      catTabsEl?.addEventListener('scroll', updateCategoryScrollButtons, { passive: true });
+      catTabsEl?.addEventListener('wheel', (e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { e.preventDefault(); catTabsEl.scrollLeft += e.deltaY; } }, { passive: false });
+
+      /* Search */
+      const searchInput = document.getElementById('searchInput'), clearBtn = document.getElementById('clearSearchBtn');
+      searchInput?.addEventListener('input', (e) => {
+        searchQuery = e.target.value; currentPage = 1;
+        clearBtn.classList.toggle('hidden', !searchQuery.trim());
+        renderRecipesGrid();
+        renderArticlesSection();
+      });
+      clearBtn?.addEventListener('click', () => {
+        searchInput.value = ''; searchQuery = ''; currentPage = 1;
+        clearBtn.classList.add('hidden');
+        renderRecipesGrid();
+        renderArticlesSection();
+      });
+      document.getElementById('resetFilterBtn')?.addEventListener('click', () => {
+        activeCategory = 'all'; searchQuery = ''; currentPage = 1;
+        searchInput.value = ''; clearBtn.classList.add('hidden');
+        renderCategoryTabs(true);
+        renderRecipesGrid();
+        renderArticlesSection();
+      });
+
+      /* Modals & Player Listeners */
+      document.getElementById('closeRecipeModalBtn')?.addEventListener('click', closeRecipeModal);
+      document.getElementById('recipeModal')?.addEventListener('click', (e) => { if (e.target.id === 'recipeModal') closeRecipeModal(); });
+      document.getElementById('closeArticleModalBtn')?.addEventListener('click', closeArticleModal);
+      document.getElementById('articleModal')?.addEventListener('click', (e) => { if (e.target.id === 'articleModal') closeArticleModal(); });
+      document.getElementById('jumpToMethodBtn')?.addEventListener('click', () => document.getElementById('methodAnchor')?.scrollIntoView({ behavior: 'smooth' }));
+      document.getElementById('incServingsBtn')?.addEventListener('click', () => { if (currentServings < 24) { currentServings++; renderModalIngredients(); } });
+      document.getElementById('decServingsBtn')?.addEventListener('click', () => { if (currentServings > 1) { currentServings--; renderModalIngredients(); } });
+      document.getElementById('cookModeCheckbox')?.addEventListener('change', async (e) => {
+        const on = e.target.checked;
+        document.getElementById('recipeModalWrapper').classList.toggle('cook-mode-on', on);
+        document.getElementById('cookModeStrip').classList.toggle('hidden', !on);
+        if (on) { try { if ('wakeLock' in navigator) wakeLockSentinel = await navigator.wakeLock.request('screen'); } catch {} }
+        else if (wakeLockSentinel) { try { wakeLockSentinel.release(); } catch {} wakeLockSentinel = null; }
+      });
+
+      playerShell?.addEventListener('mousemove', showPlayerControlsTemporarily);
+      document.getElementById('videoCenterPlayBtn')?.addEventListener('click', toggleVideo);
+      document.getElementById('videoToggleBtn')?.addEventListener('click', toggleVideo);
+      document.getElementById('videoClickSurface')?.addEventListener('click', () => { if (!settingsPanel.classList.contains('hidden')) { settingsPanel.classList.add('hidden'); return; } toggleVideo(); });
+      document.getElementById('videoBack10Btn')?.addEventListener('click', () => seekRelative(-10));
+      document.getElementById('videoFwd10Btn')?.addEventListener('click', () => seekRelative(10));
+      document.getElementById('videoMuteBtn')?.addEventListener('click', () => { videoMuted = !videoMuted; if (ytPlayer) videoMuted ? ytPlayer.mute() : ytPlayer.unMute(); updateVolumeUI(); });
+      document.getElementById('videoVolumeSlider')?.addEventListener('input', (e) => { videoVolume = Number(e.target.value); videoMuted = videoVolume === 0; if (ytPlayer) { ytPlayer.setVolume(videoVolume); videoMuted ? ytPlayer.mute() : ytPlayer.unMute(); } updateVolumeUI(); });
+      document.getElementById('videoScrubber')?.addEventListener('input', (e) => { if (!activeRecipe) return; videoSeconds = Math.floor((Number(e.target.value) / 100) * (activeRecipe.durationSec || 600)); if (ytPlayer?.seekTo) ytPlayer.seekTo(videoSeconds, true); updateVideoDisplay(); });
+      document.getElementById('videoCaptionsBtn')?.addEventListener('click', () => applySubtitleLanguage(captionsEnabled ? 'off' : currentLang.split('-')[0]));
+      document.getElementById('videoSettingsBtn')?.addEventListener('click', (e) => { e.stopPropagation(); settingsPanel.classList.toggle('hidden'); });
+      document.querySelectorAll('.speed-opt').forEach((btn) => btn.addEventListener('click', () => { currentSpeed = Number(btn.getAttribute('data-speed')) || 1; ytPlayer?.setPlaybackRate?.(currentSpeed); document.querySelectorAll('.speed-opt').forEach((b) => { b.className = b === btn ? 'speed-opt py-1.5 bg-ivory text-black font-semibold text-center' : 'speed-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center'; }); }));
+      document.querySelectorAll('.quality-opt').forEach((btn) => btn.addEventListener('click', () => { ytPlayer?.setPlaybackQuality?.(btn.getAttribute('data-quality') || 'default'); document.querySelectorAll('.quality-opt').forEach((b) => { b.className = b === btn ? 'quality-opt py-1.5 bg-ivory text-black font-semibold text-center' : 'quality-opt py-1.5 bg-white/[0.04] hover:bg-white/15 text-center'; }); }));
+      document.querySelectorAll('.sub-opt').forEach((btn) => btn.addEventListener('click', () => applySubtitleLanguage(btn.getAttribute('data-sub-lang') || 'off')));
+      document.getElementById('videoTheaterBtn')?.addEventListener('click', () => document.getElementById('recipeModalWrapper')?.classList.toggle('is-theater'));
+      document.getElementById('videoFullscreenBtn')?.addEventListener('click', () => { if (!document.fullscreenElement) (playerShell.requestFullscreen || playerShell.webkitRequestFullscreen)?.call(playerShell); else (document.exitFullscreen || document.webkitExitFullscreen)?.call(document); });
+
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeRecipeModal(); closeArticleModal(); } });
+    });
+  </script>
+</body>
+</html>

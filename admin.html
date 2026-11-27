@@ -415,9 +415,16 @@
               <div>
                 <label for="recipeCategory" class="block text-xs text-stone mb-1.5">دسته‌بندی</label>
                 <select id="recipeCategory" class="field-input">
-                  <option value="masterclasses">مسترکلاس (Masterclasses)</option>
-                  <option value="mains">غذای اصلی (Mains)</option>
-                  <option value="pastry">شیرینی‌پزی (Pastry)</option>
+                  <option value="masterclasses">مسترکلاس‌ها (Masterclasses)</option>
+                  <option value="mains">غذاهای اصلی (Main Dishes)</option>
+                  <option value="appetizers">پیش‌غذاها (Appetizers)</option>
+                  <option value="salads">سالادها (Salads)</option>
+                  <option value="soups">سوپ‌ها (Soups)</option>
+                  <option value="pastry">دسر و شیرینی (Desserts)</option>
+                  <option value="drinks">نوشیدنی‌ها (Drinks)</option>
+                  <option value="vegetarian">گیاهی (Vegetarian)</option>
+                  <option value="healthy">غذای سالم (Healthy Food)</option>
+                  <option value="quick">سریع و آسان (Quick &amp; Easy)</option>
                   <option value="techniques">تکنیک‌ها (Techniques)</option>
                 </select>
               </div>
@@ -442,6 +449,10 @@
                 <input id="recipeBaseServings" type="text" inputmode="numeric" dir="ltr" value="2" class="field-input font-latin text-center font-semibold" />
               </div>
             </div>
+            <p class="text-[11px] text-stone/90 flex items-center gap-1.5">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-ivory/75 shrink-0"></i>
+              <span>هر آموزشی که در هر دسته‌بندی ثبت شود، به‌صورت خودکار در بخش <strong class="text-ivory font-medium">همه (All)</strong> نیز نمایش داده می‌شود.</span>
+            </p>
           </div>
 
           <!-- =============================================================== -->
@@ -749,6 +760,21 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const recipesCol = collection(db, 'recipes');
+
+    /* --- Category Labels Map (Synced with index.html) --- */
+    const CATEGORY_LABELS = {
+      masterclasses: 'مسترکلاس‌ها',
+      mains: 'غذاهای اصلی',
+      appetizers: 'پیش‌غذاها',
+      salads: 'سالادها',
+      soups: 'سوپ‌ها',
+      pastry: 'دسر و شیرینی',
+      drinks: 'نوشیدنی‌ها',
+      vegetarian: 'گیاهی',
+      healthy: 'غذای سالم',
+      quick: 'سریع و آسان',
+      techniques: 'تکنیک‌ها',
+    };
 
     /* --- State --- */
     let allRecipes = [];
@@ -1145,7 +1171,13 @@
       const filtered = allRecipes.filter((r) => {
         const faTitle = r.locales?.fa?.title || '';
         const enTitle = r.locales?.en?.title || '';
-        return !q || faTitle.toLowerCase().includes(q) || enTitle.toLowerCase().includes(q) || (r.category || '').toLowerCase().includes(q);
+        const catKey = r.category || '';
+        const catFa = CATEGORY_LABELS[catKey] || '';
+        return !q
+          || faTitle.toLowerCase().includes(q)
+          || enTitle.toLowerCase().includes(q)
+          || catKey.toLowerCase().includes(q)
+          || catFa.toLowerCase().includes(q);
       });
 
       badge.textContent = String(allRecipes.length);
@@ -1158,6 +1190,7 @@
       container.innerHTML = filtered.map((r) => {
         const rawTitle = r.locales?.fa?.title || r.locales?.en?.title || 'بدون عنوان';
         const title = escapeHTML(rawTitle);
+        const catLabel = escapeHTML(CATEGORY_LABELS[r.category] || r.category || '');
         const img = isSafeUrl(r.image) ? escapeHTML(r.image) : '';
         const isSelected = r.id === editingDocId;
         return `
@@ -1167,10 +1200,10 @@
             </div>
             <div class="flex-1 min-w-0 cursor-pointer edit-item-trigger" data-edit-id="${escapeHTML(r.id)}">
               <p class="text-xs font-medium text-white truncate">${title}</p>
-              <div class="flex items-center gap-1.5 text-[10px] text-stone mt-0.5 font-latin">
-                <span>${escapeHTML(r.category || '')}</span>
+              <div class="flex items-center gap-1.5 text-[10px] text-stone mt-0.5">
+                <span class="truncate">${catLabel}</span>
                 <span>•</span>
-                <span>${escapeHTML(r.duration || '00:00')}</span>
+                <span class="font-latin shrink-0">${escapeHTML(r.duration || '00:00')}</span>
               </div>
             </div>
             <div class="flex items-center gap-1 shrink-0">
@@ -1775,7 +1808,7 @@
 
       coverUrlInput.value = recipe.image || '';
       ytInput.value = recipe.youtubeUrl || recipe.youtubeId || '';
-      document.getElementById('recipeCategory').value = recipe.category || 'mains';
+      document.getElementById('recipeCategory').value = CATEGORY_LABELS[recipe.category] ? recipe.category : 'masterclasses';
       document.getElementById('recipeDifficulty').value = recipe.difficulty || 'intermediate';
       document.getElementById('recipePrepMin').value = String(recipe.prepMin || 45);
       document.getElementById('recipeDuration').value = recipe.duration || '15:00';
@@ -1801,7 +1834,7 @@
       originalSnapshot = {
         image: recipe.image || '',
         youtubeUrl: recipe.youtubeUrl || recipe.youtubeId || '',
-        category: recipe.category || 'mains',
+        category: document.getElementById('recipeCategory').value,
         difficulty: recipe.difficulty || 'intermediate',
         prepMin: recipe.prepMin || 45,
         duration: recipe.duration || '15:00',
@@ -1947,6 +1980,7 @@
 
         const payload = {
           category: document.getElementById('recipeCategory').value,
+          includeInAll: true,
           difficulty: document.getElementById('recipeDifficulty').value,
           prepMin,
           duration: durationRaw,

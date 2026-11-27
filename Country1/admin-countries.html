@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ATELIER — پنل مدیریت اطلس کشورها (گروه ۱)</title>
+  <link rel="icon" type="image/jpeg" href="photos/logo.jpg" />
+
+  <!-- Typography (Persian, Latin & Simplified Chinese) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0B0C0E',
+            charcoal: '#131519',
+            elevated: '#1B1E24',
+            slateDeep: '#2F4F4F',
+            ivory: '#F4F3EF',
+            stone: '#94979E',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Vazirmatn', 'Inter', 'system-ui', 'sans-serif'],
+            latin: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-obsidian: #0B0C0E;
+      --bg-charcoal: #131519;
+      --text-ivory: #F4F3EF;
+      --text-stone: #94979E;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      background-image:
+        radial-gradient(circle at 12% 0%, rgba(47, 79, 79, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 88% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 42%);
+      background-attachment: fixed;
+      color: var(--text-ivory);
+      font-family: 'Vazirmatn', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .editorial-serif { font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.18em; }
+
+    .glass-surface {
+      background: rgba(19, 21, 25, 0.88);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
+    }
+
+    .section-card {
+      background: rgba(11, 12, 14, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      transition: border-color 0.2s ease;
+    }
+    @media (min-width: 640px) { .section-card { padding: 1.5rem 1.75rem; } }
+    .section-card:focus-within { border-color: rgba(255, 255, 255, 0.24); }
+
+    .hairline-border { border: 1px solid rgba(255, 255, 255, 0.09); }
+    .hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
+    .hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.09); }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-ivory);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-glass:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.55); color: #FFFFFF; }
+    .btn-glass:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.32);
+      color: #FCA5A5;
+      transition: all 0.2s ease;
+    }
+    .btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.24); border-color: rgba(248, 113, 113, 0.78); color: #FFFFFF; }
+
+    .btn-primary {
+      background: #FFFFFF;
+      color: #0B0C0E;
+      border: 1px solid #FFFFFF;
+      box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.22);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-primary:hover:not(:disabled) { background: #E8E8EC; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .field-input {
+      width: 100%;
+      background-color: #0B0C0E;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.85rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #FFFFFF;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .field-input:focus { outline: none; border-color: rgba(255, 255, 255, 0.6); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06); }
+    .field-input.is-invalid { border-color: rgba(248, 113, 113, 0.9) !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important; }
+    .field-input::placeholder { color: rgba(148, 151, 158, 0.55); }
+    textarea.field-input { resize: vertical; min-height: 110px; line-height: 1.9; }
+
+    .tab-pill {
+      color: var(--text-stone);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      transition: all 0.2s ease;
+    }
+    .tab-pill:hover { color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3); }
+    .tab-pill.active { background: #FFFFFF; color: #0B0C0E; border-color: #FFFFFF; font-weight: 600; }
+
+    .country-chip {
+      color: var(--text-stone);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .country-chip:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.35); }
+    .country-chip.active { background: #FFFFFF; color: #0B0C0E; border-color: #FFFFFF; font-weight: 600; }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0C0E; }
+    ::-webkit-scrollbar-thumb { background: #2A2D36; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FFFFFF; }
+  </style>
+</head>
+<body class="min-h-screen bg-obsidian text-ivory selection:bg-white/25 selection:text-white">
+
+  <!-- ======================================================================= -->
+  <!-- 1. AUTHENTICATION SCREEN (FIREBASE AUTH ON country-d32e6 + main sync)   -->
+  <!-- ======================================================================= -->
+  <section id="authSection" class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md glass-surface rounded-3xl p-7 sm:p-9 space-y-7">
+      <div class="flex flex-col items-center text-center space-y-3">
+        <div class="w-16 h-16 rounded-full overflow-hidden ring-1 ring-white/35 shadow-xl bg-obsidian">
+          <img src="photos/logo.jpg" alt="ATELIER Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
+        </div>
+        <div>
+          <h1 class="editorial-serif text-3xl text-white uppercase">ATELIER</h1>
+          <p class="text-xs text-stone mt-1">پنل مدیریت کشورها — گروه ۱ (ایران، ترکیه، آلمان، فرانسه، چین، پرتغال، اسپانیا)</p>
+        </div>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="loginEmail" class="block text-xs text-stone mb-1.5">ایمیل مدیر</label>
+          <input id="loginEmail" type="email" dir="ltr" required autocomplete="username" placeholder="chef@atelier-culinaire.com" class="field-input text-left" />
+        </div>
+        <div>
+          <label for="loginPassword" class="block text-xs text-stone mb-1.5">رمز عبور</label>
+          <input id="loginPassword" type="password" dir="ltr" required autocomplete="current-password" placeholder="••••••••" class="field-input text-left" />
+        </div>
+
+        <p id="loginError" class="hidden text-xs text-red-400 bg-red-500/10 border border-red-500/25 rounded-xl px-3.5 py-2.5"></p>
+
+        <button id="loginSubmitBtn" type="submit" class="btn-primary w-full py-3 rounded-full text-xs font-semibold tracking-wide flex items-center justify-center gap-2">
+          <span>ورود به پنل مدیریت (گروه ۱)</span>
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div class="pt-4 hairline-t flex items-center justify-between text-[11px] text-stone">
+        <a href="index.html" class="hover:text-white transition-colors inline-flex items-center gap-1.5">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>سایت اصلی</span>
+        </a>
+        <div class="flex items-center gap-3">
+          <a href="Country2/admin-country2.html" class="hover:text-white transition-colors">کشورها (گروه ۲)</a>
+          <a href="admin.html" class="hover:text-white transition-colors">پنل اصلی</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 2. COUNTRIES ADMIN DASHBOARD (GROUP 1 — country-d32e6)                  -->
+  <!-- ======================================================================= -->
+  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
+
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0">
+      <div class="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <button id="toggleSidebarBtn" type="button" title="باز و بسته کردن آرشیو" class="hidden lg:inline-flex btn-glass w-9 h-9 rounded-full items-center justify-center shrink-0">
+            <i data-lucide="panel-right" class="w-4 h-4"></i>
+          </button>
+          <div class="w-10 h-10 rounded-full overflow-hidden ring-1 ring-white/35 bg-obsidian shrink-0">
+            <img src="photos/logo.jpg" alt="ATELIER Logo" class="w-full h-full object-cover object-center scale-[1.32]" />
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="editorial-serif text-xl sm:text-2xl text-white uppercase leading-none">ATELIER</span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-white/10 text-ivory shrink-0">کشورها · گروه ۱</span>
+              <span id="mainSyncStatusBadge" class="hidden sm:inline-flex items-center gap-1 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>همگام با All سایت اصلی</span>
+              </span>
+              <span id="unsavedBadge" class="hidden text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/35 text-amber-200 shrink-0">تغییرات ذخیره نشده</span>
+            </div>
+            <p id="adminEmailDisplay" class="text-[11px] text-stone font-latin mt-0.5 truncate max-w-[200px] sm:max-w-xs"></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <a id="viewCountryPageLink" href="cuisines/iran.html" target="_blank" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">مشاهده صفحه کشور</span>
+          </a>
+          <a href="Country2/admin-country2.html" class="btn-glass px-3.5 py-2 rounded-full text-xs hidden xl:inline-flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+            <span>گروه ۲</span>
+          </a>
+          <a href="index.html" target="_blank" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+            <span class="hidden md:inline">سایت اصلی</span>
+          </a>
+          <button id="newEntryBtn" type="button" class="btn-primary px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>مورد جدید</span>
+          </button>
+          <button id="logoutBtn" type="button" title="خروج" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center text-stone hover:text-red-400">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Country Selector Bar (Strict Isolation — 7 Group 1 Countries Only) -->
+      <div class="border-t border-white/[0.08] bg-black/45">
+        <div class="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-3">
+          <span class="text-[11px] text-stone shrink-0 flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-white/80"></i>
+            <span>انتخاب کشور مقصد (۷ کشور گروه ۱):</span>
+          </span>
+          <div id="countrySelectorBar" class="flex-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-[1480px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- SIDEBAR: ARCHIVE FOR SELECTED COUNTRY ONLY -->
+      <aside id="archiveSidebar" class="lg:col-span-3 space-y-4 lg:sticky lg:top-36">
+        <div class="glass-surface rounded-2xl p-4 space-y-4">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <h2 class="text-sm font-semibold text-white flex items-center gap-2 truncate">
+                <span id="sidebarCountryFlag">🇮🇷</span>
+                <span id="sidebarCountryName">آرشیو ایران</span>
+              </h2>
+              <p class="text-[10px] text-stone font-mono mt-0.5" dir="ltr">country-d32e6 / <span id="sidebarCollectionName">iran</span></p>
+            </div>
+            <span id="totalEntriesBadge" class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-white shrink-0">0</span>
+          </div>
+
+          <!-- Filter Archive by Type -->
+          <div class="grid grid-cols-3 gap-1.5">
+            <button type="button" data-archive-filter="all" class="archive-filter-btn tab-pill active py-1.5 rounded-xl text-[11px]">همه</button>
+            <button type="button" data-archive-filter="recipe" class="archive-filter-btn tab-pill py-1.5 rounded-xl text-[11px]">آموزش‌ها</button>
+            <button type="button" data-archive-filter="article" class="archive-filter-btn tab-pill py-1.5 rounded-xl text-[11px]">مقالات</button>
+          </div>
+
+          <div class="relative">
+            <input id="adminSearchInput" type="text" placeholder="جستجو در این کشور..." class="field-input pr-9 py-2 text-xs" />
+            <i data-lucide="search" class="w-3.5 h-3.5 text-stone absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <div id="entriesListContainer" class="space-y-2.5 max-h-[60vh] overflow-y-auto pl-1">
+            <p class="text-xs text-stone text-center py-8">در حال بارگذاری از فایربیس...</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN EDITOR FORM -->
+      <section id="editorColumn" class="lg:col-span-9">
+        <form id="entryForm" novalidate class="glass-surface rounded-3xl p-5 sm:p-8 lg:p-10 space-y-7">
+
+          <!-- Editor Header & Save/Delete Actions -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-5 hairline-b">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span id="formModeBadge" class="text-[10px] uppercase tracking-[0.2em] text-white/65">NEW ENTRY</span>
+                <span class="text-stone">•</span>
+                <span id="lockedCountryBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/10 text-white font-medium">🇮🇷 اختصاصی ایران</span>
+              </div>
+              <h2 id="formHeading" class="text-xl sm:text-2xl font-semibold text-white">ثبت آموزش جدید برای ایران</h2>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="revertAllBtn" class="hidden btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>بازگردانی کل فرم</span>
+              </button>
+              <button type="button" id="deleteCurrentEntryBtn" class="hidden btn-danger px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>حذف کامل</span>
+              </button>
+              <button type="button" id="resetFormBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs">پاک کردن فرم</button>
+              <button type="submit" id="saveEntryBtn" class="save-submit-btn btn-primary px-6 py-2.5 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span class="save-btn-label">ذخیره و انتشار</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Content Type Switcher (RECIPE vs ARTICLE) + Main Site All Sync -->
+          <div class="p-4 rounded-2xl bg-white/[0.03] hairline-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-2 flex-wrap">
+              <button type="button" data-entry-type="recipe" class="entry-type-btn tab-pill active px-5 py-2.5 rounded-full text-xs inline-flex items-center gap-2">
+                <i data-lucide="chef-hat" class="w-4 h-4"></i>
+                <span>مسترکلاس / دستور پخت ویدیویی</span>
+              </button>
+              <button type="button" data-entry-type="article" class="entry-type-btn tab-pill px-5 py-2.5 rounded-full text-xs inline-flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>مقاله آشپزی کشور</span>
+              </button>
+            </div>
+
+            <!-- Auto-Sync to Main Index All Checkbox (Visible for Recipes) -->
+            <div id="syncMainAllWrap" class="flex items-center gap-2.5">
+              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-xs text-ivory">
+                <input id="syncToMainAllCheckbox" type="checkbox" checked class="w-4 h-4 accent-white rounded cursor-pointer" />
+                <span>نمایش هم‌زمان در <strong class="text-white">Masterclasses → All</strong> سایت اصلی</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Isolation Notice Banner -->
+          <div class="px-4 py-3 rounded-xl bg-slateDeep/20 border border-white/15 flex items-center justify-between gap-3 text-xs text-ivory/90">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span>جداسازی کامل فعال است: این محتوا منحصراً در کالکشن <strong id="isolationCountryLabel" class="text-white">ایران</strong> ذخیره می‌شود و هیچ تداخلی با سایر کشورها نخواهد داشت.</span>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 1: MEDIA (COVER IMAGE + YOUTUBE FOR RECIPES)            -->
+          <!-- =============================================================== -->
+          <div id="sec-media" class="section-card space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="film" class="w-4 h-4 text-white/80"></i>
+                <span>۱. رسانه و تصویر کاور</span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="media" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                <button type="button" data-clear-section="media" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>پاک کردن بخش</span></button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-3">
+                <label for="coverImageUrl" class="block text-xs text-stone">لینک عکس کاور (https:// یا ../photos/...)</label>
+                <input id="coverImageUrl" type="text" dir="ltr" placeholder="https://images.unsplash.com/..." class="field-input text-left font-latin" />
+                <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
+                  <img id="coverPreviewImg" src="" alt="پیش‌نمایش" class="hidden w-full h-full object-cover" />
+                  <span id="coverPreviewPlaceholder" class="text-[11px] text-stone/70 flex items-center gap-1.5"><i data-lucide="image" class="w-4 h-4"></i><span>پیش‌نمایش تصویر کاور</span></span>
+                </div>
+              </div>
+
+              <!-- YouTube Block (Recipe Mode Only) -->
+              <div id="youtubeMediaBlock" class="space-y-3">
+                <label for="youtubeUrl" class="block text-xs text-stone">لینک ویدیو یوتیوب (اختصاصی آموزش‌ها)</label>
+                <input id="youtubeUrl" type="text" dir="ltr" placeholder="https://www.youtube.com/watch?v=... یا https://youtu.be/..." class="field-input text-left font-latin" />
+                <div class="aspect-[16/10] rounded-xl overflow-hidden bg-obsidian hairline-border flex items-center justify-center relative">
+                  <img id="ytPreviewThumb" src="" alt="پیش‌نمایش یوتیوب" class="hidden w-full h-full object-cover opacity-85" />
+                  <div id="ytValidBadge" class="hidden absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/80 border border-white/20 text-[10px] font-mono text-white" dir="ltr"></div>
+                  <span id="ytPreviewPlaceholder" class="text-[11px] text-stone/70 flex items-center gap-1.5"><i data-lucide="youtube" class="w-4 h-4"></i><span>تشخیص خودکار ویدیو یوتیوب</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 2: METADATA (RECIPE FIELDS)                             -->
+          <!-- =============================================================== -->
+          <div id="sec-meta-recipe" class="section-card space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-white/80"></i>
+                <span>۲. مشخصات فنی آموزش</span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="meta" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                <button type="button" data-clear-section="meta" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="refresh-cw" class="w-3 h-3"></i><span>پیش‌فرض</span></button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+              <div>
+                <label for="recipeCategory" class="block text-xs text-stone mb-1.5">دسته‌بندی</label>
+                <select id="recipeCategory" class="field-input">
+                  <option value="masterclasses">مسترکلاس‌ها (Masterclasses)</option>
+                  <option value="mains">غذاهای اصلی (Main Dishes)</option>
+                  <option value="appetizers">پیش‌غذاها (Appetizers)</option>
+                  <option value="salads">سالادها (Salads)</option>
+                  <option value="soups">سوپ‌ها (Soups)</option>
+                  <option value="pastry">دسر و شیرینی (Desserts)</option>
+                  <option value="drinks">نوشیدنی‌ها (Drinks)</option>
+                  <option value="vegetarian">گیاهی (Vegetarian)</option>
+                  <option value="healthy">غذای سالم (Healthy Food)</option>
+                  <option value="quick">سریع و آسان (Quick &amp; Easy)</option>
+                  <option value="techniques">تکنیک‌ها (Techniques)</option>
+                </select>
+              </div>
+              <div>
+                <label for="recipeDifficulty" class="block text-xs text-stone mb-1.5">سطح مهارت</label>
+                <select id="recipeDifficulty" class="field-input">
+                  <option value="essential">پایه (Essential)</option>
+                  <option value="intermediate" selected>متوسط (Intermediate)</option>
+                  <option value="advanced">پیشرفته (Advanced)</option>
+                </select>
+              </div>
+              <div>
+                <label for="recipePrepMin" class="block text-xs text-stone mb-1.5">زمان پخت (دقیقه)</label>
+                <input id="recipePrepMin" type="text" inputmode="numeric" dir="ltr" value="45" class="field-input font-latin text-center" />
+              </div>
+              <div>
+                <label for="recipeDuration" class="block text-xs text-stone mb-1.5">مدت ویدیو (MM:SS)</label>
+                <input id="recipeDuration" type="text" dir="ltr" value="15:00" placeholder="18:40" class="field-input font-mono text-center" />
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <label for="recipeBaseServings" class="block text-xs text-stone mb-1.5">تعداد نفرات پایه</label>
+                <input id="recipeBaseServings" type="text" inputmode="numeric" dir="ltr" value="2" class="field-input font-latin text-center font-semibold" />
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- LANGUAGE BAR + AUTO-TRANSLATE + FIND & REPLACE                  -->
+          <!-- =============================================================== -->
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-white/[0.03] hairline-border space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div id="localeTabsContainer" class="flex items-center gap-2 flex-wrap"></div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                  <button type="button" id="toggleFindReplaceBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="search-code" class="w-3.5 h-3.5"></i>
+                    <span>جستجو و جایگزینی</span>
+                  </button>
+                  <button type="button" id="autoTranslateBtn" class="btn-glass px-3.5 py-2 rounded-full text-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+                    <span>ترجمه خودکار به سایر زبان‌ها</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="pt-3 hairline-t flex flex-wrap items-center justify-between gap-2">
+                <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-xs text-ivory/90">
+                  <input id="autoSyncLangsCheckbox" type="checkbox" checked class="w-4 h-4 accent-white rounded cursor-pointer" />
+                  <span>ترجمه و همگام‌سازی خودکار تغییرات با سایر زبان‌های این کشور هنگام ذخیره</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Inline Find & Replace -->
+            <div id="findReplaceBar" class="hidden p-4 rounded-2xl bg-slateDeep/20 border border-white/20 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-white">جستجو و جایگزینی در زبان فعلی <span class="lang-badge font-mono text-stone">[FA]</span></span>
+                <button type="button" id="closeFindReplaceBtn" class="text-stone hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+                <input id="findTextInput" type="text" placeholder="عبارت مورد نظر..." class="field-input sm:col-span-5 py-2 text-xs" />
+                <input id="replaceTextInput" type="text" placeholder="عبارت جایگزین..." class="field-input sm:col-span-4 py-2 text-xs" />
+                <button type="button" id="findLocateBtn" class="btn-glass sm:col-span-1 py-2.5 px-2 rounded-xl text-xs">پیدا کن</button>
+                <button type="button" id="replaceAllBtn" class="btn-primary sm:col-span-2 py-2.5 px-3 rounded-xl text-xs font-semibold">جایگزینی همه</button>
+              </div>
+              <p id="findReplaceStatus" class="text-[11px] text-ivory/80 hidden"></p>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- SECTION 3: TEXTS (TITLE, EXCERPT/DESC, TAG OR CHEF NOTE)        -->
+          <!-- =============================================================== -->
+          <div id="sec-texts" class="section-card space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-white/80"></i>
+                <span>۳. عنوان و توضیحات <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+              </h3>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-revert-section="texts" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                <button type="button" data-clear-section="texts" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>پاک کردن متن‌ها</span></button>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              <!-- Article Tag (Visible only in Article Mode) -->
+              <div id="articleTagBlock" class="hidden">
+                <label for="locArticleTag" class="block text-xs text-stone mb-2">برچسب و زمان مطالعه مقاله <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <input id="locArticleTag" type="text" placeholder="مثلاً: تاریخچه آشپزی · ۵ دقیقه مطالعه" class="field-input" />
+              </div>
+
+              <div>
+                <label for="locTitle" class="block text-xs text-stone mb-2">عنوان <span class="lang-badge text-white font-mono">[FA]</span></label>
+                <input id="locTitle" type="text" placeholder="عنوان آموزش یا مقاله..." class="field-input text-base font-medium" />
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label for="locDesc" class="text-xs text-stone">توضیحات / خلاصه کوتاه <span class="lang-badge text-white font-mono">[FA]</span></label>
+                  <button type="button" data-expand-target="locDesc" data-expand-title="ویرایش توضیحات" class="expand-field-btn text-[11px] text-stone hover:text-white inline-flex items-center gap-1"><i data-lucide="maximize-2" class="w-3 h-3"></i><span>بزرگ‌نمایی</span></button>
+                </div>
+                <textarea id="locDesc" rows="4" placeholder="توضیح کامل یا خلاصه نمایشی روی کارت..." class="field-input auto-grow"></textarea>
+              </div>
+
+              <!-- Chef's Note (Visible only in Recipe Mode) -->
+              <div id="chefNoteBlock">
+                <div class="flex items-center justify-between mb-2">
+                  <label for="locChefNote" class="text-xs text-stone">یادداشت سرآشپز (Chef's Note) <span class="lang-badge text-white font-mono">[FA]</span></label>
+                  <button type="button" data-expand-target="locChefNote" data-expand-title="ویرایش یادداشت سرآشپز" class="expand-field-btn text-[11px] text-stone hover:text-white inline-flex items-center gap-1"><i data-lucide="maximize-2" class="w-3 h-3"></i><span>بزرگ‌نمایی</span></button>
+                </div>
+                <textarea id="locChefNote" rows="3" placeholder="نکته طلایی، دمای دقیق یا فوت کوزه‌گری..." class="field-input auto-grow"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- ARTICLE BODY BUILDER (ARTICLE MODE ONLY)                        -->
+          <!-- =============================================================== -->
+          <div id="sec-article-body" class="hidden section-card space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+              <div>
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="align-right" class="w-4 h-4 text-white/80"></i>
+                  <span>۴. پاراگراف‌های متن کامل مقاله <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+                </h3>
+                <p class="text-[11px] text-stone mt-1">هر پاراگراف به‌صورت خوانا و مرتب در پنجره مطالعه مقاله نمایش داده می‌شود.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" data-revert-section="articleBody" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                <button type="button" data-clear-section="articleBody" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>حذف کل پاراگراف‌ها</span></button>
+                <button type="button" id="addParagraphRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>افزودن پاراگراف</span></button>
+              </div>
+            </div>
+
+            <div id="articleBodyRows" class="space-y-4"></div>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- RECIPE SECTIONS: INGREDIENTS, STEPS, CHAPTERS (RECIPE MODE)     -->
+          <!-- =============================================================== -->
+          <div id="recipeOnlySections" class="space-y-7">
+
+            <!-- SECTION 4: INGREDIENTS -->
+            <div id="sec-ingredients" class="section-card space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+                <div>
+                  <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                    <i data-lucide="list-checks" class="w-4 h-4 text-white/80"></i>
+                    <span>۴. مواد اولیه <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+                  </h3>
+                  <p class="text-[11px] text-stone mt-1">مقادیر بر اساس تعداد نفرات پایه محاسبه می‌شوند.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <button type="button" data-revert-section="ingredients" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                  <button type="button" data-clear-section="ingredients" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>حذف کل مواد</span></button>
+                  <button type="button" id="addIngredientRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>افزودن ماده اولیه</span></button>
+                </div>
+              </div>
+
+              <div id="ingredientsRows" class="space-y-3"></div>
+
+              <!-- Live Servings Simulator -->
+              <div class="pt-4 hairline-t space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-3 bg-white/[0.03] p-3.5 rounded-xl">
+                  <div class="flex items-center gap-2 text-xs text-ivory/90"><i data-lucide="calculator" class="w-4 h-4"></i><span>تست زنده محاسبه تعداد نفرات:</span></div>
+                  <div class="flex items-center gap-2">
+                    <button type="button" id="simDecBtn" class="btn-glass w-7 h-7 rounded-full flex items-center justify-center">-</button>
+                    <span id="simServingsDisplay" class="text-xs font-semibold text-white min-w-[54px] text-center">2 نفر</span>
+                    <button type="button" id="simIncBtn" class="btn-glass w-7 h-7 rounded-full flex items-center justify-center">+</button>
+                  </div>
+                </div>
+                <div id="simPreviewList" class="text-xs text-stone flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+
+            <!-- SECTION 5: STEPS -->
+            <div id="sec-steps" class="section-card space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="chef-hat" class="w-4 h-4 text-white/80"></i>
+                  <span>۵. مراحل پخت (Method) <span class="lang-badge text-xs text-stone font-mono">[FA]</span></span>
+                </h3>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <button type="button" data-revert-section="steps" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                  <button type="button" data-clear-section="steps" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>حذف کل مراحل</span></button>
+                  <button type="button" id="addStepRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>افزودن مرحله</span></button>
+                </div>
+              </div>
+              <div id="stepsRows" class="space-y-4"></div>
+            </div>
+
+            <!-- SECTION 6: VIDEO CHAPTERS -->
+            <div id="sec-chapters" class="section-card space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 hairline-b">
+                <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                  <i data-lucide="clock" class="w-4 h-4 text-white/80"></i>
+                  <span>۶. فصل‌بندی ویدیو (Chapters) <span class="text-[10px] text-stone">(اختیاری)</span></span>
+                </h3>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <button type="button" data-revert-section="chapters" class="revert-sec-btn hidden btn-glass px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-3 h-3"></i><span>بازگردانی</span></button>
+                  <button type="button" data-clear-section="chapters" class="btn-danger px-3 py-1.5 rounded-lg text-[11px] inline-flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3 h-3"></i><span>حذف کل فصل‌ها</span></button>
+                  <button type="button" id="addChapterRowBtn" class="btn-glass px-3.5 py-1.5 rounded-lg text-xs inline-flex items-center gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>افزودن فصل</span></button>
+                </div>
+              </div>
+              <div id="chaptersRows" class="space-y-3"></div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Save Bar -->
+          <div class="pt-4 hairline-t flex flex-wrap items-center justify-between gap-3">
+            <p class="text-xs text-stone">تغییرات بلافاصله در صفحه کشور انتخاب‌شده (و برای آموزش‌ها در بخش Masterclasses → All سایت اصلی) اعمال می‌شود.</p>
+            <button type="submit" id="saveEntryBtnBottom" class="save-submit-btn btn-primary px-8 py-3 rounded-full text-xs font-semibold inline-flex items-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i>
+              <span class="save-btn-label">ذخیره و انتشار نهایی</span>
+            </button>
+          </div>
+
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Fullscreen Text Editor Modal -->
+  <div id="expandTextModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-8">
+    <div class="glass-surface rounded-3xl w-full max-w-4xl p-6 sm:p-8 space-y-4">
+      <div class="flex items-center justify-between pb-3 hairline-b">
+        <h3 id="expandModalTitle" class="text-base font-semibold text-white">ویرایشگر تمام‌صفحه</h3>
+        <button type="button" id="closeExpandModalBtn" class="btn-glass w-9 h-9 rounded-full flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <textarea id="expandModalTextarea" rows="14" class="field-input text-base leading-9 min-h-[55vh]"></textarea>
+      <div class="flex items-center justify-between pt-2">
+        <span id="expandCharCount" class="text-xs text-stone font-mono">0 کاراکتر</span>
+        <button type="button" id="applyExpandModalBtn" class="btn-primary px-6 py-2.5 rounded-full text-xs font-semibold">تأیید و بازگشت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-surface rounded-3xl w-full max-w-md p-6 sm:p-7 space-y-5">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/35 flex items-center justify-center text-red-400 shrink-0"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+        <div class="space-y-1.5">
+          <h3 id="confirmModalTitle" class="text-base font-semibold text-white">تأیید عملیات</h3>
+          <p id="confirmModalMessage" class="text-xs text-stone leading-6"></p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2.5 pt-2">
+        <button type="button" id="confirmCancelBtn" class="btn-glass px-5 py-2 rounded-full text-xs">انصراف</button>
+        <button type="button" id="confirmOkBtn" class="btn-danger px-5 py-2 rounded-full text-xs font-semibold">تأیید و انجام</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="hidden fixed bottom-5 left-5 z-50 glass-surface border-white/25 px-5 py-3 rounded-full shadow-2xl items-center gap-2.5 text-xs text-white">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-white shrink-0"></i>
+    <span id="toastText"></span>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 3. DUAL-FIREBASE MODULAR ENGINE (country-d32e6 + main index sync)       -->
+  <!-- ======================================================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+      onSnapshot, query, orderBy, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    /* 1. Countries Group 1 Firebase Project (country-d32e6) */
+    const countriesFirebaseConfig = {
+      apiKey: "AIzaSyBYmZUoXuhGZGQjND5Hz2Y7iSQUahVk6QQ",
+      authDomain: "country-d32e6.firebaseapp.com",
+      projectId: "country-d32e6",
+      storageBucket: "country-d32e6.firebasestorage.app",
+      messagingSenderId: "777363148303",
+      appId: "1:777363148303:web:8c6f37aa2e100e8b375d7a",
+      measurementId: "G-MR7JDBL2L3"
+    };
+
+    /* 2. Main Index Firebase Project (For auto-publishing country recipes into Main "All" tab) */
+    const mainSiteFirebaseConfig = {
+      apiKey: "AIzaSyAQcwvOuZZ0XP3A_dx30UHHIuMyQUGLxpI",
+      authDomain: "atelier-culinaire-bab27.firebaseapp.com",
+      projectId: "atelier-culinaire-bab27",
+      storageBucket: "atelier-culinaire-bab27.firebasestorage.app",
+      messagingSenderId: "25801878163",
+      appId: "1:25801878163:web:7d82cc7a9d96bbae1b7b66",
+      measurementId: "G-N6C2FRBHSM"
+    };
+
+    const countriesApp = initializeApp(countriesFirebaseConfig, 'countriesApp');
+    try { getAnalytics(countriesApp); } catch {}
+    const countriesAuth = getAuth(countriesApp);
+    const countriesDb = getFirestore(countriesApp);
+
+    const mainApp = initializeApp(mainSiteFirebaseConfig, 'mainSiteApp');
+    const mainAuth = getAuth(mainApp);
+    const mainDb = getFirestore(mainApp);
+    const mainRecipesCol = collection(mainDb, 'recipes');
+
+    /* Strictly Limited to Group 1 Countries (7 Countries Only) */
+    const COUNTRIES = [
+      { key: 'iran',     fa: 'ایران',   en: 'Iran',     flag: '🇮🇷', nativeLang: 'fa',    page: 'cuisines/iran.html' },
+      { key: 'turkey',   fa: 'ترکیه',   en: 'Turkey',   flag: '🇹🇷', nativeLang: 'tr',    page: 'cuisines/turkey.html' },
+      { key: 'germany',  fa: 'آلمان',   en: 'Germany',  flag: '🇩🇪', nativeLang: 'de',    page: 'cuisines/germany.html' },
+      { key: 'france',   fa: 'فرانسه',  en: 'France',   flag: '🇫🇷', nativeLang: 'fr',    page: 'cuisines/france.html' },
+      { key: 'china',    fa: 'چین',     en: 'China',    flag: '🇨🇳', nativeLang: 'zh-CN', page: 'cuisines/china.html' },
+      { key: 'portugal', fa: 'پرتغال',  en: 'Portugal', flag: '🇵🇹', nativeLang: 'pt',    page: 'cuisines/portugal.html' },
+      { key: 'spain',    fa: 'اسپانیا', en: 'Spain',    flag: '🇪🇸', nativeLang: 'es',    page: 'cuisines/spain.html' },
+    ];
+
+    const LANG_META = {
+      fa:      { label: '🇮🇷 فارسی (FA)',     dir: 'rtl' },
+      en:      { label: '🇬🇧 English (EN)',   dir: 'ltr' },
+      de:      { label: '🇩🇪 Deutsch (DE)',   dir: 'ltr' },
+      tr:      { label: '🇹🇷 Türkçe (TR)',    dir: 'ltr' },
+      fr:      { label: '🇫🇷 Français (FR)',  dir: 'ltr' },
+      es:      { label: '🇪🇸 Español (ES)',   dir: 'ltr' },
+      pt:      { label: '🇵🇹 Português (PT)', dir: 'ltr' },
+      'zh-CN': { label: '🇨🇳 简体中文 (ZH)',   dir: 'ltr' },
+    };
+
+    const CATEGORY_LABELS = {
+      masterclasses: 'مسترکلاس‌ها', mains: 'غذاهای اصلی', appetizers: 'پیش‌غذاها',
+      salads: 'سالادها', soups: 'سوپ‌ها', pastry: 'دسر و شیرینی', drinks: 'نوشیدنی‌ها',
+      vegetarian: 'گیاهی', healthy: 'غذای سالم', quick: 'سریع و آسان', techniques: 'تکنیک‌ها',
+    };
+
+    /* --- State --- */
+    let activeCountryKey = 'iran';
+    let activeEntryType = 'recipe'; // 'recipe' | 'article'
+    let archiveTypeFilter = 'all';  // 'all' | 'recipe' | 'article'
+    let countryEntries = [];
+    let editingDocId = null;
+    let editingMainRecipeDocId = null;
+    let originalSnapshot = null;
+    let activeEditLang = 'fa';
+    let editedLangs = new Set();
+    let simServings = 2;
+    let unsubscribeCountry = null;
+    let isDirty = false;
+    let sidebarCollapsed = false;
+    let mainSiteAuthed = false;
+
+    const emptyLocale = () => ({
+      tag: '',
+      title: '',
+      desc: '',
+      note: '',
+      body: [''],
+      ingredients: [{ amount: '', unit: 'g', name: '' }],
+      steps: [''],
+    });
+
+    let draftLocales = {};
+    let draftChapters = [];
+
+    function getActiveCountry() {
+      return COUNTRIES.find((c) => c.key === activeCountryKey) || COUNTRIES[0];
+    }
+
+    function getActiveLangCodes() {
+      const native = getActiveCountry().nativeLang;
+      const base = ['fa', 'en', 'de'];
+      if (native && !base.includes(native)) base.push(native);
+      return base;
+    }
+
+    function ensureDraftLocales() {
+      getActiveLangCodes().forEach((code) => {
+        if (!draftLocales[code]) draftLocales[code] = emptyLocale();
+      });
+    }
+
+    /* --- Helpers --- */
+    function escapeHTML(str) {
+      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function normalizeDigits(str) {
+      return String(str ?? '')
+        .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776))
+        .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632))
+        .replace(/[٫،]/g, '.');
+    }
+    function parseNumeric(val, fallback = 0) {
+      const c = normalizeDigits(val).trim();
+      if (!c) return fallback;
+      const n = parseFloat(c);
+      return Number.isFinite(n) ? n : fallback;
+    }
+    function isSafeUrl(url) {
+      if (!url) return false;
+      const t = String(url).trim();
+      if (t.startsWith('photos/') || t.startsWith('../photos/')) return true;
+      try { const u = new URL(t); return u.protocol === 'https:' || u.protocol === 'http:'; } catch { return false; }
+    }
+    function extractYouTubeId(input) {
+      if (!input) return null;
+      const t = String(input).trim();
+      if (/^[a-zA-Z0-9_-]{11}$/.test(t)) return t;
+      const m = t.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return m && m[1] ? m[1] : null;
+    }
+    function parseTimeToSec(str) {
+      const parts = normalizeDigits(str || '0:00').trim().split(':').map((p) => parseInt(p, 10));
+      if (parts.some((n) => isNaN(n) || n < 0)) return 0;
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      return 0;
+    }
+    function isValidDurationStr(str) { return /^\d{1,3}:\d{2}(?::\d{2})?$/.test(normalizeDigits(str || '').trim()); }
+    function formatSecToTime(sec) {
+      const s = Math.max(0, Math.floor(Number(sec) || 0));
+      const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), r = s % 60;
+      return h > 0 ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}` : `${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
+    }
+    function formatQty(num) { const r = Math.round(num * 100) / 100; return Number.isInteger(r) ? String(r) : String(Number(r.toFixed(1))); }
+    function autoGrowTextarea(el) { if (!el) return; el.style.height = 'auto'; el.style.height = Math.max(110, el.scrollHeight + 4) + 'px'; }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast'), txt = document.getElementById('toastText');
+      txt.textContent = msg; el.classList.remove('hidden'); el.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { el.classList.add('hidden'); el.classList.remove('flex'); }, 4000);
+    }
+
+    function openConfirmModal(title, message, onConfirm) {
+      const modal = document.getElementById('confirmModal');
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalMessage').textContent = message;
+      modal.classList.remove('hidden');
+      const ok = document.getElementById('confirmOkBtn'), cancel = document.getElementById('confirmCancelBtn');
+      const cleanup = () => { modal.classList.add('hidden'); ok.onclick = null; cancel.onclick = null; };
+      cancel.onclick = cleanup;
+      ok.onclick = () => { cleanup(); onConfirm(); };
+    }
+
+    function clearInvalidHighlights() { document.querySelectorAll('.field-input.is-invalid').forEach((el) => el.classList.remove('is-invalid')); }
+    function flagInvalidField(el, msg) {
+      clearInvalidHighlights();
+      if (el) { el.classList.add('is-invalid'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.focus(); }
+      showToast(msg);
+    }
+
+    function markDirty(dirty = true, markLang = false) {
+      isDirty = dirty;
+      document.getElementById('unsavedBadge')?.classList.toggle('hidden', !dirty);
+      if (dirty && markLang) editedLangs.add(activeEditLang);
+      if (!dirty) editedLangs.clear();
+      document.querySelectorAll('[data-lang-dot]').forEach((dot) => {
+        dot.classList.toggle('hidden', !editedLangs.has(dot.getAttribute('data-lang-dot')));
+      });
+    }
+
+    function updateEditModeButtons() {
+      const hasSnap = Boolean(originalSnapshot);
+      document.getElementById('revertAllBtn')?.classList.toggle('hidden', !hasSnap);
+      document.getElementById('deleteCurrentEntryBtn')?.classList.toggle('hidden', !editingDocId);
+      document.querySelectorAll('.revert-sec-btn').forEach((b) => b.classList.toggle('hidden', !hasSnap));
+    }
+
+    function setSavingState(saving, customLabel = null) {
+      document.querySelectorAll('.save-submit-btn').forEach((b) => { b.disabled = saving; });
+      const topLbl = document.querySelector('#saveEntryBtn .save-btn-label');
+      const botLbl = document.querySelector('#saveEntryBtnBottom .save-btn-label');
+      const dTop = editingDocId ? 'ذخیره تغییرات' : 'ذخیره و انتشار';
+      const dBot = editingDocId ? 'ذخیره نهایی تغییرات' : 'ذخیره و انتشار نهایی';
+      if (topLbl) topLbl.textContent = saving ? (customLabel || 'در حال ذخیره...') : dTop;
+      if (botLbl) botLbl.textContent = saving ? (customLabel || 'در حال ذخیره...') : dBot;
+    }
+
+    /* Translation Engine */
+    async function freeTranslate(text, from, to) {
+      const clean = String(text ?? '').trim();
+      if (!clean || from === to) return clean;
+      try {
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(from)}&tl=${encodeURIComponent(to)}&dt=t&q=${encodeURIComponent(clean)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data?.[0])) {
+            const tr = data[0].map((p) => p?.[0] || '').join('').trim();
+            if (tr) return tr;
+          }
+        }
+      } catch {}
+      return clean;
+    }
+
+    async function translateLocaleFromSource(srcLang, targetLangs) {
+      const src = draftLocales[srcLang];
+      if (!src) return;
+      for (const target of targetLangs) {
+        if (target === srcLang) continue;
+        const [trTag, trTitle, trDesc, trNote] = await Promise.all([
+          src.tag ? freeTranslate(src.tag, srcLang, target) : Promise.resolve(''),
+          freeTranslate(src.title, srcLang, target),
+          freeTranslate(src.desc, srcLang, target),
+          src.note ? freeTranslate(src.note, srcLang, target) : Promise.resolve(''),
+        ]);
+
+        const trBody = await Promise.all((src.body || []).map((p) => String(p || '').trim()).filter(Boolean).map((p) => freeTranslate(p, srcLang, target)));
+        const trIngs = await Promise.all((src.ingredients || []).filter((i) => String(i.name || '').trim()).map(async (ing) => ({
+          amount: ing.amount, unit: ing.unit || 'g', name: await freeTranslate(ing.name, srcLang, target)
+        })));
+        const trSteps = await Promise.all((src.steps || []).map((s) => String(s || '').trim()).filter(Boolean).map((s) => freeTranslate(s, srcLang, target)));
+
+        draftLocales[target] = {
+          tag: trTag, title: trTitle, desc: trDesc, note: trNote,
+          body: trBody.length ? trBody : [''],
+          ingredients: trIngs.length ? trIngs : [{ amount: '', unit: 'g', name: '' }],
+          steps: trSteps.length ? trSteps : [''],
+        };
+
+        for (const ch of draftChapters) {
+          if (ch.labels?.[srcLang]) ch.labels[target] = await freeTranslate(ch.labels[srcLang], srcLang, target);
+        }
+      }
+    }
+
+    /* Fullscreen Textarea Modal */
+    let expandTargetEl = null;
+    function openExpandModal(targetEl, titleText) {
+      if (!targetEl) return;
+      expandTargetEl = targetEl;
+      const modal = document.getElementById('expandTextModal'), ta = document.getElementById('expandModalTextarea');
+      document.getElementById('expandModalTitle').textContent = titleText || 'ویرایش متن';
+      ta.dir = targetEl.dir || (LANG_META[activeEditLang]?.dir || 'rtl');
+      ta.value = targetEl.value;
+      document.getElementById('expandCharCount').textContent = `${ta.value.length} کاراکتر`;
+      modal.classList.remove('hidden'); ta.focus();
+    }
+    document.getElementById('expandModalTextarea').addEventListener('input', (e) => { document.getElementById('expandCharCount').textContent = `${e.target.value.length} کاراکتر`; });
+    document.getElementById('closeExpandModalBtn').addEventListener('click', () => { document.getElementById('expandTextModal').classList.add('hidden'); expandTargetEl = null; });
+    document.getElementById('applyExpandModalBtn').addEventListener('click', () => {
+      if (expandTargetEl) { expandTargetEl.value = document.getElementById('expandModalTextarea').value; autoGrowTextarea(expandTargetEl); saveActiveLangToDraft(); markDirty(true, true); }
+      document.getElementById('expandTextModal').classList.add('hidden'); expandTargetEl = null;
+    });
+    document.querySelectorAll('.expand-field-btn').forEach((btn) => {
+      btn.addEventListener('click', () => openExpandModal(document.getElementById(btn.getAttribute('data-expand-target')), btn.getAttribute('data-expand-title')));
+    });
+
+    /* Sidebar Collapse */
+    document.getElementById('toggleSidebarBtn').addEventListener('click', () => {
+      sidebarCollapsed = !sidebarCollapsed;
+      document.getElementById('archiveSidebar').classList.toggle('lg:hidden', sidebarCollapsed);
+      document.getElementById('editorColumn').classList.toggle('lg:col-span-9', !sidebarCollapsed);
+      document.getElementById('editorColumn').classList.toggle('lg:col-span-12', sidebarCollapsed);
+    });
+
+    /* --- Dual Authentication Flow --- */
+    const authSection = document.getElementById('authSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    const loginError = document.getElementById('loginError');
+
+    function updateMainSyncBadge() {
+      const badge = document.getElementById('mainSyncStatusBadge');
+      if (!badge) return;
+      if (mainSiteAuthed) {
+        badge.className = 'hidden sm:inline-flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-200';
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>همگام با All سایت اصلی</span>`;
+      } else {
+        badge.className = 'hidden sm:inline-flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-200';
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>فقط دیتابیس کشورها (گروه ۱)</span>`;
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.classList.add('hidden');
+      const btn = document.getElementById('loginSubmitBtn');
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      btn.disabled = true;
+      try {
+        await signInWithEmailAndPassword(countriesAuth, email, password);
+        try {
+          await signInWithEmailAndPassword(mainAuth, email, password);
+          mainSiteAuthed = true;
+        } catch {
+          mainSiteAuthed = false;
+        }
+        updateMainSyncBadge();
+      } catch {
+        loginError.textContent = 'ایمیل یا رمز عبور در پروژه country-d32e6 اشتباه است.';
+        loginError.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await signOut(countriesAuth);
+      try { await signOut(mainAuth); } catch {}
+    });
+
+    onAuthStateChanged(mainAuth, (u) => { mainSiteAuthed = Boolean(u); updateMainSyncBadge(); });
+
+    onAuthStateChanged(countriesAuth, (user) => {
+      if (user) {
+        authSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        document.getElementById('adminEmailDisplay').textContent = user.email;
+        renderCountrySelector();
+        selectCountry(activeCountryKey, true);
+      } else {
+        if (unsubscribeCountry) { unsubscribeCountry(); unsubscribeCountry = null; }
+        dashboardSection.classList.add('hidden');
+        authSection.classList.remove('hidden');
+      }
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    /* --- Country Selector & Strict Collection Subscription --- */
+    function renderCountrySelector() {
+      const bar = document.getElementById('countrySelectorBar');
+      bar.innerHTML = COUNTRIES.map((c) => `
+        <button type="button" data-country="${c.key}" class="country-chip px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap inline-flex items-center gap-1.5 shrink-0 ${c.key === activeCountryKey ? 'active' : ''}">
+          <span>${c.flag}</span>
+          <span>${c.fa}</span>
+        </button>
+      `).join('');
+
+      bar.querySelectorAll('button[data-country]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const nextKey = btn.getAttribute('data-country');
+          if (nextKey === activeCountryKey) return;
+          if (isDirty) {
+            openConfirmModal('تغییر کشور مقصد', 'تغییرات ذخیره نشده‌ای دارید. با تغییر کشور این تغییرات پاک می‌شوند. ادامه می‌دهید؟', () => selectCountry(nextKey));
+          } else {
+            selectCountry(nextKey);
+          }
+        });
+      });
+    }
+
+    function selectCountry(countryKey, force = false) {
+      if (!COUNTRIES.some((c) => c.key === countryKey)) return;
+      if (!force && countryKey === activeCountryKey && unsubscribeCountry) return;
+      activeCountryKey = countryKey;
+      const c = getActiveCountry();
+
+      renderCountrySelector();
+      document.getElementById('sidebarCountryFlag').textContent = c.flag;
+      document.getElementById('sidebarCountryName').textContent = `آرشیو ${c.fa}`;
+      document.getElementById('sidebarCollectionName').textContent = c.key;
+      document.getElementById('lockedCountryBadge').textContent = `${c.flag} اختصاصی ${c.fa}`;
+      document.getElementById('isolationCountryLabel').textContent = c.fa;
+      document.getElementById('viewCountryPageLink').href = c.page;
+
+      if (unsubscribeCountry) { unsubscribeCountry(); unsubscribeCountry = null; }
+      countryEntries = [];
+      document.getElementById('entriesListContainer').innerHTML = `<p class="text-xs text-stone text-center py-8">در حال بارگذاری آرشیو ${c.fa}...</p>`;
+
+      resetForm();
+
+      const colRef = collection(countriesDb, c.key);
+      const q = query(colRef, orderBy('createdAt', 'desc'));
+      unsubscribeCountry = onSnapshot(q, (snapshot) => {
+        if (activeCountryKey !== c.key) return;
+        countryEntries = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderEntriesList();
+      }, (err) => {
+        console.error(err);
+        showToast(`خطا در خواندن کالکشن ${c.key}. قوانین Firestore Rules پروژه country-d32e6 را بررسی کنید.`);
+      });
+    }
+
+    /* --- Entry Type Switcher (Recipe vs Article) --- */
+    function setEntryType(type) {
+      activeEntryType = type === 'article' ? 'article' : 'recipe';
+      const isArt = activeEntryType === 'article';
+
+      document.querySelectorAll('.entry-type-btn').forEach((b) => b.classList.toggle('active', b.getAttribute('data-entry-type') === activeEntryType));
+      document.getElementById('syncMainAllWrap').classList.toggle('hidden', isArt);
+      document.getElementById('youtubeMediaBlock').classList.toggle('hidden', isArt);
+      document.getElementById('sec-meta-recipe').classList.toggle('hidden', isArt);
+      document.getElementById('chefNoteBlock').classList.toggle('hidden', isArt);
+      document.getElementById('recipeOnlySections').classList.toggle('hidden', isArt);
+
+      document.getElementById('articleTagBlock').classList.toggle('hidden', !isArt);
+      document.getElementById('sec-article-body').classList.toggle('hidden', !isArt);
+
+      const c = getActiveCountry();
+      document.getElementById('formHeading').textContent = editingDocId
+        ? `ویرایش ${isArt ? 'مقاله' : 'آموزش'} ${c.fa}`
+        : `ثبت ${isArt ? 'مقاله جدید' : 'آموزش جدید'} برای ${c.fa}`;
+    }
+
+    document.querySelectorAll('.entry-type-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setEntryType(btn.getAttribute('data-entry-type'));
+        markDirty(true, false);
+      });
+    });
+
+    /* --- Archive List & Delete (Also removes mirrored doc from Main Site All) --- */
+    function renderEntriesList() {
+      const container = document.getElementById('entriesListContainer');
+      const badge = document.getElementById('totalEntriesBadge');
+      const q = document.getElementById('adminSearchInput').value.trim().toLowerCase();
+
+      const filtered = countryEntries.filter((item) => {
+        const itemType = item.type === 'article' ? 'article' : 'recipe';
+        if (archiveTypeFilter !== 'all' && itemType !== archiveTypeFilter) return false;
+        const faT = item.locales?.fa?.title || '';
+        const enT = item.locales?.en?.title || '';
+        const natT = item.locales?.[getActiveCountry().nativeLang]?.title || '';
+        return !q || faT.toLowerCase().includes(q) || enT.toLowerCase().includes(q) || natT.toLowerCase().includes(q);
+      });
+
+      badge.textContent = String(countryEntries.length);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-xs text-stone text-center py-8">موردی در این کشور ثبت نشده است.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((item) => {
+        const isArt = item.type === 'article';
+        const rawTitle = item.locales?.fa?.title || item.locales?.en?.title || item.locales?.[getActiveCountry().nativeLang]?.title || 'بدون عنوان';
+        const title = escapeHTML(rawTitle);
+        const img = isSafeUrl(item.image) ? escapeHTML(item.image) : '';
+        const isSelected = item.id === editingDocId;
+        const subMeta = isArt ? 'مقاله' : `${CATEGORY_LABELS[item.category] || item.category || ''}`;
+        return `
+          <div class="p-2.5 rounded-xl flex items-center gap-3 transition-colors ${isSelected ? 'bg-white/15 border border-white/40' : 'bg-obsidian/70 hairline-border hover:bg-white/[0.06]'}">
+            <div class="w-12 h-11 rounded-lg overflow-hidden bg-charcoal shrink-0">${img ? `<img src="${img}" alt="" class="w-full h-full object-cover" />` : ''}</div>
+            <div class="flex-1 min-w-0 cursor-pointer edit-item-trigger" data-edit-id="${escapeHTML(item.id)}">
+              <p class="text-xs font-medium text-white truncate">${title}</p>
+              <div class="flex items-center gap-1.5 text-[10px] text-stone mt-0.5">
+                <span class="${isArt ? 'text-amber-300' : ''}">${escapeHTML(subMeta)}</span>
+                ${!isArt && item.mainRecipeDocId ? `<span class="text-emerald-400" title="متصل به All سایت اصلی">• All</span>` : ''}
+              </div>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" data-edit-id="${escapeHTML(item.id)}" title="ویرایش" class="edit-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-del-id="${escapeHTML(item.id)}" data-del-title="${title}" title="حذف" class="del-item-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center hover:text-red-400"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+
+      container.querySelectorAll('.edit-item-btn, .edit-item-trigger').forEach((el) => {
+        el.addEventListener('click', () => {
+          const found = countryEntries.find((x) => x.id === el.getAttribute('data-edit-id'));
+          if (found) loadEntryIntoForm(found);
+        });
+      });
+      container.querySelectorAll('.del-item-btn').forEach((el) => {
+        el.addEventListener('click', () => deleteEntryById(el.getAttribute('data-del-id'), el.getAttribute('data-del-title')));
+      });
+    }
+
+    async function deleteEntryById(id, titleText) {
+      const target = countryEntries.find((x) => x.id === id);
+      const c = getActiveCountry();
+      openConfirmModal(
+        `حذف دائمی از ${c.fa}`,
+        `آیا از حذف دائمی «${titleText || 'این مورد'}» مطمئن هستید؟ در صورت همگام‌سازی با سایت اصلی، از بخش Masterclasses → All هم حذف خواهد شد.`,
+        async () => {
+          try {
+            await deleteDoc(doc(countriesDb, c.key, id));
+            if (target?.mainRecipeDocId && mainSiteAuthed) {
+              try { await deleteDoc(doc(mainDb, 'recipes', target.mainRecipeDocId)); } catch {}
+            }
+            if (editingDocId === id) resetForm();
+            showToast('مورد با موفقیت حذف شد.');
+          } catch {
+            showToast('خطا در حذف مورد از فایربیس.');
+          }
+        }
+      );
+    }
+
+    document.querySelectorAll('.archive-filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        archiveTypeFilter = btn.getAttribute('data-archive-filter');
+        document.querySelectorAll('.archive-filter-btn').forEach((b) => b.classList.toggle('active', b === btn));
+        renderEntriesList();
+      });
+    });
+    document.getElementById('adminSearchInput').addEventListener('input', renderEntriesList);
+    document.getElementById('deleteCurrentEntryBtn').addEventListener('click', () => {
+      if (editingDocId) deleteEntryById(editingDocId, document.getElementById('locTitle').value.trim());
+    });
+
+    /* --- Locale Tabs Rendering (FA, EN, DE + Native Country Language) --- */
+    function renderLocaleTabs() {
+      const container = document.getElementById('localeTabsContainer');
+      const codes = getActiveLangCodes();
+      if (!codes.includes(activeEditLang)) activeEditLang = 'fa';
+
+      container.innerHTML = codes.map((code) => `
+        <button type="button" data-edit-lang="${code}" class="locale-tab tab-pill px-4 py-2 rounded-full text-xs inline-flex items-center gap-1.5 ${code === activeEditLang ? 'active' : ''}">
+          <span>${LANG_META[code]?.label || code.toUpperCase()}</span>
+          <span data-lang-dot="${code}" class="${editedLangs.has(code) ? '' : 'hidden'} w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+        </button>
+      `).join('');
+
+      container.querySelectorAll('.locale-tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          saveActiveLangToDraft();
+          activeEditLang = tab.getAttribute('data-edit-lang');
+          renderLocaleTabs();
+          renderActiveLangFields();
+        });
+      });
+    }
+
+    /* --- Media Previews --- */
+    const coverUrlInput = document.getElementById('coverImageUrl');
+    const ytInput = document.getElementById('youtubeUrl');
+    function updateCoverPreview() {
+      const url = coverUrlInput.value.trim();
+      const img = document.getElementById('coverPreviewImg'), ph = document.getElementById('coverPreviewPlaceholder');
+      if (isSafeUrl(url)) { img.src = url; img.classList.remove('hidden'); ph.classList.add('hidden'); }
+      else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
+    }
+    function updateYouTubePreview() {
+      const id = extractYouTubeId(ytInput.value);
+      const th = document.getElementById('ytPreviewThumb'), bd = document.getElementById('ytValidBadge'), ph = document.getElementById('ytPreviewPlaceholder');
+      if (id) { th.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`; th.classList.remove('hidden'); bd.textContent = `YT ID: ${id}`; bd.classList.remove('hidden'); ph.classList.add('hidden'); }
+      else { th.classList.add('hidden'); bd.classList.add('hidden'); ph.classList.remove('hidden'); }
+    }
+    coverUrlInput.addEventListener('input', () => { coverUrlInput.classList.remove('is-invalid'); updateCoverPreview(); markDirty(true, false); });
+    ytInput.addEventListener('input', () => { ytInput.classList.remove('is-invalid'); updateYouTubePreview(); markDirty(true, false); });
+
+    /* --- Draft Sync (DOM <-> State) --- */
+    function saveActiveLangToDraft() {
+      ensureDraftLocales();
+      const ingRows = Array.from(document.querySelectorAll('#ingredientsRows .ing-builder-row')).map((r) => {
+        const raw = normalizeDigits(r.querySelector('.ing-amount').value).trim();
+        return { amount: raw === '' ? '' : parseNumeric(raw, 0), unit: r.querySelector('.ing-unit').value, name: r.querySelector('.ing-name').value.trim() };
+      });
+      const stepRows = Array.from(document.querySelectorAll('#stepsRows .step-text')).map((el) => el.value.trim());
+      const bodyRows = Array.from(document.querySelectorAll('#articleBodyRows .para-text')).map((el) => el.value.trim());
+
+      draftLocales[activeEditLang] = {
+        tag: document.getElementById('locArticleTag').value.trim(),
+        title: document.getElementById('locTitle').value.trim(),
+        desc: document.getElementById('locDesc').value.trim(),
+        note: document.getElementById('locChefNote').value.trim(),
+        body: bodyRows.length ? bodyRows : [''],
+        ingredients: ingRows.length ? ingRows : [{ amount: '', unit: 'g', name: '' }],
+        steps: stepRows.length ? stepRows : [''],
+      };
+
+      const chRows = Array.from(document.querySelectorAll('#chaptersRows .chapter-builder-row'));
+      draftChapters = chRows.map((row, idx) => {
+        const existingLabels = draftChapters[idx]?.labels ? { ...draftChapters[idx].labels } : {};
+        const timeStr = normalizeDigits(row.querySelector('.ch-time').value).trim() || '00:00';
+        existingLabels[activeEditLang] = row.querySelector('.ch-label').value.trim();
+        return { timeSec: parseTimeToSec(timeStr), timeStr, labels: existingLabels };
+      });
+    }
+
+    function renderActiveLangFields() {
+      ensureDraftLocales();
+      const loc = draftLocales[activeEditLang] || emptyLocale();
+      const dir = LANG_META[activeEditLang]?.dir || 'ltr';
+      document.querySelectorAll('.lang-badge').forEach((el) => { el.textContent = `[${activeEditLang.toUpperCase()}]`; });
+
+      const tagEl = document.getElementById('locArticleTag');
+      const titleEl = document.getElementById('locTitle');
+      const descEl = document.getElementById('locDesc');
+      const noteEl = document.getElementById('locChefNote');
+
+      [tagEl, titleEl, descEl, noteEl].forEach((el) => { if (el) el.dir = dir; });
+      tagEl.value = loc.tag || '';
+      titleEl.value = loc.title || '';
+      descEl.value = loc.desc || '';
+      noteEl.value = loc.note || '';
+      autoGrowTextarea(descEl); autoGrowTextarea(noteEl);
+
+      renderArticleBodyRows(loc.body);
+      renderIngredientsRows(loc.ingredients);
+      renderStepsRows(loc.steps);
+      renderChaptersRows();
+      updateServingsSimulator();
+    }
+
+    function renderArticleBodyRows(paragraphs) {
+      const container = document.getElementById('articleBodyRows');
+      const list = paragraphs && paragraphs.length ? paragraphs : [''];
+      const dir = LANG_META[activeEditLang]?.dir || 'ltr';
+
+      container.innerHTML = list.map((p, i) => `
+        <div class="para-builder-row p-3.5 rounded-2xl bg-white/[0.025] border border-white/[0.08] space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-white/10 text-white text-xs font-mono">پاراگراف ${String(i + 1).padStart(2, '0')}</span>
+            <div class="flex items-center gap-1">
+              <button type="button" data-expand-para="${i}" class="expand-para-btn btn-glass px-2.5 h-7 rounded-lg text-[11px] inline-flex items-center gap-1"><i data-lucide="maximize-2" class="w-3 h-3"></i><span>بزرگ‌نمایی</span></button>
+              <button type="button" data-move-para="up" data-idx="${i}" ${i === 0 ? 'disabled' : ''} class="move-para-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-move-para="down" data-idx="${i}" ${i === list.length - 1 ? 'disabled' : ''} class="move-para-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-del-para="${i}" class="del-para-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+          <textarea rows="4" dir="${dir}" placeholder="متن این پاراگراف مقاله را بنویسید..." class="para-text field-input auto-grow">${escapeHTML(p)}</textarea>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.para-text').forEach((ta) => { autoGrowTextarea(ta); ta.addEventListener('input', () => { autoGrowTextarea(ta); markDirty(true, true); }); });
+      container.querySelectorAll('.expand-para-btn').forEach((btn) => btn.addEventListener('click', () => openExpandModal(btn.closest('.para-builder-row').querySelector('.para-text'), `ویرایش پاراگراف ${Number(btn.getAttribute('data-expand-para')) + 1}`)));
+      container.querySelectorAll('.del-para-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        draftLocales[activeEditLang].body.splice(Number(btn.getAttribute('data-del-para')), 1);
+        if (!draftLocales[activeEditLang].body.length) draftLocales[activeEditLang].body.push('');
+        renderArticleBodyRows(draftLocales[activeEditLang].body);
+        markDirty(true, true);
+      }));
+      container.querySelectorAll('.move-para-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        const idx = Number(btn.getAttribute('data-idx')), swap = idx + (btn.getAttribute('data-move-para') === 'up' ? -1 : 1);
+        const arr = draftLocales[activeEditLang].body;
+        if (swap >= 0 && swap < arr.length) { [arr[idx], arr[swap]] = [arr[swap], arr[idx]]; renderArticleBodyRows(arr); markDirty(true, true); }
+      }));
+    }
+
+    function renderIngredientsRows(ingredients) {
+      const container = document.getElementById('ingredientsRows');
+      const list = ingredients && ingredients.length ? ingredients : [{ amount: '', unit: 'g', name: '' }];
+      const dir = LANG_META[activeEditLang]?.dir || 'ltr';
+      const units = ['g', 'ml', 'tbsp', 'tsp', 'pcs', 'cup', 'pinch'];
+
+      container.innerHTML = list.map((ing, idx) => `
+        <div class="ing-builder-row grid grid-cols-12 gap-2 items-center p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <input type="text" inputmode="decimal" dir="ltr" value="${escapeHTML(ing.amount)}" placeholder="مقدار" class="ing-amount field-input col-span-3 sm:col-span-2 text-center font-latin py-2 text-xs" />
+          <select class="ing-unit field-input col-span-4 sm:col-span-2 font-latin py-2 text-xs">${units.map((u) => `<option value="${u}" ${ing.unit === u ? 'selected' : ''}>${u}</option>`).join('')}</select>
+          <input type="text" dir="${dir}" value="${escapeHTML(ing.name)}" placeholder="نام ماده اولیه..." class="ing-name field-input col-span-5 sm:col-span-6 py-2 text-xs" />
+          <div class="col-span-12 sm:col-span-2 flex items-center justify-end gap-1">
+            <button type="button" data-move-ing="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} class="move-ing-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-move-ing="down" data-idx="${idx}" ${idx === list.length - 1 ? 'disabled' : ''} class="move-ing-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-del-ing="${idx}" class="remove-row-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+          </div>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.remove-row-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        draftLocales[activeEditLang].ingredients.splice(Number(btn.getAttribute('data-del-ing')), 1);
+        if (!draftLocales[activeEditLang].ingredients.length) draftLocales[activeEditLang].ingredients.push({ amount: '', unit: 'g', name: '' });
+        renderIngredientsRows(draftLocales[activeEditLang].ingredients); updateServingsSimulator(); markDirty(true, true);
+      }));
+      container.querySelectorAll('.move-ing-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        const idx = Number(btn.getAttribute('data-idx')), swap = idx + (btn.getAttribute('data-move-ing') === 'up' ? -1 : 1);
+        const arr = draftLocales[activeEditLang].ingredients;
+        if (swap >= 0 && swap < arr.length) { [arr[idx], arr[swap]] = [arr[swap], arr[idx]]; renderIngredientsRows(arr); updateServingsSimulator(); markDirty(true, true); }
+      }));
+      container.querySelectorAll('input, select').forEach((el) => { el.addEventListener('input', () => { updateServingsSimulator(); markDirty(true, true); }); el.addEventListener('change', () => { updateServingsSimulator(); markDirty(true, true); }); });
+    }
+
+    function renderStepsRows(steps) {
+      const container = document.getElementById('stepsRows');
+      const list = steps && steps.length ? steps : [''];
+      const dir = LANG_META[activeEditLang]?.dir || 'ltr';
+
+      container.innerHTML = list.map((step, i) => `
+        <div class="step-builder-row p-3.5 rounded-2xl bg-white/[0.025] border border-white/[0.08] space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-white/10 text-white text-xs font-mono">مرحله ${String(i + 1).padStart(2, '0')}</span>
+            <div class="flex items-center gap-1">
+              <button type="button" data-expand-step="${i}" class="expand-step-btn btn-glass px-2.5 h-7 rounded-lg text-[11px] inline-flex items-center gap-1"><i data-lucide="maximize-2" class="w-3 h-3"></i><span>بزرگ‌نمایی</span></button>
+              <button type="button" data-move-step="up" data-idx="${i}" ${i === 0 ? 'disabled' : ''} class="move-step-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-move-step="down" data-idx="${i}" ${i === list.length - 1 ? 'disabled' : ''} class="move-step-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+              <button type="button" data-del-step="${i}" class="remove-step-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+          <textarea rows="3" dir="${dir}" placeholder="شرح دقیق این مرحله پخت..." class="step-text field-input auto-grow">${escapeHTML(step)}</textarea>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('.step-text').forEach((ta) => { autoGrowTextarea(ta); ta.addEventListener('input', () => { autoGrowTextarea(ta); markDirty(true, true); }); });
+      container.querySelectorAll('.expand-step-btn').forEach((btn) => btn.addEventListener('click', () => openExpandModal(btn.closest('.step-builder-row').querySelector('.step-text'), `ویرایش مرحله ${Number(btn.getAttribute('data-expand-step')) + 1}`)));
+      container.querySelectorAll('.remove-step-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        draftLocales[activeEditLang].steps.splice(Number(btn.getAttribute('data-del-step')), 1);
+        if (!draftLocales[activeEditLang].steps.length) draftLocales[activeEditLang].steps.push('');
+        renderStepsRows(draftLocales[activeEditLang].steps); markDirty(true, true);
+      }));
+      container.querySelectorAll('.move-step-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        const idx = Number(btn.getAttribute('data-idx')), swap = idx + (btn.getAttribute('data-move-step') === 'up' ? -1 : 1);
+        const arr = draftLocales[activeEditLang].steps;
+        if (swap >= 0 && swap < arr.length) { [arr[idx], arr[swap]] = [arr[swap], arr[idx]]; renderStepsRows(arr); markDirty(true, true); }
+      }));
+    }
+
+    function renderChaptersRows() {
+      const container = document.getElementById('chaptersRows');
+      const dir = LANG_META[activeEditLang]?.dir || 'ltr';
+      if (!draftChapters.length) { container.innerHTML = `<p class="text-xs text-stone/70 text-center py-3">فصلی ثبت نشده است (اختیاری).</p>`; return; }
+      container.innerHTML = draftChapters.map((ch, idx) => `
+        <div class="chapter-builder-row grid grid-cols-12 gap-2 items-center p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <input type="text" dir="ltr" value="${escapeHTML(ch.timeStr || formatSecToTime(ch.timeSec))}" placeholder="00:00" class="ch-time field-input col-span-3 sm:col-span-2 font-mono text-center py-2 text-xs" />
+          <input type="text" dir="${dir}" value="${escapeHTML(ch.labels?.[activeEditLang] || '')}" placeholder="عنوان فصل..." class="ch-label field-input col-span-9 sm:col-span-8 py-2 text-xs" />
+          <div class="col-span-12 sm:col-span-2 flex items-center justify-end gap-1">
+            <button type="button" data-move-ch="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} class="move-ch-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-up" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-move-ch="down" data-idx="${idx}" ${idx === draftChapters.length - 1 ? 'disabled' : ''} class="move-ch-btn btn-glass w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-del-ch="${idx}" class="remove-ch-btn btn-danger w-7 h-7 rounded-lg flex items-center justify-center"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+          </div>
+        </div>
+      `).join('');
+      if (window.lucide) window.lucide.createIcons();
+      container.querySelectorAll('input').forEach((inp) => inp.addEventListener('input', () => markDirty(true, true)));
+      container.querySelectorAll('.remove-ch-btn').forEach((btn) => btn.addEventListener('click', () => { saveActiveLangToDraft(); draftChapters.splice(Number(btn.getAttribute('data-del-ch')), 1); renderChaptersRows(); markDirty(true, true); }));
+      container.querySelectorAll('.move-ch-btn').forEach((btn) => btn.addEventListener('click', () => {
+        saveActiveLangToDraft();
+        const idx = Number(btn.getAttribute('data-idx')), swap = idx + (btn.getAttribute('data-move-ch') === 'up' ? -1 : 1);
+        if (swap >= 0 && swap < draftChapters.length) { [draftChapters[idx], draftChapters[swap]] = [draftChapters[swap], draftChapters[idx]]; renderChaptersRows(); markDirty(true, true); }
+      }));
+    }
+
+    function updateServingsSimulator() {
+      const base = Math.max(1, Math.round(parseNumeric(document.getElementById('recipeBaseServings').value, 2)));
+      const ratio = simServings / base;
+      document.getElementById('simServingsDisplay').textContent = `${simServings} نفر`;
+      const items = Array.from(document.querySelectorAll('#ingredientsRows .ing-builder-row')).map((r) => {
+        const raw = normalizeDigits(r.querySelector('.ing-amount').value).trim();
+        const amt = raw === '' ? NaN : parseFloat(raw);
+        const unit = r.querySelector('.ing-unit').value, name = r.querySelector('.ing-name').value.trim();
+        return (!name || isNaN(amt)) ? '' : `<span class="px-2.5 py-1 rounded-full bg-white/[0.05] hairline-border text-ivory/90"><strong class="text-white font-latin">${formatQty(amt * ratio)} ${escapeHTML(unit)}</strong> ${escapeHTML(name)}</span>`;
+      }).filter(Boolean);
+      document.getElementById('simPreviewList').innerHTML = items.length ? items.join('') : '<span class="text-[11px] text-stone/60">برای تست محاسبه زنده، حداقل یک ماده اولیه با مقدار وارد کنید.</span>';
+    }
+
+    /* --- Find & Replace --- */
+    const findBar = document.getElementById('findReplaceBar'), findStatus = document.getElementById('findReplaceStatus');
+    document.getElementById('toggleFindReplaceBtn').addEventListener('click', () => { findBar.classList.toggle('hidden'); if (!findBar.classList.contains('hidden')) document.getElementById('findTextInput').focus(); });
+    document.getElementById('closeFindReplaceBtn').addEventListener('click', () => { findBar.classList.add('hidden'); findStatus.classList.add('hidden'); });
+    function getEditableFields() {
+      return [
+        document.getElementById('locArticleTag'), document.getElementById('locTitle'), document.getElementById('locDesc'), document.getElementById('locChefNote'),
+        ...document.querySelectorAll('#articleBodyRows .para-text'),
+        ...document.querySelectorAll('#ingredientsRows .ing-name'),
+        ...document.querySelectorAll('#stepsRows .step-text'),
+        ...document.querySelectorAll('#chaptersRows .ch-label'),
+      ].filter(Boolean);
+    }
+    let lastFindIdx = -1;
+    document.getElementById('findLocateBtn').addEventListener('click', () => {
+      const needle = document.getElementById('findTextInput').value;
+      if (!needle) return;
+      const matches = getEditableFields().filter((f) => f.value.toLowerCase().includes(needle.toLowerCase()));
+      findStatus.classList.remove('hidden');
+      if (!matches.length) { findStatus.textContent = `عبارت «${needle}» پیدا نشد.`; return; }
+      lastFindIdx = (lastFindIdx + 1) % matches.length;
+      const t = matches[lastFindIdx];
+      t.scrollIntoView({ behavior: 'smooth', block: 'center' }); t.focus();
+      findStatus.textContent = `مورد ${lastFindIdx + 1} از ${matches.length} پیدا شد.`;
+    });
+    document.getElementById('replaceAllBtn').addEventListener('click', () => {
+      const needle = document.getElementById('findTextInput').value, repl = document.getElementById('replaceTextInput').value;
+      if (!needle) return;
+      const regex = new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      let count = 0;
+      getEditableFields().forEach((f) => { const m = f.value.match(regex); if (m) { count += m.length; f.value = f.value.replace(regex, repl); if (f.tagName === 'TEXTAREA') autoGrowTextarea(f); } });
+      findStatus.classList.remove('hidden');
+      if (count > 0) { saveActiveLangToDraft(); updateServingsSimulator(); markDirty(true, true); findStatus.textContent = `${count} مورد جایگزین شد.`; }
+      else findStatus.textContent = `عبارت «${needle}» پیدا نشد.`;
+    });
+
+    /* --- Per-Section Clear & Revert --- */
+    document.querySelectorAll('[data-clear-section]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const sec = btn.getAttribute('data-clear-section');
+        openConfirmModal('پاک کردن این بخش', 'آیا از پاک کردن محتوای این بخش مطمئن هستید؟', () => {
+          saveActiveLangToDraft();
+          if (sec === 'media') { coverUrlInput.value = ''; ytInput.value = ''; updateCoverPreview(); updateYouTubePreview(); markDirty(true, false); }
+          else if (sec === 'meta') { document.getElementById('recipeCategory').value = 'masterclasses'; document.getElementById('recipeDifficulty').value = 'intermediate'; document.getElementById('recipePrepMin').value = '45'; document.getElementById('recipeDuration').value = '15:00'; document.getElementById('recipeBaseServings').value = '2'; simServings = 2; updateServingsSimulator(); markDirty(true, false); }
+          else if (sec === 'texts') { draftLocales[activeEditLang].tag = ''; draftLocales[activeEditLang].title = ''; draftLocales[activeEditLang].desc = ''; draftLocales[activeEditLang].note = ''; renderActiveLangFields(); markDirty(true, true); }
+          else if (sec === 'articleBody') { draftLocales[activeEditLang].body = ['']; renderArticleBodyRows(['']); markDirty(true, true); }
+          else if (sec === 'ingredients') { draftLocales[activeEditLang].ingredients = [{ amount: '', unit: 'g', name: '' }]; renderIngredientsRows(draftLocales[activeEditLang].ingredients); updateServingsSimulator(); markDirty(true, true); }
+          else if (sec === 'steps') { draftLocales[activeEditLang].steps = ['']; renderStepsRows(['']); markDirty(true, true); }
+          else if (sec === 'chapters') { draftChapters = []; renderChaptersRows(); markDirty(true, true); }
+          showToast('بخش انتخاب‌شده پاک شد.');
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-revert-section]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!originalSnapshot) return;
+        const sec = btn.getAttribute('data-revert-section');
+        saveActiveLangToDraft();
+        if (sec === 'media') { coverUrlInput.value = originalSnapshot.image || ''; ytInput.value = originalSnapshot.youtubeUrl || originalSnapshot.youtubeId || ''; updateCoverPreview(); updateYouTubePreview(); }
+        else if (sec === 'meta') { document.getElementById('recipeCategory').value = originalSnapshot.category || 'masterclasses'; document.getElementById('recipeDifficulty').value = originalSnapshot.difficulty || 'intermediate'; document.getElementById('recipePrepMin').value = String(originalSnapshot.prepMin || 45); document.getElementById('recipeDuration').value = originalSnapshot.duration || '15:00'; document.getElementById('recipeBaseServings').value = String(originalSnapshot.baseServings || 2); simServings = originalSnapshot.baseServings || 2; updateServingsSimulator(); }
+        else if (sec === 'texts') { const o = originalSnapshot.locales?.[activeEditLang] || emptyLocale(); draftLocales[activeEditLang].tag = o.tag || ''; draftLocales[activeEditLang].title = o.title || ''; draftLocales[activeEditLang].desc = o.desc || ''; draftLocales[activeEditLang].note = o.note || ''; renderActiveLangFields(); }
+        else if (sec === 'articleBody') { const o = originalSnapshot.locales?.[activeEditLang] || emptyLocale(); draftLocales[activeEditLang].body = JSON.parse(JSON.stringify(o.body || [''])); renderArticleBodyRows(draftLocales[activeEditLang].body); }
+        else if (sec === 'ingredients') { const o = originalSnapshot.locales?.[activeEditLang] || emptyLocale(); draftLocales[activeEditLang].ingredients = JSON.parse(JSON.stringify(o.ingredients || [{ amount: '', unit: 'g', name: '' }])); renderIngredientsRows(draftLocales[activeEditLang].ingredients); updateServingsSimulator(); }
+        else if (sec === 'steps') { const o = originalSnapshot.locales?.[activeEditLang] || emptyLocale(); draftLocales[activeEditLang].steps = JSON.parse(JSON.stringify(o.steps || [''])); renderStepsRows(draftLocales[activeEditLang].steps); }
+        else if (sec === 'chapters') { draftChapters = JSON.parse(JSON.stringify(originalSnapshot.chapters || [])); renderChaptersRows(); }
+        showToast('این بخش به آخرین نسخه ذخیره‌شده بازگردانی شد.');
+      });
+    });
+
+    document.getElementById('revertAllBtn').addEventListener('click', () => {
+      if (!originalSnapshot) return;
+      openConfirmModal('بازگردانی کل فرم', 'تمام تغییرات ذخیره نشده لغو می‌شوند. ادامه می‌دهید؟', () => {
+        const f = countryEntries.find((x) => x.id === editingDocId);
+        if (f) { loadEntryIntoForm(f); showToast('کل فرم بازگردانی شد.'); }
+      });
+    });
+
+    /* --- Add Row Buttons & Input Listeners --- */
+    document.getElementById('addParagraphRowBtn').addEventListener('click', () => { saveActiveLangToDraft(); draftLocales[activeEditLang].body.push(''); renderArticleBodyRows(draftLocales[activeEditLang].body); markDirty(true, true); });
+    document.getElementById('addIngredientRowBtn').addEventListener('click', () => { saveActiveLangToDraft(); draftLocales[activeEditLang].ingredients.push({ amount: '', unit: 'g', name: '' }); renderIngredientsRows(draftLocales[activeEditLang].ingredients); markDirty(true, true); });
+    document.getElementById('addStepRowBtn').addEventListener('click', () => { saveActiveLangToDraft(); draftLocales[activeEditLang].steps.push(''); renderStepsRows(draftLocales[activeEditLang].steps); markDirty(true, true); });
+    document.getElementById('addChapterRowBtn').addEventListener('click', () => { saveActiveLangToDraft(); draftChapters.push({ timeSec: 0, timeStr: '00:00', labels: {} }); renderChaptersRows(); markDirty(true, true); });
+
+    document.getElementById('recipeBaseServings').addEventListener('input', (e) => { simServings = Math.max(1, Math.round(parseNumeric(e.target.value, 2))); updateServingsSimulator(); markDirty(true, false); });
+    document.getElementById('simIncBtn').addEventListener('click', () => { if (simServings < 50) { simServings++; updateServingsSimulator(); } });
+    document.getElementById('simDecBtn').addEventListener('click', () => { if (simServings > 1) { simServings--; updateServingsSimulator(); } });
+    ['locArticleTag', 'locTitle', 'locDesc', 'locChefNote'].forEach((id) => {
+      const el = document.getElementById(id);
+      el?.addEventListener('input', () => { el.classList.remove('is-invalid'); if (el.tagName === 'TEXTAREA') autoGrowTextarea(el); markDirty(true, true); });
+    });
+    ['recipeCategory', 'recipeDifficulty', 'recipePrepMin', 'recipeDuration'].forEach((id) => {
+      const el = document.getElementById(id);
+      el?.addEventListener('input', () => { el.classList.remove('is-invalid'); markDirty(true, false); });
+      el?.addEventListener('change', () => { el.classList.remove('is-invalid'); markDirty(true, false); });
+    });
+
+    /* Manual Auto-Translate Button */
+    document.getElementById('autoTranslateBtn').addEventListener('click', async () => {
+      saveActiveLangToDraft();
+      if (!draftLocales[activeEditLang]?.title) { flagInvalidField(document.getElementById('locTitle'), 'ابتدا عنوان زبان فعلی را وارد کنید.'); return; }
+      const btn = document.getElementById('autoTranslateBtn'), orig = btn.innerHTML;
+      btn.disabled = true; btn.innerHTML = `<span>در حال ترجمه...</span>`;
+      try {
+        const targets = getActiveLangCodes().filter((c) => c !== activeEditLang);
+        await translateLocaleFromSource(activeEditLang, targets);
+        targets.forEach((c) => editedLangs.add(c));
+        markDirty(true, true);
+        showToast('ترجمه خودکار به سایر زبان‌های این کشور انجام شد.');
+      } catch {
+        showToast('خطا در موتور ترجمه.');
+      } finally {
+        btn.disabled = false; btn.innerHTML = orig; if (window.lucide) window.lucide.createIcons();
+      }
+    });
+
+    /* --- Load Entry Into Form / Reset Form --- */
+    function loadEntryIntoForm(item) {
+      clearInvalidHighlights();
+      editingDocId = item.id;
+      editingMainRecipeDocId = item.mainRecipeDocId || null;
+      document.getElementById('formModeBadge').textContent = 'EDIT MODE';
+
+      setEntryType(item.type === 'article' ? 'article' : 'recipe');
+      document.getElementById('syncToMainAllCheckbox').checked = item.syncToMainAll !== false;
+
+      coverUrlInput.value = item.image || '';
+      ytInput.value = item.youtubeUrl || item.youtubeId || '';
+      document.getElementById('recipeCategory').value = CATEGORY_LABELS[item.category] ? item.category : 'masterclasses';
+      document.getElementById('recipeDifficulty').value = item.difficulty || 'intermediate';
+      document.getElementById('recipePrepMin').value = String(item.prepMin || 45);
+      document.getElementById('recipeDuration').value = item.duration || '15:00';
+      document.getElementById('recipeBaseServings').value = String(item.baseServings || 2);
+      simServings = item.baseServings || 2;
+
+      draftLocales = {};
+      getActiveLangCodes().forEach((code) => {
+        const src = item.locales?.[code];
+        draftLocales[code] = src ? {
+          tag: src.tag || '',
+          title: src.title || '',
+          desc: src.desc || '',
+          note: src.note || '',
+          body: Array.isArray(src.body) && src.body.length ? [...src.body] : [''],
+          ingredients: Array.isArray(src.ingredients) && src.ingredients.length ? JSON.parse(JSON.stringify(src.ingredients)) : [{ amount: '', unit: 'g', name: '' }],
+          steps: Array.isArray(src.steps) && src.steps.length ? [...src.steps] : [''],
+        } : emptyLocale();
+      });
+
+      draftChapters = Array.isArray(item.chapters)
+        ? item.chapters.map((ch) => ({
+            timeSec: ch.time || 0,
+            timeStr: formatSecToTime(ch.time || 0),
+            labels: typeof ch.label === 'object' ? { ...ch.label } : { fa: ch.label || '', en: ch.label || '' },
+          }))
+        : [];
+
+      originalSnapshot = {
+        image: item.image || '',
+        youtubeUrl: item.youtubeUrl || item.youtubeId || '',
+        category: document.getElementById('recipeCategory').value,
+        difficulty: item.difficulty || 'intermediate',
+        prepMin: item.prepMin || 45,
+        duration: item.duration || '15:00',
+        baseServings: item.baseServings || 2,
+        locales: JSON.parse(JSON.stringify(draftLocales)),
+        chapters: JSON.parse(JSON.stringify(draftChapters)),
+      };
+
+      updateCoverPreview(); updateYouTubePreview();
+      renderLocaleTabs(); renderActiveLangFields(); renderEntriesList();
+      updateEditModeButtons(); setSavingState(false); markDirty(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      clearInvalidHighlights();
+      editingDocId = null;
+      editingMainRecipeDocId = null;
+      originalSnapshot = null;
+      document.getElementById('entryForm').reset();
+      document.getElementById('autoSyncLangsCheckbox').checked = true;
+      document.getElementById('syncToMainAllCheckbox').checked = true;
+      document.getElementById('formModeBadge').textContent = 'NEW ENTRY';
+      draftLocales = {};
+      ensureDraftLocales();
+      draftChapters = [];
+      simServings = 2;
+      setEntryType(activeEntryType);
+      updateCoverPreview(); updateYouTubePreview();
+      renderLocaleTabs(); renderActiveLangFields(); renderEntriesList();
+      updateEditModeButtons(); setSavingState(false); markDirty(false);
+    }
+
+    document.getElementById('newEntryBtn').addEventListener('click', resetForm);
+    document.getElementById('resetFormBtn').addEventListener('click', () => openConfirmModal('پاک کردن کل فرم', 'تمام فیلدهای فرم پاک شوند؟', resetForm));
+
+    /* --- SUBMIT: STRICT COUNTRY SAVE (country-d32e6) + AUTO-SYNC TO MAIN SITE ALL --- */
+    document.getElementById('entryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearInvalidHighlights();
+      saveActiveLangToDraft();
+
+      const c = getActiveCountry();
+      const isArt = activeEntryType === 'article';
+      const image = coverUrlInput.value.trim();
+
+      if (!isSafeUrl(image)) { flagInvalidField(coverUrlInput, 'لینک عکس کاور معتبر نیست (باید با https:// یا photos/ شروع شود).'); return; }
+
+      let youtubeUrl = '', youtubeId = null, prepMin = 45, durationRaw = '15:00', durationSec = 900, baseServings = 2;
+      if (!isArt) {
+        youtubeUrl = ytInput.value.trim();
+        youtubeId = extractYouTubeId(youtubeUrl);
+        prepMin = Math.round(parseNumeric(document.getElementById('recipePrepMin').value, 0));
+        durationRaw = normalizeDigits(document.getElementById('recipeDuration').value).trim();
+        baseServings = Math.round(parseNumeric(document.getElementById('recipeBaseServings').value, 0));
+
+        if (!youtubeId) { flagInvalidField(ytInput, 'لینک ویدیو یوتیوب معتبر نیست.'); return; }
+        if (prepMin < 1 || prepMin > 1440) { flagInvalidField(document.getElementById('recipePrepMin'), 'زمان پخت باید بین ۱ تا ۱۴۴۰ دقیقه باشد.'); return; }
+        if (!isValidDurationStr(durationRaw)) { flagInvalidField(document.getElementById('recipeDuration'), 'فرمت مدت ویدیو باید مثل 15:00 باشد.'); return; }
+        if (baseServings < 1 || baseServings > 50) { flagInvalidField(document.getElementById('recipeBaseServings'), 'تعداد نفرات پایه باید بین ۱ تا ۵۰ باشد.'); return; }
+        durationSec = parseTimeToSec(durationRaw);
+      }
+
+      const codes = getActiveLangCodes();
+      const hasTitle = codes.some((code) => draftLocales[code]?.title);
+      const hasDesc = codes.some((code) => draftLocales[code]?.desc);
+      if (!hasTitle) { flagInvalidField(document.getElementById('locTitle'), 'لطفاً عنوان را وارد کنید.'); return; }
+      if (!hasDesc) { flagInvalidField(document.getElementById('locDesc'), 'لطفاً توضیحات یا خلاصه را وارد کنید.'); return; }
+
+      setSavingState(true, 'در حال ذخیره و همگام‌سازی...');
+
+      try {
+        if (document.getElementById('autoSyncLangsCheckbox').checked && editedLangs.size > 0) {
+          const srcLang = draftLocales[activeEditLang]?.title ? activeEditLang : [...editedLangs].find((k) => draftLocales[k]?.title);
+          if (srcLang) {
+            const unedited = codes.filter((k) => k !== srcLang && !editedLangs.has(k));
+            if (unedited.length) await translateLocaleFromSource(srcLang, unedited);
+          }
+        }
+
+        const primary = draftLocales[activeEditLang]?.title ? activeEditLang : codes.find((k) => draftLocales[k]?.title);
+        const cleanLocales = {};
+        for (const code of codes) {
+          const d = draftLocales[code];
+          const src = d && d.title ? d : draftLocales[primary];
+          if (isArt) {
+            const cleanBody = (src.body || []).map((p) => String(p || '').trim()).filter(Boolean);
+            cleanLocales[code] = {
+              tag: src.tag || '',
+              title: src.title || '',
+              desc: src.desc || '',
+              body: cleanBody.length ? cleanBody : [src.desc || ''],
+            };
+          } else {
+            cleanLocales[code] = {
+              title: src.title || '',
+              desc: src.desc || '',
+              note: src.note || '',
+              ingredients: (src.ingredients || []).filter((i) => String(i.name || '').trim()).map((i) => ({ amount: parseNumeric(i.amount, 0), unit: i.unit || 'g', name: String(i.name).trim() })),
+              steps: (src.steps || []).map((s) => String(s || '').trim()).filter(Boolean),
+            };
+          }
+        }
+
+        const cleanChapters = !isArt
+          ? draftChapters.filter((ch) => Object.values(ch.labels || {}).some(Boolean)).map((ch) => {
+              const lblObj = {};
+              const fallback = ch.labels[primary] || Object.values(ch.labels).find(Boolean) || '';
+              codes.forEach((k) => { lblObj[k] = ch.labels[k] || fallback; });
+              return { time: ch.timeSec, label: lblObj };
+            })
+          : [];
+
+        const syncToMainAll = !isArt && document.getElementById('syncToMainAllCheckbox').checked;
+
+        /* 1. Sync Recipe to Main Index Masterclasses -> All (atelier-culinaire-bab27 -> recipes) */
+        let syncedMainDocId = editingMainRecipeDocId;
+        let mainSyncWarning = false;
+
+        if (!isArt && syncToMainAll) {
+          const mainPayload = {
+            category: document.getElementById('recipeCategory').value,
+            includeInAll: true,
+            country: c.key,
+            difficulty: document.getElementById('recipeDifficulty').value,
+            prepMin, duration: durationRaw, durationSec, baseServings,
+            image, youtubeUrl, youtubeId,
+            primaryLang: primary,
+            locales: cleanLocales,
+            chapters: cleanChapters,
+            updatedAt: serverTimestamp(),
+          };
+          if (mainSiteAuthed) {
+            try {
+              if (syncedMainDocId) {
+                await updateDoc(doc(mainDb, 'recipes', syncedMainDocId), mainPayload);
+              } else {
+                mainPayload.createdAt = serverTimestamp();
+                const ref = await addDoc(mainRecipesCol, mainPayload);
+                syncedMainDocId = ref.id;
+              }
+            } catch (syncErr) {
+              console.warn('Main site sync failed:', syncErr);
+              mainSyncWarning = true;
+            }
+          } else {
+            mainSyncWarning = true;
+          }
+        } else if (!isArt && !syncToMainAll && syncedMainDocId && mainSiteAuthed) {
+          /* User unchecked Main All sync -> remove mirror from Main Site */
+          try { await deleteDoc(doc(mainDb, 'recipes', syncedMainDocId)); syncedMainDocId = null; } catch {}
+        }
+
+        /* 2. Save Strictly into Selected Country Collection (country-d32e6 -> collection(c.key)) */
+        const countryPayload = isArt
+          ? {
+              type: 'article',
+              country: c.key,
+              category: 'journal',
+              image,
+              primaryLang: primary,
+              locales: cleanLocales,
+              updatedAt: serverTimestamp(),
+            }
+          : {
+              type: 'recipe',
+              country: c.key,
+              category: document.getElementById('recipeCategory').value,
+              difficulty: document.getElementById('recipeDifficulty').value,
+              prepMin, duration: durationRaw, durationSec, baseServings,
+              image, youtubeUrl, youtubeId,
+              primaryLang: primary,
+              locales: cleanLocales,
+              chapters: cleanChapters,
+              syncToMainAll,
+              mainRecipeDocId: syncedMainDocId || null,
+              updatedAt: serverTimestamp(),
+            };
+
+        const countryColRef = collection(countriesDb, c.key);
+        if (editingDocId) {
+          await updateDoc(doc(countriesDb, c.key, editingDocId), countryPayload);
+          editingMainRecipeDocId = syncedMainDocId;
+          originalSnapshot = {
+            image, youtubeUrl,
+            category: countryPayload.category,
+            difficulty: countryPayload.difficulty,
+            prepMin, duration: durationRaw, baseServings,
+            locales: JSON.parse(JSON.stringify(draftLocales)),
+            chapters: JSON.parse(JSON.stringify(draftChapters)),
+          };
+          markDirty(false);
+          showToast(mainSyncWarning
+            ? `تغییرات در صفحه ${c.fa} ذخیره شد (همگام‌سازی با All سایت اصلی نیاز به ایمیل/رمز یکسان دارد).`
+            : `تغییرات با موفقیت در ${c.fa}${syncToMainAll ? ' و بخش All سایت اصلی' : ''} ذخیره شد.`);
+        } else {
+          countryPayload.createdAt = serverTimestamp();
+          await addDoc(countryColRef, countryPayload);
+          showToast(mainSyncWarning
+            ? `در صفحه ${c.fa} منتشر شد (برای ارسال هم‌زمان به All سایت اصلی، ورود در هر دو پروژه باید یکسان باشد).`
+            : `با موفقیت در صفحه ${c.fa}${syncToMainAll ? ' و بخش All سایت اصلی' : ''} منتشر شد.`);
+          resetForm();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('خطا در ذخیره اطلاعات. قوانین Firestore Rules پروژه country-d32e6 را بررسی کنید.');
+      } finally {
+        setSavingState(false);
+      }
+    });
+
+    /* Initial Boot */
+    ensureDraftLocales();
+    renderLocaleTabs();
+    renderActiveLangFields();
+    updateEditModeButtons();
+    setSavingState(false);
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>
